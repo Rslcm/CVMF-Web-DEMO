@@ -31,6 +31,8 @@ Vista rápida sin arrancar nada:
 ## Qué incluye
 
 - `index.html` — página completa: inicio, preinscripción, horarios, cuotas, actualidad, club, equipos, directo, redes y contacto.
+- `torneo-voley-playa-2026.html` — página propia del XXIV Torneo de Vóley Playa: bases, precios, calendario, reglamento, premios y contacto.
+- `aviso-legal.html`, `privacidad.html` y `mapa-del-sitio.html` — páginas legales y de navegación, con la misma cabecera, pie y estilos que la portada.
 - `ABRIR-WEB-CLUB-VOLEIBOL.html` — la misma página en un solo archivo, para verla con doble clic.
 - `styles.css` — diseño responsive, paleta azul/amarillo/blanco, tipografía, animaciones y estilos de impresión.
 - `script.js` — menú móvil, scrollspy, animaciones de aparición, botón «volver arriba» y la tira de resultados/directo.
@@ -234,7 +236,9 @@ Comprueba el resultado con `file assets/og-image.jpg`: debe decir `JPEG image da
 - [ ] Comprobar que el flujo «Actualizar partidos» de GitHub Actions se ejecuta (pestaña Actions) y que el repositorio tiene Pages activado.
 - [ ] Probar el reproductor de nivel 2 en un equipo con acceso a YouTube: debe cargar solo al pulsar y abrir `youtube-nocookie.com`.
 - [ ] Confirmar cuotas, horarios y fechas de la temporada 2026/2027.
-- [ ] Revisar aviso legal y política de privacidad (ahora enlazan a las páginas de Jimdo).
+- [ ] Completar en `aviso-legal.html` y `privacidad.html` el CIF, el domicilio social y el número de registro deportivo del club (ahora aparecen como «pendiente de confirmar»).
+- [ ] Revisar el texto legal con el club antes de publicar en el dominio definitivo.
+- [ ] Actualizar fechas, precios y bases de `torneo-voley-playa-2026.html` cuando el club publique la próxima edición del torneo.
 - [ ] Decidir si se mantiene el correo `cvmf_brenes@hotmail.com` como contacto público.
 - [ ] Añadir analítica solo si se necesita (GA4, Plausible, etc.) y con consentimiento.
 - [ ] (Más adelante) Sección «Equipos» con foto y nombre: hay 13 grupos, pero todavía no hay fotos de equipo en `assets/originales/`.
@@ -245,8 +249,8 @@ Comprueba el resultado con `file assets/og-image.jpg`: debe decir `JPEG image da
 
 - Los horarios y las cuotas están tomados de los carteles oficiales 2026/2027 del club.
 - El apartado «Temporadas» está **retirado de la web pero conservado** (comentado) en `index.html`, justo antes de la sección de equipos. Enlazaba a las páginas de la web antigua de Jimdo; para recuperarlo, hay que quitar las marcas de comentario y devolver «Temporadas» al menú y al pie.
-- La tarjeta del torneo de vóley playa de «Más que voleibol» sigue enlazando a la web antigua: sustituirla por una página propia cuando exista.
-- Los enlaces legales siguen apuntando a Jimdo hasta que se redacten páginas propias.
+- La tarjeta del torneo de vóley playa de «Más que voleibol» ya abre `torneo-voley-playa-2026.html`. Las páginas legales y el mapa del sitio también son propias; solo «Web original» sigue llevando a Jimdo, como archivo histórico.
+- El aviso legal y la política de privacidad están redactados para el club, pero llevan marcados como «pendiente de confirmar» los datos que dependen del club (CIF, domicilio y registro deportivo).
 - El texto de autorización de imagen se ha mantenido literalmente.
 - La web no usa imágenes para precios ni horarios: todo el contenido clave es texto real, indexable y accesible.
 - La tabla de horarios ya contiene los **13 grupos** reales. Una sección «Equipos» puede generarse desde esa misma lista (nombre + foto), pero en `assets/originales/` no hay fotos de equipo; hasta que las haya, se pueden usar miniaturas con monograma.
