@@ -2896,6 +2896,31 @@ h2 {
 .prose a:hover { color: var(--blue-dark); }
 .prose strong { font-weight: 600; color: var(--ink); }
 
+.chronicles { max-width: 74ch; }
+.chronicle { padding-top: 34px; scroll-margin-top: 96px; }
+.chronicle + .chronicle {
+  margin-top: 46px;
+  padding-top: 46px;
+  border-top: 1px solid var(--line);
+}
+.chronicle-num {
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+.chronicle h2 { margin: 0 0 18px; font-size: clamp(28px, 3.2vw, 36px); }
+.chronicle p { margin-bottom: 15px; color: #2f3d55; }
+.chronicle-note {
+  padding-left: 16px;
+  border-left: 3px solid var(--yellow);
+  font-size: 14px;
+  font-style: italic;
+  color: var(--muted);
+}
+
 .note-box {
   margin: 24px 0;
   padding: 16px 18px;
@@ -5463,26 +5488,29 @@ h2 {
           <span class="news-arrow" aria-hidden="true">→</span>
         </a>
 
-        <a class="news-card news-yellow reveal" href="https://cvmanueldefalla.jimdofree.com/diario-de-arena/" target="_blank" rel="noopener">
+        <a class="news-card news-yellow reveal" href="diario-de-arena.html">
           <span class="news-mark" aria-hidden="true">DA</span>
           <div class="news-content">
             <span class="news-tag">Historia</span>
             <h3>Diario de Arena</h3>
-            <p>La historia del club contada desde dentro, temporada a temporada.</p>
+            <p>Crónicas de vóley playa escritas desde la propia pista de Brenes.</p>
           </div>
-          <span class="news-arrow" aria-hidden="true">↗</span>
+          <span class="news-arrow" aria-hidden="true">→</span>
         </a>
 
-        <a class="news-card news-sand reveal" href="https://cvmanueldefalla.jimdofree.com/iii-certamen-relato-corto-deportivo-cvmf/" target="_blank" rel="noopener">
+        <a class="news-card news-sand reveal" href="iii-certamen-relato-corto.html">
           <span class="news-mark" aria-hidden="true">III</span>
           <div class="news-content">
             <span class="news-tag">Cultura</span>
             <h3>Certamen de Relato Corto Deportivo</h3>
-            <p>La tercera edición del certamen literario del CVMF.</p>
+            <p>Las bases de la tercera edición del certamen literario del CVMF.</p>
           </div>
-          <span class="news-arrow" aria-hidden="true">↗</span>
+          <span class="news-arrow" aria-hidden="true">→</span>
         </a>
 
+        <!-- Tarjeta «Apadrina un balón» oculta el 16/11/2026 hasta nuevo aviso.
+             Se conserva aquí (y su página antigua en Jimdo) por si se retoma la campaña.
+             Para volver a mostrarla, quita las marcas de comentario y actualiza el enlace.
         <a class="news-card news-outline reveal" href="https://cvmanueldefalla.jimdofree.com/apadrina-un-bal%C3%B3n/" target="_blank" rel="noopener">
           <span class="news-mark" aria-hidden="true">AB</span>
           <div class="news-content">
@@ -5492,6 +5520,7 @@ h2 {
           </div>
           <span class="news-arrow" aria-hidden="true">↗</span>
         </a>
+        -->
       </div>
     </div>
   </section>

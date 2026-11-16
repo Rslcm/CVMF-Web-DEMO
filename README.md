@@ -32,7 +32,10 @@ Vista rápida sin arrancar nada:
 
 - `index.html` — página completa: inicio, preinscripción, horarios, cuotas, actualidad, club, equipos, directo, redes y contacto.
 - `torneo-voley-playa-2026.html` — página propia del XXIV Torneo de Vóley Playa: bases, precios, calendario, reglamento, premios y contacto.
+- `diario-de-arena.html` — las 15 crónicas de vóley playa del Diario de Arena, completas.
+- `iii-certamen-relato-corto.html` — bases de la tercera edición del certamen literario del club.
 - `aviso-legal.html`, `privacidad.html` y `mapa-del-sitio.html` — páginas legales y de navegación, con la misma cabecera, pie y estilos que la portada.
+- `PENDIENTES.md` — datos del club que faltan y tareas abiertas. **Empezar por aquí al retomar el proyecto.**
 - `ABRIR-WEB-CLUB-VOLEIBOL.html` — la misma página en un solo archivo, para verla con doble clic.
 - `styles.css` — diseño responsive, paleta azul/amarillo/blanco, tipografía, animaciones y estilos de impresión.
 - `script.js` — menú móvil, scrollspy, animaciones de aparición, botón «volver arriba» y la tira de resultados/directo.
@@ -236,7 +239,7 @@ Comprueba el resultado con `file assets/og-image.jpg`: debe decir `JPEG image da
 - [ ] Comprobar que el flujo «Actualizar partidos» de GitHub Actions se ejecuta (pestaña Actions) y que el repositorio tiene Pages activado.
 - [ ] Probar el reproductor de nivel 2 en un equipo con acceso a YouTube: debe cargar solo al pulsar y abrir `youtube-nocookie.com`.
 - [ ] Confirmar cuotas, horarios y fechas de la temporada 2026/2027.
-- [ ] Completar en `aviso-legal.html` y `privacidad.html` el CIF, el domicilio social y el número de registro deportivo del club (ahora aparecen como «pendiente de confirmar»).
+- [ ] Completar el CIF, el domicilio social y el número de registro deportivo del club (ver `PENDIENTES.md`). Ahora aparecen como «pendiente de confirmar» en `aviso-legal.html` y `privacidad.html`.
 - [ ] Revisar el texto legal con el club antes de publicar en el dominio definitivo.
 - [ ] Actualizar fechas, precios y bases de `torneo-voley-playa-2026.html` cuando el club publique la próxima edición del torneo.
 - [ ] Decidir si se mantiene el correo `cvmf_brenes@hotmail.com` como contacto público.
@@ -249,8 +252,9 @@ Comprueba el resultado con `file assets/og-image.jpg`: debe decir `JPEG image da
 
 - Los horarios y las cuotas están tomados de los carteles oficiales 2026/2027 del club.
 - El apartado «Temporadas» está **retirado de la web pero conservado** (comentado) en `index.html`, justo antes de la sección de equipos. Enlazaba a las páginas de la web antigua de Jimdo; para recuperarlo, hay que quitar las marcas de comentario y devolver «Temporadas» al menú y al pie.
-- La tarjeta del torneo de vóley playa de «Más que voleibol» ya abre `torneo-voley-playa-2026.html`. Las páginas legales y el mapa del sitio también son propias; solo «Web original» sigue llevando a Jimdo, como archivo histórico.
-- El aviso legal y la política de privacidad están redactados para el club, pero llevan marcados como «pendiente de confirmar» los datos que dependen del club (CIF, domicilio y registro deportivo).
+- Las tarjetas de «Más que voleibol» ya abren páginas propias: torneo, `diario-de-arena.html` y `iii-certamen-relato-corto.html`. Solo «Web original» sigue llevando a Jimdo, como archivo histórico.
+- La tarjeta de **«Apadrina un balón»** está **oculta** (comentada) en `index.html` hasta nuevo aviso. No se ha borrado.
+- El aviso legal y la política de privacidad están redactados para el club, pero llevan marcados como «pendiente de confirmar» los datos que dependen del club (CIF, domicilio y registro deportivo). Están anotados en `PENDIENTES.md`.
 - El texto de autorización de imagen se ha mantenido literalmente.
 - La web no usa imágenes para precios ni horarios: todo el contenido clave es texto real, indexable y accesible.
 - La tabla de horarios ya contiene los **13 grupos** reales. Una sección «Equipos» puede generarse desde esa misma lista (nombre + foto), pero en `assets/originales/` no hay fotos de equipo; hasta que las haya, se pueden usar miniaturas con monograma.

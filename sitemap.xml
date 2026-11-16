@@ -11,6 +11,16 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://iawebdemos.github.io/CVMF-Web-DEMO/diario-de-arena.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iawebdemos.github.io/CVMF-Web-DEMO/iii-certamen-relato-corto.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://iawebdemos.github.io/CVMF-Web-DEMO/aviso-legal.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
