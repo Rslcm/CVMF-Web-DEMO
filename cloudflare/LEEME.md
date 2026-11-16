@@ -4,6 +4,13 @@ GitHub no garantiza los `schedule`: el flujo puede tardar horas o no dispararse.
 Este Worker lo llama desde fuera cada 5 minutos, así que la actualización deja de
 depender del cron de GitHub.
 
+## Estado
+
+Desplegado el 16/11/2026 en `https://cvmf-cron.ivan-martin-martinez.workers.dev`,
+con cron `*/5 * * * *` y las tres variables guardadas como secretos
+(`GH_REPO`, `GH_WORKFLOW`, `GH_TOKEN`). Comprobado: lanza el flujo solo cada
+5 minutos y `/partido?id=…` devuelve el marcador con CORS.
+
 ## 1. Token de GitHub (una sola vez)
 
 1. GitHub → foto de perfil → **Settings**.
