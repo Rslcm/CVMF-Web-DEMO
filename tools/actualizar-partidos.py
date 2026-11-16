@@ -296,6 +296,7 @@ def build_teams(matches):
             standings = []
 
         pending = sorted([m for m in items if m["estado"] in ("next", "live")], key=lambda m: m["_jornada"])
+        upcoming = next_matches(pending)
         finals = sorted([m for m in items if m["estado"] == "final"],
                         key=lambda m: sort_key_date(m["fecha"]) or datetime.min, reverse=True)
         name = first["_nombre"]
@@ -306,7 +307,8 @@ def build_teams(matches):
             "nombre": name,
             "competicion": first["competicion"].split(" · ")[0],
             "clasificacion": standings,
-            "proximo": public(pending[0]) if pending else None,
+            "proximo": public(upcoming[0]) if upcoming else None,
+            "proximos": [public(m) for m in upcoming],
             "resultados": [
                 {"evento": m["evento"], "fecha": m["fecha"], "marcador": m["marcador"]}
                 for m in finals[:5]
@@ -355,11 +357,38 @@ def display_category(name):
     return "Sénior" if "SENIOR" in fold(name or "") else name
 
 
+ALIASES = {
+    "RENAULT HINOJOSA MARQUEZ CVMF": "Femenino oro",
+}
+
+
+def next_matches(pending, minimum=2):
+    """Partidos de la próxima jornada; si solo hay uno, añade el siguiente."""
+    if not pending:
+        return []
+    ordered = sorted(pending, key=lambda m: (m["_jornada"], sort_key_date(m["fecha"]) or datetime.max))
+    jornada = ordered[0]["_jornada"]
+    chosen = [m for m in ordered if m["_jornada"] == jornada]
+    if len(chosen) < minimum:
+        seen = {id(m) for m in chosen}
+        for match in ordered:
+            if len(chosen) >= minimum:
+                break
+            if id(match) not in seen:
+                chosen.append(match)
+                seen.add(id(match))
+    chosen.sort(key=lambda m: (sort_key_date(m["fecha"]) or datetime.max, m["_jornada"], m["evento"]))
+    return chosen
+
+
 def variant_label(genero, name):
-    color = re.search(r"AZUL|BLANCO", fold(name or ""))
+    folded = fold(name or "")
+    if folded in ALIASES:
+        return ALIASES[folded]
+    color = re.search(r"\b(AZUL|BLANCO|ORO|PLATA|NEGRO|ROJO|VERDE|AMARILLO)\b", folded)
     if not color:
         return genero
-    return f"{genero} {color.group(0).lower()}"
+    return f"{genero} {color.group(1).lower()}"
 
 
 def category_rank(name):

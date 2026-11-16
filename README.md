@@ -107,9 +107,11 @@ Desde ese momento, la web se actualiza sola cada 10 minutos. El cambio a «Direc
 Cada ejecución también escribe el bloque `#equipos-data`, que alimenta la sección **Nuestros equipos**:
 
 - **Categoría → equipo:** un botón por categoría (Sénior, Juvenil, Cadete, Infantil, Alevín y Escuela deportiva) y, dentro, un botón por equipo cuando hay varios del mismo sexo (por ejemplo, Alevín femenino, Alevín femenino azul y Alevín femenino blanco).
-- **Submenú:** *Jugadores* (de momento, huecos «próximamente» con nombres y fotos), *Clasificación* (tabla de la FAV con el club resaltado), *Próximo partido* (fecha, hora y sede) y *Resultados* (últimos cinco).
+- **Submenú:** *Jugadores* (de momento, huecos «próximamente» con nombres y fotos), *Clasificación* (tabla de la FAV con el club resaltado), *Próximos partidos* (fecha, hora y sede) y *Resultados* (últimos cinco).
+- **Próximos partidos:** se muestran todos los de la próxima jornada y, si esa jornada solo tiene uno, se añade el siguiente, para que nunca falte el segundo partido en las categorías que juegan dos el mismo día (Alevín, por ejemplo).
 - **Equipos sin competición en la FAV:** la escuela deportiva y los grupos que solo aparecen en el horario se muestran con un aviso, sin clasificación ni resultados.
 - **Detección de equipos:** el script reconoce al club por «Manuel de Falla» o «CVMF» en el nombre del equipo (la FAV añade patrocinadores: *Grimaret CVMF Brenes*, *MGS Seguros CVMF Brenes*, *CVMF Brenes Azul*…), y toma la categoría y el sexo de la ficha de la competición, no del título.
+- **Color del equipo:** se toma de las palabras *Azul*, *Blanco*, *Oro*, *Plata*, *Negro*, *Rojo*, *Verde* o *Amarillo* del nombre. Si la FAV inscribe al equipo solo con el patrocinador, se usa la tabla `ALIASES` de `tools/actualizar-partidos.py` (por ejemplo, *Renault Hinojosa Márquez CVMF* es el Alevín femenino oro).
 
 **Etiqueta de prueba:** la barra superior muestra «Web en pruebas · no oficial» (en móvil, «En pruebas»). Cuando la web sea definitiva, borra el `<p class="beta-badge">` de `index.html`.
 

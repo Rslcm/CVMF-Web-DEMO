@@ -420,7 +420,7 @@
   var TEAM_SECTIONS = [
     ['jugadores', 'Jugadores'],
     ['clasificacion', 'Clasificación'],
-    ['proximo', 'Próximo partido'],
+    ['proximo', 'Próximos partidos'],
     ['resultados', 'Resultados']
   ];
 
@@ -493,23 +493,31 @@
   }
 
   function renderNextMatch(content, team) {
-    var match = team.proximo;
-    if (!match) {
+    var matches = team.proximos && team.proximos.length ? team.proximos : (team.proximo ? [team.proximo] : []);
+    if (!matches.length) {
       content.appendChild(makeEl('p', 'equipos-note', 'No hay próximo partido publicado.'));
       return;
     }
-    var live = match.estado === 'live';
-    content.appendChild(makeEl('p', 'equipos-kicker', live ? 'En juego' : 'Próximo partido'));
-    content.appendChild(makeEl('h3', '', match.evento));
-    var meta = [match.competicion, match.fecha].filter(Boolean).join(' · ');
-    content.appendChild(makeEl('p', 'equipos-meta', meta));
-    var venue = liveVenue(match, match.estado);
-    if (venue) content.appendChild(makeEl('p', 'equipos-meta', venue.indexOf('Sede') === 0 ? venue : 'Sede: ' + venue));
-    if (live && match.marcador) {
-      var score = makeEl('p', 'equipos-score', match.marcador);
-      if (match.puntos) score.appendChild(makeEl('small', '', 'Puntos: ' + match.puntos));
-      content.appendChild(score);
-    }
+    var anyLive = matches.some(function (match) { return match.estado === 'live'; });
+    content.appendChild(makeEl('p', 'equipos-kicker', anyLive ? 'En juego' : (matches.length > 1 ? 'Próximos partidos' : 'Próximo partido')));
+
+    var list = makeEl('div', 'equipos-next');
+    matches.forEach(function (match) {
+      var live = match.estado === 'live';
+      var item = makeEl('article', live ? 'equipos-next-item is-live' : 'equipos-next-item');
+      item.appendChild(makeEl('p', 'equipos-next-date', match.fecha || 'Por confirmar'));
+      item.appendChild(makeEl('h3', '', match.evento));
+      if (match.competicion) item.appendChild(makeEl('p', 'equipos-meta', match.competicion));
+      var venue = liveVenue(match, match.estado);
+      if (venue) item.appendChild(makeEl('p', 'equipos-meta', venue.indexOf('Sede') === 0 ? venue : 'Sede: ' + venue));
+      if (live && match.marcador) {
+        var score = makeEl('p', 'equipos-score', match.marcador);
+        if (match.puntos) score.appendChild(makeEl('small', '', 'Puntos: ' + match.puntos));
+        item.appendChild(score);
+      }
+      list.appendChild(item);
+    });
+    content.appendChild(list);
   }
 
   function renderResults(content, team) {
