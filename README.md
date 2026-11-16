@@ -30,7 +30,7 @@ Vista rápida sin arrancar nada:
 
 ## Qué incluye
 
-- `index.html` — página completa: inicio, preinscripción, horarios, cuotas, actualidad, club, temporadas, redes y contacto.
+- `index.html` — página completa: inicio, preinscripción, horarios, cuotas, actualidad, club, equipos, directo, redes y contacto.
 - `ABRIR-WEB-CLUB-VOLEIBOL.html` — la misma página en un solo archivo, para verla con doble clic.
 - `styles.css` — diseño responsive, paleta azul/amarillo/blanco, tipografía, animaciones y estilos de impresión.
 - `script.js` — menú móvil, scrollspy, animaciones de aparición, botón «volver arriba» y la tira de resultados/directo.
@@ -40,7 +40,7 @@ Vista rápida sin arrancar nada:
 - `tools/og-image.html` — fuente de la tarjeta `assets/og-image.jpg`, con el escudo y el lema del 50 aniversario.
 - **Tira de resultados** en movimiento sobre la franja amarilla del inicio, generada desde un bloque de datos editable.
 - Sección **«Directo y resultados»** (`#directo`): botón de YouTube con el nombre del evento, enlace a la FAV y reproductor de nivel 2 que solo carga el vídeo al pulsar.
-- Enlaces reales a formularios, documento de inscripción, baja, redes sociales y archivo de temporadas.
+- Enlaces reales a formularios, documento de inscripción, baja y redes sociales.
 
 ## Horarios y cuotas, sin carteles
 
@@ -244,7 +244,8 @@ Comprueba el resultado con `file assets/og-image.jpg`: debe decir `JPEG image da
 ## Notas
 
 - Los horarios y las cuotas están tomados de los carteles oficiales 2026/2027 del club.
-- El archivo de temporadas enlaza a las páginas originales de Jimdo para no perder el histórico.
+- El apartado «Temporadas» está **retirado de la web pero conservado** (comentado) en `index.html`, justo antes de la sección de equipos. Enlazaba a las páginas de la web antigua de Jimdo; para recuperarlo, hay que quitar las marcas de comentario y devolver «Temporadas» al menú y al pie.
+- La tarjeta del torneo de vóley playa de «Más que voleibol» sigue enlazando a la web antigua: sustituirla por una página propia cuando exista.
 - Los enlaces legales siguen apuntando a Jimdo hasta que se redacten páginas propias.
 - El texto de autorización de imagen se ha mantenido literalmente.
 - La web no usa imágenes para precios ni horarios: todo el contenido clave es texto real, indexable y accesible.
