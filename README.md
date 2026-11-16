@@ -54,13 +54,14 @@ Los datos se han copiado de los carteles oficiales publicados por el club; no se
 
 ## Escudo y paleta
 
-El escudo es un SVG vectorial dibujado de nuevo a partir del emblema histórico del club. No es una reinterpretación libre: se ha medido el original píxel a píxel para respetar su silueta, sus colores, su dibujo y sus textos.
+El escudo es el **emblema oficial del club convertido a SVG** a partir de la imagen que facilitó el club (`brand/escudo-original.png`, 1149×1368 px). No es una reinterpretación: se ha vectorizado el original respetando silueta, colores, dibujo y textos.
 
 - Silueta de escudo con la parte superior plana, los hombros abombados y una punta inferior larga.
-- Triple borde: filo casi negro, franja dorada y filo interior oscuro; campo interior blanco.
-- Dos paneles superiores inclinados con marco dorado y filo oscuro: balón blanco a la izquierda y monograma `CV` / `MF` a la derecha, en blanco con contorno oscuro.
-- Gran `V` azul con cuatro franjas blancas inclinadas y filo dorado.
-- Cinta azul con `BRENES` rematada en dorado cerca de la base.
+- Borde dorado, hueco blanco y campo interior repartido en dos paneles azules arriba y una red azul con malla blanca abajo.
+- Balón de voleibol blanco en el panel izquierdo y monograma `CV` / `MF` en el derecho.
+- Figura blanca central y cinta azul con `BRENES` en blanco, rematada en dorado.
+
+La vectorización se hizo con `vtracer` sobre una versión reducida a tres colores (`#f9b602` dorado, `#0026a4` azul, `#fdfdfd` blanco). Si el club envía un escudo nuevo, se repite el proceso y se sustituye el contenido de `<symbol id="club-crest">`; no hace falta tocar nada más.
 
 El dibujo vive una sola vez en `index.html` como `<symbol id="club-crest">` y se reutiliza con `<use>` en la cabecera, el pie y el héroe. El favicon (`assets/favicon.svg`) es una versión simplificada del mismo escudo, sin los textos pequeños, para que se lea a tamaño de pestaña.
 
@@ -70,10 +71,9 @@ Colores del escudo:
 
 | Color | Uso |
 | --- | --- |
-| Azul eléctrico `#001ff3` | Paneles, `V` y cinta |
-| Dorado `#e3b154` | Bordes, marcos y filo de la `V` |
-| Casi negro `#0d0000` | Filo exterior e interior, contornos de textos |
-| Blanco `#ffffff` | Campo interior y balón |
+| Azul `#0026a4` | Paneles, red y cinta |
+| Dorado `#f9b602` | Borde del escudo y remate de la cinta |
+| Blanco `#fdfdfd` | Campo interior, figura, balón y textos |
 
 Paleta de la web (azul, amarillo y blanco, en armonía con el escudo):
 
