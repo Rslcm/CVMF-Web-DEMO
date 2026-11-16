@@ -1,8 +1,11 @@
 name: Actualizar partidos
 
+# Lee la FAV cada 10 minutos y también al publicar cambios en la web.
 on:
   schedule:
     - cron: "*/10 * * * *"
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:

@@ -26,6 +26,7 @@ Vista rápida sin arrancar nada:
 - `preview/desktop.png` — portada con la tira de resultados y la franja de temporada.
 - `preview/mobile.png` — portada en móvil.
 - `preview/directo.png` — sección «Directo» con el botón del evento y el reproductor de nivel 2.
+- `preview/equipos.png` — sección «Nuestros equipos» con las categorías y el submenú.
 
 ## Qué incluye
 
@@ -105,14 +106,18 @@ Desde ese momento, la web se actualiza sola cada 10 minutos. El cambio a «Direc
 
 Cada ejecución también escribe el bloque `#equipos-data`, que alimenta la sección **Nuestros equipos**:
 
-- **Categoría → sexo:** cada categoría tiene un botón por sexo (masculino o femenino) cuando hay dos equipos.
+- **Categoría → equipo:** un botón por categoría (Sénior, Juvenil, Cadete, Infantil, Alevín y Escuela deportiva) y, dentro, un botón por equipo cuando hay varios del mismo sexo (por ejemplo, Alevín femenino, Alevín femenino azul y Alevín femenino blanco).
 - **Submenú:** *Jugadores* (de momento, huecos «próximamente» con nombres y fotos), *Clasificación* (tabla de la FAV con el club resaltado), *Próximo partido* (fecha, hora y sede) y *Resultados* (últimos cinco).
+- **Equipos sin competición en la FAV:** la escuela deportiva y los grupos que solo aparecen en el horario se muestran con un aviso, sin clasificación ni resultados.
+- **Detección de equipos:** el script reconoce al club por «Manuel de Falla» o «CVMF» en el nombre del equipo (la FAV añade patrocinadores: *Grimaret CVMF Brenes*, *MGS Seguros CVMF Brenes*, *CVMF Brenes Azul*…), y toma la categoría y el sexo de la ficha de la competición, no del título.
 
 **Etiqueta de prueba:** la barra superior muestra «Web en pruebas · no oficial» (en móvil, «En pruebas»). Cuando la web sea definitiva, borra el `<p class="beta-badge">` de `index.html`.
 
 **Sede:** la FAV la publica cuando el partido tiene fecha. Mientras tanto, la web muestra «Sede por confirmar».
 
 **Marcador en juego:** en la portada, el marcador por sets va en grande, y los puntos de cada set aparecen debajo, en letra pequeña.
+
+**Última actualización:** al final de la sección *Directo* aparece la fecha y hora de los datos publicados por la FAV. La marca solo cambia cuando cambian los datos, para no llenar el repositorio de commits vacíos.
 
 Todo se alimenta de un único bloque de datos en `index.html` (`<script type="application/json" id="live-data">`), sin API, sin clave y sin dependencias externas:
 

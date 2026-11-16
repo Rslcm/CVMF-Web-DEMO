@@ -2661,3 +2661,11 @@ h2 {
   .equipos-list li { grid-template-columns: 1fr; gap: 6px; }
   .equipos-cats button { font-size: 16px; padding: 7px 14px; }
 }
+
+.live-updated {
+  margin-top: 10px;
+  font-size: 11.5px;
+  letter-spacing: .02em;
+  color: rgba(233, 240, 255, .55);
+}
+.live-updated[hidden] { display: none; }

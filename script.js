@@ -540,13 +540,18 @@
 
     var updated = document.getElementById('equipos-updated');
     if (updated && data.actualizado) updated.textContent = 'Datos de la FAV a ' + data.actualizado + '.';
+    var stamp = document.getElementById('data-updated');
+    if (stamp && data.actualizado) {
+      stamp.textContent = 'Datos de la FAV · última actualización: ' + data.actualizado + '.';
+      stamp.hidden = false;
+    }
 
     var categories = [];
     teams.forEach(function (team) {
       if (categories.indexOf(team.categoria) === -1) categories.push(team.categoria);
     });
 
-    var state = { category: categories[0], gender: null, section: 'proximo' };
+    var state = { category: categories[0], variant: null, section: 'proximo' };
 
     function teamsInCategory() {
       return teams.filter(function (team) { return team.categoria === state.category; });
@@ -554,7 +559,7 @@
 
     function currentTeam() {
       var inCategory = teamsInCategory();
-      var match = inCategory.filter(function (team) { return team.genero === state.gender; })[0];
+      var match = inCategory.filter(function (team) { return team.variante === state.variant; })[0];
       return match || inCategory[0];
     }
 
@@ -571,7 +576,7 @@
       categories.forEach(function (category) {
         cats.appendChild(makeButton(category, category === state.category, function () {
           state.category = category;
-          state.gender = null;
+          state.variant = null;
           render();
         }));
       });
@@ -580,13 +585,13 @@
       var inCategory = teamsInCategory();
       if (inCategory.length > 1) {
         inCategory.forEach(function (option) {
-          gender.appendChild(makeButton(option.genero, option === team, function () {
-            state.gender = option.genero;
+          gender.appendChild(makeButton(option.variante, option === team, function () {
+            state.variant = option.variante;
             render();
           }));
         });
       } else {
-        gender.appendChild(makeEl('p', 'equipos-note', team.genero));
+        gender.appendChild(makeEl('p', 'equipos-note', team.variante));
       }
 
       TEAM_SECTIONS.forEach(function (section) {
@@ -596,10 +601,12 @@
         }));
       });
 
+      if (team.nombre) content.appendChild(makeEl('p', 'equipos-kicker', team.nombre + (team.competicion ? ' · ' + team.competicion : '')));
       if (state.section === 'jugadores') renderPlayers(content);
-      if (state.section === 'clasificacion') renderStandings(content, team);
-      if (state.section === 'proximo') renderNextMatch(content, team);
-      if (state.section === 'resultados') renderResults(content, team);
+      else if (team.sinCompeticion) content.appendChild(makeEl('p', 'equipos-note', team.sinCompeticion));
+      else if (state.section === 'clasificacion') renderStandings(content, team);
+      else if (state.section === 'proximo') renderNextMatch(content, team);
+      else if (state.section === 'resultados') renderResults(content, team);
     }
 
     render();

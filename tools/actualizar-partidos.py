@@ -18,21 +18,33 @@ import json
 import re
 import subprocess
 import sys
+import time
 import unicodedata
 import urllib.request
 
 ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / "index.html"
 FAV = "https://www.favoley.net/publico/seccion.php?"
-CLUB = "MANUEL DE FALLA"
+CLUB_NAMES = ["MANUEL DE FALLA", "CVMF"]
 CATEGORIES = ["Sénior", "Juvenil", "Cadete", "Infantil", "Alevín", "Benjamín", "Escuela"]
+
+def is_club(name):
+    folded = fold(name)
+    return any(fold(club) in folded for club in CLUB_NAMES)
 DEFAULT_JORNADAS = 18
 
 
 def fetch(query):
-    request = urllib.request.Request(FAV + query, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(request, timeout=40) as response:
-        return response.read().decode("utf-8", errors="replace")
+    last = None
+    for attempt in range(3):
+        try:
+            request = urllib.request.Request(FAV + query, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(request, timeout=40) as response:
+                return response.read().decode("utf-8", errors="replace")
+        except Exception as error:
+            last = error
+            time.sleep(0.6 * (attempt + 1))
+    raise last
 
 
 def fold(text):
@@ -48,6 +60,7 @@ def team_name(raw):
     name = re.sub(r"\bClub Voleibol\b", "CV", name)
     name = re.sub(r"\bCv\b", "CV", name)
     name = re.sub(r"\bCd\b", "CD", name)
+    name = re.sub(r"\bCvmf\b", "CVMF", name)
     name = re.sub(r"\b(De|Del|Y)\b", lambda m: m.group(0).lower(), name)
     return name
 
@@ -72,10 +85,10 @@ def max_jornada(page):
     return max(numbers) if numbers else DEFAULT_JORNADAS
 
 
-def parse_matches(page, competition_id, group, phase, title):
+def parse_matches(page, competition_id, group, phase, title, categoria, division):
     matches = []
     for block in re.findall(r'<button type="button" class="portal-comp-partido[^"]*".*?</button>', page, re.S):
-        if fold(CLUB) not in fold(block):
+        if not any(is_club(b) for b in re.findall(r"<b>(.*?)</b>", block, re.S)):
             continue
         jornada_text = clean(re.search(r"<strong>(Jornada[^<]*)</strong>", block).group(1)) if re.search(r"<strong>(Jornada[^<]*)</strong>", block) else ""
         state_match = re.search(r'<em class="estado-([a-z-]+)">', block)
@@ -108,11 +121,11 @@ def parse_matches(page, competition_id, group, phase, title):
         if state == "final" and not marcador:
             state = "next"
 
-        category = category_of(title)
+        club_names = [name for name, _ in teams if is_club(name)]
         jornada_number = re.search(r"\d+", jornada_text)
         matches.append({
             "evento": f"{home} – {away}",
-            "categoria": category,
+            "categoria": categoria or category_of(title),
             "competicion": f"{title} · {jornada_text}".strip(" ·"),
             "fecha": fecha,
             "marcador": marcador,
@@ -120,6 +133,8 @@ def parse_matches(page, competition_id, group, phase, title):
             "youtube": "",
             "fav": f"{FAV}seccion=competicion&id={competition_id}&vista=calendario&grupo={group}&fase={phase}",
             "_equipo": f"{competition_id}-{group}",
+            "_genero": division,
+            "_nombre": club_names[0] if club_names else "",
             "_jornada": int(jornada_number.group(0)) if jornada_number else 0,
             "_id": (re.search(r'data-id-partido="(\d+)"', block) or [None, ""])[1],
         })
@@ -132,14 +147,21 @@ def title_of(page):
     return text.title().replace(" Masculino", " masculino").replace(" Femenino", " femenino")
 
 
+def page_info(page):
+    category = re.search(r"<span>Categoría</span>\s*<strong>([^<]+)</strong>", page)
+    division = re.search(r"<span>División</span>\s*<strong>([^<]+)</strong>", page)
+    return (clean(category.group(1)) if category else "", clean(division.group(1)) if division else "")
+
+
 def collect_group(competition_id, group, phase):
     base = f"seccion=competicion&id={competition_id}&vista=calendario&grupo={group}&fase={phase}"
     first = fetch(base)
     title = title_of(first)
+    categoria, division = page_info(first)
     found = []
     for jornada in range(1, max_jornada(first) + 1):
         page = fetch(f"{base}&jornada={jornada}")
-        found.extend(parse_matches(page, competition_id, group, phase, title))
+        found.extend(parse_matches(page, competition_id, group, phase, title, categoria, division))
     return found
 
 
@@ -154,7 +176,7 @@ def select(matches):
     seen = set()
     unique = []
     for match in matches:
-        key = (match["evento"], match["competicion"], match["fecha"])
+        key = (match["_equipo"], match["_nombre"], match["evento"], match["competicion"], match["fecha"])
         if key not in seen:
             seen.add(key)
             unique.append(match)
@@ -163,7 +185,7 @@ def select(matches):
     for match in unique:
         if match["estado"] not in ("next", "live"):
             continue
-        team = match["_equipo"]
+        team = (match["_equipo"], match["_nombre"])
         if team not in next_by_team or match["_jornada"] < next_by_team[team]["_jornada"]:
             next_by_team[team] = match
 
@@ -172,7 +194,7 @@ def select(matches):
         if match["estado"] != "final":
             continue
         when = sort_key_date(match["fecha"]) or datetime.min
-        team = match["_equipo"]
+        team = (match["_equipo"], match["_nombre"])
         if team not in last_by_team or when > last_by_team[team][0]:
             last_by_team[team] = (when, match)
 
@@ -182,12 +204,19 @@ def select(matches):
 
 
 def fetch_detail(match_id):
-    request = urllib.request.Request(
-        f"https://www.favoley.net/publico/competicion_partido_datos.php?id={match_id}",
-        headers={"User-Agent": "Mozilla/5.0", "X-Requested-With": "XMLHttpRequest"},
-    )
-    with urllib.request.urlopen(request, timeout=40) as response:
-        return json.loads(response.read().decode("utf-8", errors="replace"))
+    last = None
+    for attempt in range(3):
+        try:
+            request = urllib.request.Request(
+                f"https://www.favoley.net/publico/competicion_partido_datos.php?id={match_id}",
+                headers={"User-Agent": "Mozilla/5.0", "X-Requested-With": "XMLHttpRequest"},
+            )
+            with urllib.request.urlopen(request, timeout=40) as response:
+                return json.loads(response.read().decode("utf-8", errors="replace"))
+        except Exception as error:
+            last = error
+            time.sleep(0.6 * (attempt + 1))
+    raise last
 
 
 def enrich(match):
@@ -237,7 +266,7 @@ def fetch_standings(competition_id, group, phase):
             "pp": cells[5],
             "sf": cells[10],
             "sc": cells[11],
-            "club": fold(CLUB) in fold(cells[1]),
+            "club": is_club(cells[1]),
         })
     return rows
 
@@ -249,12 +278,11 @@ def public(match):
 def build_teams(matches):
     groups = {}
     for match in matches:
-        groups.setdefault(match["_equipo"], []).append(match)
+        groups.setdefault((match["_equipo"], match["_nombre"]), []).append(match)
 
     teams = []
     for items in groups.values():
         first = items[0]
-        competition = first["competicion"].split(" · ")[0]
         ids = dict(re.findall(r"(id|grupo|fase)=(\d+)", first["fav"]))
         try:
             standings = fetch_standings(ids["id"], ids["grupo"], ids["fase"])
@@ -264,11 +292,13 @@ def build_teams(matches):
         pending = sorted([m for m in items if m["estado"] in ("next", "live")], key=lambda m: m["_jornada"])
         finals = sorted([m for m in items if m["estado"] == "final"],
                         key=lambda m: sort_key_date(m["fecha"]) or datetime.min, reverse=True)
-
+        name = first["_nombre"]
         teams.append({
-            "categoria": first["categoria"],
-            "genero": "Femenino" if "FEMENINO" in fold(competition) else "Masculino",
-            "competicion": competition,
+            "categoria": display_category(first["categoria"]),
+            "genero": first["_genero"],
+            "variante": variant_label(first["_genero"], name),
+            "nombre": name,
+            "competicion": first["competicion"].split(" · ")[0],
             "clasificacion": standings,
             "proximo": public(pending[0]) if pending else None,
             "resultados": [
@@ -277,13 +307,63 @@ def build_teams(matches):
             ],
         })
 
-    teams.sort(key=lambda t: (-category_rank(t["categoria"]), t["genero"] != "Masculino"))
+    for categoria, variante in PENDING_GROUPS:
+        if any(t["categoria"] == categoria and t["variante"] == variante for t in teams):
+            continue
+        teams.append({
+            "categoria": categoria,
+            "genero": "Femenino" if "Femenino" in variante else ("Mixto" if "Mixto" in variante else "Masculino"),
+            "variante": variante,
+            "nombre": "",
+            "competicion": "",
+            "clasificacion": [],
+            "proximo": None,
+            "resultados": [],
+            "sinCompeticion": "Este grupo figura en el horario del club, pero todavía no aparece en la FAV esta temporada.",
+        })
+
+    teams.append({
+        "categoria": "Escuela deportiva",
+        "genero": "Mixto",
+        "variante": "Escuela deportiva",
+        "nombre": "",
+        "competicion": "",
+        "clasificacion": [],
+        "proximo": None,
+        "resultados": [],
+        "sinCompeticion": "La escuela deportiva no compite en la FAV. Entrena en La Cigüeña; consulta los horarios.",
+    })
+    teams.sort(key=lambda t: (-category_rank(t["categoria"]), t["genero"] != "Masculino", t["variante"]))
     return teams
 
 
+PENDING_GROUPS = [
+    ("Alevín", "Femenino blanco"),
+    ("Infantil", "Femenino blanco"),
+    ("Sénior", "Femenino"),
+    ("Sénior", "Mixto"),
+]
+
+
+def display_category(name):
+    return "Sénior" if "SENIOR" in fold(name or "") else name
+
+
+def variant_label(genero, name):
+    color = re.search(r"AZUL|BLANCO", fold(name or ""))
+    if not color:
+        return genero
+    return f"{genero} {color.group(0).lower()}"
+
+
 def category_rank(name):
-    order = ["Sénior", "Juvenil", "Cadete", "Infantil", "Alevín", "Benjamín", "Escuela"]
-    return len(order) - order.index(name) if name in order else 0
+    folded = fold(name or "")
+    order = [("SENIOR", 90), ("JUNIOR", 80), ("JUVENIL", 70), ("CADETE", 60),
+             ("INFANTIL", 50), ("PROMESAS", 45), ("ALEVIN", 40), ("BENJAMIN", 30), ("ESCUELA", 10)]
+    for key, rank in order:
+        if key in folded:
+            return rank
+    return 0
 
 
 def write_block(source, block_id, payload):
@@ -344,10 +424,13 @@ def main():
     live = json.loads(live_found.group(1))
     live["eventos"] = events
     updated = write_block(source, "live-data", live)
-    updated = write_block(updated, "equipos-data", {
-        "actualizado": datetime.now().strftime("%d/%m/%Y %H:%M"),
-        "equipos": teams,
-    })
+
+    teams_found = re.search(r'<script type="application/json" id="equipos-data">(.*?)</script>', source, re.S)
+    previous = json.loads(teams_found.group(1)) if teams_found else {}
+    stamp = previous.get("actualizado")
+    if not stamp or previous.get("equipos") != teams:
+        stamp = datetime.now().strftime("%d/%m/%Y %H:%M")
+    updated = write_block(updated, "equipos-data", {"actualizado": stamp, "equipos": teams})
 
     if updated != source:
         INDEX.write_text(updated, encoding="utf-8")
