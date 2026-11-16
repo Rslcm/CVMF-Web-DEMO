@@ -115,7 +115,7 @@ Cada ejecución también escribe el bloque `#equipos-data`, que alimenta la secc
 - **Detección de equipos:** el script reconoce al club por «Manuel de Falla» o «CVMF» en el nombre del equipo (la FAV añade patrocinadores: *Grimaret CVMF Brenes*, *MGS Seguros CVMF Brenes*, *CVMF Brenes Azul*…), y toma la categoría y el sexo de la ficha de la competición, no del título.
 - **Color del equipo:** se toma de las palabras *Azul*, *Blanco*, *Oro*, *Plata*, *Negro*, *Rojo*, *Verde* o *Amarillo* del nombre. Si la FAV inscribe al equipo solo con el patrocinador, se usa la tabla `ALIASES` de `tools/actualizar-partidos.py` (por ejemplo, *Renault Hinojosa Márquez CVMF* es el Alevín femenino oro).
 
-**App Android:** justo debajo de la portada hay una franja con el botón «Descargar para Android» desactivado y la etiqueta «Próximamente». Cuando esté la app, se sustituye por el enlace de descarga del APK.
+**App Android:** después de la tira de resultados y la banda de temporada hay una franja con el botón «Descargar para Android» desactivado y la etiqueta «Próximamente». Cuando esté la app, se sustituye por el enlace de descarga del APK.
 
 **Refresco garantizado:** el cron de GitHub no es fiable. `cloudflare/worker.js` es un Worker que lanza el flujo cada 5 minutos desde fuera y, además, hace de puente con la FAV para leer el marcador en vivo. Instrucciones en `cloudflare/LEEME.md`.
 
