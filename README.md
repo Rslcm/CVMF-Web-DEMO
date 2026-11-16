@@ -192,7 +192,7 @@ Estos datos no se editan a mano: los rellena `tools/actualizar-partidos.py` (ver
 
 ### Regenerar la tarjeta para redes
 
-`assets/og-image.jpg` se genera a partir de `tools/og-image.html` con Chrome en modo headless:
+`assets/og-image.jpg` se genera a partir de `tools/og-image.html` con Chrome en modo headless y se convierte después a JPEG (Chrome siempre escribe PNG, aunque el archivo se llame `.jpg`):
 
 ```bash
 cd "/Users/ivanmartin/Documents/Club-Voleibol-Manuel-de-Falla"
@@ -200,10 +200,11 @@ cd "/Users/ivanmartin/Documents/Club-Voleibol-Manuel-de-Falla"
   --headless=new --disable-gpu --hide-scrollbars \
   --window-size=1200,630 --force-device-scale-factor=1 \
   --virtual-time-budget=6000 \
-  --screenshot=assets/og-image.jpg "file://$PWD/tools/og-image.html"
+  --screenshot=/tmp/og.png "file://$PWD/tools/og-image.html"
+sips -s format jpeg -s formatOptions 82 /tmp/og.png --out assets/og-image.jpg
 ```
 
-Chrome deduce el formato JPEG de la extensión del archivo, así que no hace falta convertir nada después. Comprueba el resultado con `file assets/og-image.jpg`: debe decir `JPEG image data … 1200x630`. Conviene repetirlo si cambia el escudo, el lema o los colores.
+Comprueba el resultado con `file assets/og-image.jpg`: debe decir `JPEG image data … 1200x630`. Si cambia la imagen, sube el número de la versión en `index.html` (`assets/og-image.jpg?v=…`) para que WhatsApp y las redes no sigan mostrando la anterior en caché. Conviene repetirlo si cambia el escudo, el lema o los colores.
 
 ## Publicar
 

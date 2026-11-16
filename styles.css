@@ -2731,3 +2731,10 @@ h2 {
   .app-strip-copy p span { display: none; }
   .app-download { width: 100%; align-items: center; text-align: center; padding-block: 9px; }
 }
+
+@media (max-width: 430px) {
+  .topbar-season { display: none; }
+}
+@media (max-width: 360px) {
+  .topbar-note { display: none; }
+}
