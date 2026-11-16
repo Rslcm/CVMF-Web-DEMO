@@ -155,6 +155,13 @@
       scoreEl.textContent = score;
       link.appendChild(scoreEl);
     }
+    var points = liveText(event.puntos);
+    if (points && state === 'live') {
+      var pointsEl = document.createElement('span');
+      pointsEl.className = 'live-ticker-points';
+      pointsEl.textContent = points;
+      link.appendChild(pointsEl);
+    }
 
     if (event.ejemplo === true) {
       var tag = document.createElement('span');
@@ -283,16 +290,22 @@
     var category = liveText(event.categoria);
     var label = liveButtonLabel(state, id) + (category ? ' · ' + category : '');
     var score = liveText(event.marcador);
+    var points = liveText(event.puntos);
     var link = state === 'final' ? url : (state === 'live' && id) ? url : liveChannel;
 
     var hero = document.getElementById('hero-live');
     var heroEvent = document.getElementById('hero-live-event');
     var heroState = document.getElementById('hero-live-state');
+    var heroPoints = document.getElementById('hero-live-points');
     if (hero && heroEvent && heroState) {
       hero.href = link;
       heroEvent.textContent = name;
       heroState.textContent = state === 'live' && score ? label + ' · ' + score : label;
       heroState.hidden = false;
+    }
+    if (heroPoints) {
+      heroPoints.textContent = state === 'live' && points ? 'Puntos: ' + points : '';
+      heroPoints.hidden = !(state === 'live' && points);
     }
 
     var card = document.getElementById('live-card-yt');
@@ -306,6 +319,7 @@
       if (meta) details.push(meta);
       if (liveVenue(event, state)) details.push(liveVenue(event, state));
       if (liveText(event.marcador)) details.push('Marcador ' + liveText(event.marcador));
+      if (state === 'live' && points) details.push('Puntos ' + points);
       if (event.ejemplo === true) details.push('Ejemplo de prueba');
       cardDesc.textContent = details.join(' · ') || 'Los partidos que emitimos se ven en nuestro canal, en directo y en abierto.';
       cardCta.textContent = label;
@@ -401,6 +415,198 @@
     tickerResize = window.requestAnimationFrame(sizeTicker);
   });
   window.addEventListener('load', sizeTicker);
+
+  /* Equipos: categorías, submenú, clasificación y partidos ------------------ */
+  var TEAM_SECTIONS = [
+    ['jugadores', 'Jugadores'],
+    ['clasificacion', 'Clasificación'],
+    ['proximo', 'Próximo partido'],
+    ['resultados', 'Resultados']
+  ];
+
+  function readBlock(id) {
+    var el = document.getElementById(id);
+    if (!el) return null;
+    try {
+      return JSON.parse(el.textContent || '{}');
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function makeEl(tag, className, text) {
+    var node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined && text !== null) node.textContent = text;
+    return node;
+  }
+
+  function makeButton(label, pressed, onClick) {
+    var button = makeEl('button', '', label);
+    button.type = 'button';
+    button.setAttribute('aria-pressed', String(pressed));
+    button.addEventListener('click', onClick);
+    return button;
+  }
+
+  function renderPlayers(content) {
+    content.appendChild(makeEl('p', 'equipos-note', 'Nombres y fotos próximamente.'));
+    var list = makeEl('ul', 'equipos-players');
+    for (var i = 0; i < 6; i += 1) {
+      var card = makeEl('li', 'equipos-player');
+      card.appendChild(makeEl('span', 'equipos-photo'));
+      card.appendChild(makeEl('span', '', 'Jugador/a por confirmar'));
+      list.appendChild(card);
+    }
+    content.appendChild(list);
+  }
+
+  function renderStandings(content, team) {
+    if (!team.clasificacion || !team.clasificacion.length) {
+      content.appendChild(makeEl('p', 'equipos-note', 'La clasificación todavía no está publicada.'));
+      return;
+    }
+    var wrap = makeEl('div', 'equipos-table-wrap');
+    var table = makeEl('table', 'equipos-table');
+    table.appendChild(makeEl('caption', '', 'Clasificación · ' + team.competicion));
+    var head = makeEl('tr');
+    ['Pos.', 'Equipo', 'Pts', 'PJ', 'PG', 'PP', 'SF', 'SC'].forEach(function (label) {
+      var th = makeEl('th', '', label);
+      th.setAttribute('scope', 'col');
+      head.appendChild(th);
+    });
+    var thead = makeEl('thead');
+    thead.appendChild(head);
+    table.appendChild(thead);
+
+    var tbody = makeEl('tbody');
+    team.clasificacion.forEach(function (row) {
+      var tr = makeEl('tr', row.club ? 'is-club' : '');
+      [row.pos, row.equipo, row.pts, row.pj, row.pg, row.pp, row.sf, row.sc].forEach(function (value) {
+        tr.appendChild(makeEl('td', '', value));
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    wrap.appendChild(table);
+    content.appendChild(wrap);
+  }
+
+  function renderNextMatch(content, team) {
+    var match = team.proximo;
+    if (!match) {
+      content.appendChild(makeEl('p', 'equipos-note', 'No hay próximo partido publicado.'));
+      return;
+    }
+    var live = match.estado === 'live';
+    content.appendChild(makeEl('p', 'equipos-kicker', live ? 'En juego' : 'Próximo partido'));
+    content.appendChild(makeEl('h3', '', match.evento));
+    var meta = [match.competicion, match.fecha].filter(Boolean).join(' · ');
+    content.appendChild(makeEl('p', 'equipos-meta', meta));
+    var venue = liveVenue(match, match.estado);
+    if (venue) content.appendChild(makeEl('p', 'equipos-meta', venue.indexOf('Sede') === 0 ? venue : 'Sede: ' + venue));
+    if (live && match.marcador) {
+      var score = makeEl('p', 'equipos-score', match.marcador);
+      if (match.puntos) score.appendChild(makeEl('small', '', 'Puntos: ' + match.puntos));
+      content.appendChild(score);
+    }
+  }
+
+  function renderResults(content, team) {
+    if (!team.resultados || !team.resultados.length) {
+      content.appendChild(makeEl('p', 'equipos-note', 'Todavía no hay resultados publicados.'));
+      return;
+    }
+    var list = makeEl('ul', 'equipos-list');
+    team.resultados.forEach(function (match) {
+      var item = makeEl('li');
+      item.appendChild(makeEl('time', '', match.fecha));
+      item.appendChild(makeEl('strong', '', match.evento));
+      item.appendChild(makeEl('b', '', match.marcador));
+      list.appendChild(item);
+    });
+    content.appendChild(list);
+  }
+
+  function renderTeams() {
+    var data = readBlock('equipos-data');
+    var app = document.getElementById('equipos-app');
+    var empty = document.getElementById('equipos-empty');
+    var teams = data && Array.isArray(data.equipos) ? data.equipos : [];
+    if (!app || !teams.length) {
+      if (empty) empty.hidden = false;
+      return;
+    }
+
+    var updated = document.getElementById('equipos-updated');
+    if (updated && data.actualizado) updated.textContent = 'Datos de la FAV a ' + data.actualizado + '.';
+
+    var categories = [];
+    teams.forEach(function (team) {
+      if (categories.indexOf(team.categoria) === -1) categories.push(team.categoria);
+    });
+
+    var state = { category: categories[0], gender: null, section: 'proximo' };
+
+    function teamsInCategory() {
+      return teams.filter(function (team) { return team.categoria === state.category; });
+    }
+
+    function currentTeam() {
+      var inCategory = teamsInCategory();
+      var match = inCategory.filter(function (team) { return team.genero === state.gender; })[0];
+      return match || inCategory[0];
+    }
+
+    function render() {
+      var cats = document.getElementById('equipos-cats');
+      var sub = document.getElementById('equipos-sub');
+      var gender = document.getElementById('equipos-gender');
+      var content = document.getElementById('equipos-content');
+      cats.textContent = '';
+      sub.textContent = '';
+      gender.textContent = '';
+      content.textContent = '';
+
+      categories.forEach(function (category) {
+        cats.appendChild(makeButton(category, category === state.category, function () {
+          state.category = category;
+          state.gender = null;
+          render();
+        }));
+      });
+
+      var team = currentTeam();
+      var inCategory = teamsInCategory();
+      if (inCategory.length > 1) {
+        inCategory.forEach(function (option) {
+          gender.appendChild(makeButton(option.genero, option === team, function () {
+            state.gender = option.genero;
+            render();
+          }));
+        });
+      } else {
+        gender.appendChild(makeEl('p', 'equipos-note', team.genero));
+      }
+
+      TEAM_SECTIONS.forEach(function (section) {
+        sub.appendChild(makeButton(section[1], section[0] === state.section, function () {
+          state.section = section[0];
+          render();
+        }));
+      });
+
+      if (state.section === 'jugadores') renderPlayers(content);
+      if (state.section === 'clasificacion') renderStandings(content, team);
+      if (state.section === 'proximo') renderNextMatch(content, team);
+      if (state.section === 'resultados') renderResults(content, team);
+    }
+
+    render();
+    app.hidden = false;
+  }
+
+  renderTeams();
 
   /* Aparición suave de bloques ---------------------------------------------- */
   var revealItems = document.querySelectorAll('.reveal');

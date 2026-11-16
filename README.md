@@ -95,13 +95,24 @@ Paleta de la web (azul, amarillo y blanco, en armonía con el escudo):
 
 Para ejecutarlo a mano: `python3 tools/actualizar-partidos.py`.
 
-Para que se ejecute solo cada hora, `.github/workflows/actualizar-partidos.yml` hace lo siguiente en GitHub:
+Para que se ejecute sola, `.github/workflows/actualizar-partidos.yml` hace lo siguiente en GitHub (cada 10 minutos):
 
 1. Sube la carpeta a un repositorio de GitHub (una sola vez).
 2. Activa **Settings → Pages** desde la rama principal, carpeta raíz.
 3. Activa **Settings → Actions → General → Workflow permissions → Read and write permissions**.
 
-Desde ese momento, la web se actualiza sola cada hora. El cambio a «Directo» al empezar un partido también es automático.
+Desde ese momento, la web se actualiza sola cada 10 minutos. El cambio a «Directo» al empezar un partido también es automático.
+
+Cada ejecución también escribe el bloque `#equipos-data`, que alimenta la sección **Nuestros equipos**:
+
+- **Categoría → sexo:** cada categoría tiene un botón por sexo (masculino o femenino) cuando hay dos equipos.
+- **Submenú:** *Jugadores* (de momento, huecos «próximamente» con nombres y fotos), *Clasificación* (tabla de la FAV con el club resaltado), *Próximo partido* (fecha, hora y sede) y *Resultados* (últimos cinco).
+
+**Etiqueta de prueba:** la barra superior muestra «Web en pruebas · no oficial» (en móvil, «En pruebas»). Cuando la web sea definitiva, borra el `<p class="beta-badge">` de `index.html`.
+
+**Sede:** la FAV la publica cuando el partido tiene fecha. Mientras tanto, la web muestra «Sede por confirmar».
+
+**Marcador en juego:** en la portada, el marcador por sets va en grande, y los puntos de cada set aparecen debajo, en letra pequeña.
 
 Todo se alimenta de un único bloque de datos en `index.html` (`<script type="application/json" id="live-data">`), sin API, sin clave y sin dependencias externas:
 

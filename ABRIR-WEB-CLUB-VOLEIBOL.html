@@ -2478,6 +2478,229 @@ h2 {
   .live-player-poster-text span { display: none; }
 }
 
+/* --------------------------------------------------------------------------
+   Etiqueta de prueba
+   -------------------------------------------------------------------------- */
+
+.beta-badge {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  margin: 0;
+  padding: 3px 10px;
+  border: 1px solid rgba(245, 196, 0, .6);
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--yellow);
+  white-space: nowrap;
+}
+.beta-short { display: none; }
+@media (max-width: 720px) {
+  .beta-long { display: none; }
+  .beta-short { display: inline; }
+}
+@media (max-width: 380px) {
+  .beta-badge { padding: 3px 7px; font-size: 9.5px; letter-spacing: .04em; }
+}
+
+/* Puntos de los sets (secundarios, debajo del marcador) */
+
+.hero-live-points {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  line-height: 1.2;
+  color: #c9d9f4;
+}
+.live-ticker-points {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: #c9d9f4;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Equipos: categorías, submenú, clasificación, partidos y jugadores
+   -------------------------------------------------------------------------- */
+
+.equipos-app[hidden],
+.equipos-empty[hidden] { display: none; }
+
+.equipos-cats,
+.equipos-sub,
+.equipos-gender {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.equipos-cats { margin-bottom: 16px; }
+.equipos-sub { margin-bottom: 12px; }
+.equipos-gender { margin-bottom: 20px; }
+.equipos-body {
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.equipos-app button {
+  padding: 9px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+.equipos-app button:hover { border-color: var(--blue); color: var(--blue); }
+.equipos-app button[aria-pressed="true"] {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+.equipos-cats button {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 8px 20px;
+}
+.equipos-sub button,
+.equipos-gender button { font-size: 12.5px; padding: 7px 14px; }
+.equipos-cats button[aria-pressed="true"] { background: var(--yellow); border-color: var(--yellow); color: var(--blue-deep); }
+
+.equipos-content h3 {
+  font-size: 26px;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.equipos-note {
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.equipos-kicker {
+  margin-bottom: 6px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+.equipos-meta { margin-top: 8px; font-size: 13px; line-height: 1.6; color: var(--muted); }
+.equipos-score {
+  margin-top: 10px;
+  font-family: var(--display);
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  line-height: 1;
+  color: var(--blue-deep);
+}
+.equipos-score small {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .03em;
+  color: var(--muted);
+}
+
+.equipos-table-wrap { overflow-x: auto; }
+.equipos-table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.equipos-table caption {
+  margin-bottom: 10px;
+  text-align: left;
+  font-size: 12px;
+  color: var(--muted);
+}
+.equipos-table th,
+.equipos-table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  white-space: nowrap;
+}
+.equipos-table th:nth-child(2),
+.equipos-table td:nth-child(2) { text-align: left; white-space: normal; }
+.equipos-table th {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.equipos-table td:nth-child(3) { font-weight: 800; color: var(--blue-deep); }
+.equipos-table tr.is-club td { background: #fff7d6; font-weight: 700; }
+
+.equipos-list { display: grid; gap: 10px; }
+.equipos-list li {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 13.5px;
+}
+.equipos-list time { font-size: 12px; color: var(--muted); }
+.equipos-list strong { font-weight: 700; color: var(--ink); overflow-wrap: anywhere; }
+.equipos-list b {
+  font-family: var(--display);
+  font-size: 18px;
+  letter-spacing: .04em;
+  color: var(--blue-deep);
+}
+
+.equipos-players {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.equipos-player {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  padding: 16px 12px;
+  border: 1px dashed #c4cfe0;
+  border-radius: 14px;
+  background: var(--paper);
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.equipos-photo {
+  display: block;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: linear-gradient(150deg, #dfe8f8, #c4d4ee);
+}
+
+@media (max-width: 560px) {
+  .equipos-body { padding: 18px; }
+  .equipos-list li { grid-template-columns: 1fr; gap: 6px; }
+  .equipos-cats button { font-size: 16px; padding: 7px 14px; }
+}
+
 </style>
 
 <script type="application/ld+json">
@@ -2598,6 +2821,7 @@ h2 {
 <div class="topbar">
   <div class="wrap">
     <p class="topbar-note"><span class="live-dot" aria-hidden="true"></span> Temporada 2026/2027 · Preinscripciones abiertas</p>
+    <p class="beta-badge"><span class="beta-long">Web en pruebas · no oficial</span><span class="beta-short">En pruebas</span></p>
     <a class="topbar-link" href="#preinscripcion">Inscríbete <span aria-hidden="true">→</span></a>
   </div>
 </div>
@@ -2618,6 +2842,7 @@ h2 {
       <a href="#cuotas">Cuotas</a>
       <a href="#club">El club</a>
       <a href="#temporadas">Temporadas</a>
+      <a href="#equipos">Equipos</a>
       <a href="#directo">Directo</a>
       <a href="#contacto">Contacto</a>
       <a class="nav-cta" href="https://forms.gle/tboq52XEYnAkywhg6" target="_blank" rel="noopener">Preinscripción 2026/27 <span aria-hidden="true">↗</span></a>
@@ -2661,6 +2886,7 @@ h2 {
           <span class="hero-live-text">
             <strong id="hero-live-event">Directos en YouTube</strong>
             <span class="hero-live-state" id="hero-live-state" hidden>En directo</span>
+            <span class="hero-live-points" id="hero-live-points" hidden></span>
           </span>
           <span class="hero-live-arrow" aria-hidden="true">↗</span>
         </a>
@@ -2714,21 +2940,23 @@ h2 {
       "evento": "CV Alcores – CV Manuel de Falla",
       "categoria": "Cadete",
       "competicion": "Cadete masculino Sevilla Liga Provincial · Jornada 7",
-      "fecha": "Por confirmar",
+      "fecha": "20/11/2026 · 17:45",
       "marcador": "",
       "estado": "next",
       "youtube": "",
-      "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1314&vista=calendario&grupo=91&fase=115"
+      "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1314&vista=calendario&grupo=91&fase=115",
+      "sede": "Pabellon Placido Fernandez Viagas · P1 (Alcalá de Guadaíra)"
     },
     {
       "evento": "CV Alcores – CV Manuel de Falla",
       "categoria": "Juvenil",
       "competicion": "Juvenil masculino Sevilla Liga Provincial · Jornada 6",
-      "fecha": "Por confirmar",
+      "fecha": "21/11/2026 · 11:30",
       "marcador": "",
       "estado": "next",
       "youtube": "",
-      "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1322&vista=calendario&grupo=90&fase=114"
+      "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1322&vista=calendario&grupo=90&fase=114",
+      "sede": "Pabellon Placido Fernandez Viagas · P1 (Alcalá de Guadaíra)"
     },
     {
       "evento": "CV Manuel de Falla – Kairós",
@@ -2783,6 +3011,523 @@ h2 {
       "youtube": "",
       "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1329&vista=calendario&grupo=119&fase=165",
       "sede": "Complejo Polideportivo Raúl Fernández Pavón (Brenes)"
+    }
+  ]
+}
+  </script>
+
+  <script type="application/json" id="equipos-data">
+{
+  "actualizado": "16/11/2026 11:31",
+  "equipos": [
+    {
+      "categoria": "Juvenil",
+      "genero": "Masculino",
+      "competicion": "Juvenil masculino Sevilla Liga Provincial",
+      "clasificacion": [
+        {
+          "pos": "1",
+          "equipo": "Kairós",
+          "pts": "15",
+          "pj": "5",
+          "pg": "5",
+          "pp": "0",
+          "sf": "15",
+          "sc": "0",
+          "club": false
+        },
+        {
+          "pos": "2",
+          "equipo": "CV Manuel de Falla",
+          "pts": "12",
+          "pj": "5",
+          "pg": "4",
+          "pp": "1",
+          "sf": "12",
+          "sc": "4",
+          "club": true
+        },
+        {
+          "pos": "3",
+          "equipo": "Mairena Voley Club",
+          "pts": "10",
+          "pj": "5",
+          "pg": "3",
+          "pp": "2",
+          "sf": "11",
+          "sc": "8",
+          "club": false
+        },
+        {
+          "pos": "4",
+          "equipo": "C.D. Adriano",
+          "pts": "7",
+          "pj": "5",
+          "pg": "3",
+          "pp": "2",
+          "sf": "10",
+          "sc": "10",
+          "club": false
+        },
+        {
+          "pos": "5",
+          "equipo": "CV Utrera",
+          "pts": "7",
+          "pj": "5",
+          "pg": "2",
+          "pp": "3",
+          "sf": "9",
+          "sc": "10",
+          "club": false
+        },
+        {
+          "pos": "6",
+          "equipo": "Kairós Turquesa",
+          "pts": "6",
+          "pj": "5",
+          "pg": "2",
+          "pp": "3",
+          "sf": "8",
+          "sc": "11",
+          "club": false
+        },
+        {
+          "pos": "7",
+          "equipo": "CV Alcores",
+          "pts": "3",
+          "pj": "5",
+          "pg": "1",
+          "pp": "4",
+          "sf": "5",
+          "sc": "12",
+          "club": false
+        },
+        {
+          "pos": "8",
+          "equipo": "Fundación Cajasol Andalucía",
+          "pts": "0",
+          "pj": "5",
+          "pg": "0",
+          "pp": "5",
+          "sf": "0",
+          "sc": "15",
+          "club": false
+        }
+      ],
+      "proximo": {
+        "evento": "CV Alcores – CV Manuel de Falla",
+        "categoria": "Juvenil",
+        "competicion": "Juvenil masculino Sevilla Liga Provincial · Jornada 6",
+        "fecha": "21/11/2026 · 11:30",
+        "marcador": "",
+        "estado": "next",
+        "youtube": "",
+        "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1322&vista=calendario&grupo=90&fase=114",
+        "sede": "Pabellon Placido Fernandez Viagas · P1 (Alcalá de Guadaíra)"
+      },
+      "resultados": [
+        {
+          "evento": "CV Manuel de Falla – Kairós Turquesa",
+          "fecha": "07/11/2026 · 11:00",
+          "marcador": "3–0"
+        },
+        {
+          "evento": "CV Manuel de Falla – CV Utrera",
+          "fecha": "31/10/2026 · 10:00",
+          "marcador": "3–0"
+        },
+        {
+          "evento": "Fundación Cajasol Andalucía – CV Manuel de Falla",
+          "fecha": "24/10/2026 · 13:30",
+          "marcador": "0–3"
+        },
+        {
+          "evento": "CV Manuel de Falla – Kairós",
+          "fecha": "17/10/2026 · 11:00",
+          "marcador": "0–3"
+        },
+        {
+          "evento": "CV Manuel de Falla – C.D. Adriano",
+          "fecha": "12/10/2026 · 18:00",
+          "marcador": "3–1"
+        }
+      ]
+    },
+    {
+      "categoria": "Juvenil",
+      "genero": "Femenino",
+      "competicion": "Juvenil femenino Sevilla Liga Provincial",
+      "clasificacion": [
+        {
+          "pos": "1",
+          "equipo": "CV Manuel de Falla",
+          "pts": "7",
+          "pj": "3",
+          "pg": "2",
+          "pp": "1",
+          "sf": "8",
+          "sc": "4",
+          "club": true
+        },
+        {
+          "pos": "2",
+          "equipo": "Kairós",
+          "pts": "6",
+          "pj": "3",
+          "pg": "2",
+          "pp": "1",
+          "sf": "7",
+          "sc": "4",
+          "club": false
+        },
+        {
+          "pos": "3",
+          "equipo": "Las Leonas",
+          "pts": "6",
+          "pj": "3",
+          "pg": "2",
+          "pp": "1",
+          "sf": "7",
+          "sc": "5",
+          "club": false
+        },
+        {
+          "pos": "4",
+          "equipo": "Sitting Volley Sevilla",
+          "pts": "5",
+          "pj": "3",
+          "pg": "2",
+          "pp": "1",
+          "sf": "7",
+          "sc": "5",
+          "club": false
+        },
+        {
+          "pos": "5",
+          "equipo": "CD Dxt10",
+          "pts": "3",
+          "pj": "3",
+          "pg": "1",
+          "pp": "2",
+          "sf": "4",
+          "sc": "6",
+          "club": false
+        },
+        {
+          "pos": "6",
+          "equipo": "F. Cajasol Andalucía Azul",
+          "pts": "0",
+          "pj": "3",
+          "pg": "0",
+          "pp": "3",
+          "sf": "0",
+          "sc": "9",
+          "club": false
+        }
+      ],
+      "proximo": {
+        "evento": "CV Manuel de Falla – Kairós",
+        "categoria": "Juvenil",
+        "competicion": "Juvenil femenino Sevilla Liga Provincial · Jornada 4",
+        "fecha": "Por confirmar",
+        "marcador": "",
+        "estado": "next",
+        "youtube": "",
+        "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1329&vista=calendario&grupo=119&fase=165"
+      },
+      "resultados": [
+        {
+          "evento": "CV Manuel de Falla – Las Leonas",
+          "fecha": "14/11/2026 · 20:00",
+          "marcador": "3–1"
+        },
+        {
+          "evento": "Sitting Volley Sevilla – CV Manuel de Falla",
+          "fecha": "08/11/2026 · 12:30",
+          "marcador": "3–2"
+        },
+        {
+          "evento": "F. Cajasol Andalucía Azul – CV Manuel de Falla",
+          "fecha": "24/10/2026 · 18:00",
+          "marcador": "0–3"
+        }
+      ]
+    },
+    {
+      "categoria": "Cadete",
+      "genero": "Masculino",
+      "competicion": "Cadete masculino Sevilla Liga Provincial",
+      "clasificacion": [
+        {
+          "pos": "1",
+          "equipo": "Kairós",
+          "pts": "13",
+          "pj": "5",
+          "pg": "4",
+          "pp": "1",
+          "sf": "14",
+          "sc": "3",
+          "club": false
+        },
+        {
+          "pos": "2",
+          "equipo": "C.D. Adriano",
+          "pts": "12",
+          "pj": "5",
+          "pg": "4",
+          "pp": "1",
+          "sf": "12",
+          "sc": "4",
+          "club": false
+        },
+        {
+          "pos": "3",
+          "equipo": "CV Alcores",
+          "pts": "11",
+          "pj": "5",
+          "pg": "4",
+          "pp": "1",
+          "sf": "13",
+          "sc": "6",
+          "club": false
+        },
+        {
+          "pos": "4",
+          "equipo": "CV Manuel de Falla",
+          "pts": "9",
+          "pj": "5",
+          "pg": "3",
+          "pp": "2",
+          "sf": "9",
+          "sc": "6",
+          "club": true
+        },
+        {
+          "pos": "5",
+          "equipo": "Mairena Voley Club-Mairena Alj",
+          "pts": "9",
+          "pj": "5",
+          "pg": "3",
+          "pp": "2",
+          "sf": "9",
+          "sc": "7",
+          "club": false
+        },
+        {
+          "pos": "6",
+          "equipo": "Palestra C.V.",
+          "pts": "7",
+          "pj": "6",
+          "pg": "2",
+          "pp": "4",
+          "sf": "9",
+          "sc": "13",
+          "club": false
+        },
+        {
+          "pos": "7",
+          "equipo": "CV Utrera",
+          "pts": "6",
+          "pj": "6",
+          "pg": "2",
+          "pp": "4",
+          "sf": "7",
+          "sc": "13",
+          "club": false
+        },
+        {
+          "pos": "8",
+          "equipo": "Sitting Volley Sevilla",
+          "pts": "5",
+          "pj": "5",
+          "pg": "2",
+          "pp": "3",
+          "sf": "7",
+          "sc": "11",
+          "club": false
+        },
+        {
+          "pos": "9",
+          "equipo": "Fundación Cajasol Andalucía",
+          "pts": "0",
+          "pj": "6",
+          "pg": "0",
+          "pp": "6",
+          "sf": "1",
+          "sc": "18",
+          "club": false
+        }
+      ],
+      "proximo": {
+        "evento": "CV Alcores – CV Manuel de Falla",
+        "categoria": "Cadete",
+        "competicion": "Cadete masculino Sevilla Liga Provincial · Jornada 7",
+        "fecha": "20/11/2026 · 17:45",
+        "marcador": "",
+        "estado": "next",
+        "youtube": "",
+        "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1314&vista=calendario&grupo=91&fase=115",
+        "sede": "Pabellon Placido Fernandez Viagas · P1 (Alcalá de Guadaíra)"
+      },
+      "resultados": [
+        {
+          "evento": "CV Manuel de Falla – Kairós",
+          "fecha": "07/11/2026 · 09:30",
+          "marcador": "0–3"
+        },
+        {
+          "evento": "CV Manuel de Falla – CV Utrera",
+          "fecha": "01/11/2026 · 12:00",
+          "marcador": "3–0"
+        },
+        {
+          "evento": "Fundación Cajasol Andalucía – CV Manuel de Falla",
+          "fecha": "24/10/2026 · 11:30",
+          "marcador": "0–3"
+        },
+        {
+          "evento": "CV Manuel de Falla – Sitting Volley Sevilla",
+          "fecha": "18/10/2026 · 18:00",
+          "marcador": "3–0"
+        },
+        {
+          "evento": "CV Manuel de Falla – Palestra C.V.",
+          "fecha": "18/10/2026 · 11:00",
+          "marcador": "0–3"
+        }
+      ]
+    },
+    {
+      "categoria": "Cadete",
+      "genero": "Femenino",
+      "competicion": "Cadete femenino Sevilla Liga Provincial",
+      "clasificacion": [
+        {
+          "pos": "1",
+          "equipo": "F. Cajasol Andalucía Verde",
+          "pts": "15",
+          "pj": "5",
+          "pg": "5",
+          "pp": "0",
+          "sf": "15",
+          "sc": "0",
+          "club": false
+        },
+        {
+          "pos": "2",
+          "equipo": "Ceu San Pablo A",
+          "pts": "14",
+          "pj": "5",
+          "pg": "5",
+          "pp": "0",
+          "sf": "15",
+          "sc": "2",
+          "club": false
+        },
+        {
+          "pos": "3",
+          "equipo": "CD Arboleda Celeste",
+          "pts": "10",
+          "pj": "5",
+          "pg": "3",
+          "pp": "2",
+          "sf": "11",
+          "sc": "7",
+          "club": false
+        },
+        {
+          "pos": "4",
+          "equipo": "Cash El Barato Villaverde",
+          "pts": "9",
+          "pj": "5",
+          "pg": "3",
+          "pp": "2",
+          "sf": "10",
+          "sc": "6",
+          "club": false
+        },
+        {
+          "pos": "5",
+          "equipo": "C.V. Xtrem Espartinas",
+          "pts": "6",
+          "pj": "5",
+          "pg": "2",
+          "pp": "3",
+          "sf": "6",
+          "sc": "10",
+          "club": false
+        },
+        {
+          "pos": "6",
+          "equipo": "Encinas Volley C.D.",
+          "pts": "5",
+          "pj": "5",
+          "pg": "2",
+          "pp": "3",
+          "sf": "6",
+          "sc": "11",
+          "club": false
+        },
+        {
+          "pos": "7",
+          "equipo": "CV Manuel de Falla",
+          "pts": "1",
+          "pj": "5",
+          "pg": "0",
+          "pp": "5",
+          "sf": "3",
+          "sc": "15",
+          "club": true
+        },
+        {
+          "pos": "8",
+          "equipo": "C.V. Hpr Los Palacios",
+          "pts": "0",
+          "pj": "5",
+          "pg": "0",
+          "pp": "5",
+          "sf": "0",
+          "sc": "15",
+          "club": false
+        }
+      ],
+      "proximo": {
+        "evento": "C.V. Hpr Los Palacios – CV Manuel de Falla",
+        "categoria": "Cadete",
+        "competicion": "Cadete femenino Sevilla Liga Provincial · Jornada 6",
+        "fecha": "Por confirmar",
+        "marcador": "",
+        "estado": "next",
+        "youtube": "",
+        "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1306&vista=calendario&grupo=51&fase=59"
+      },
+      "resultados": [
+        {
+          "evento": "CV Manuel de Falla – Ceu San Pablo A",
+          "fecha": "07/11/2026 · 11:00",
+          "marcador": "0–3"
+        },
+        {
+          "evento": "CV Manuel de Falla – F. Cajasol Andalucía Verde",
+          "fecha": "24/10/2026 · 19:00",
+          "marcador": "0–3"
+        },
+        {
+          "evento": "C.V. Xtrem Espartinas – CV Manuel de Falla",
+          "fecha": "17/10/2026 · 18:00",
+          "marcador": "3–1"
+        },
+        {
+          "evento": "CV Manuel de Falla – Cash El Barato Villaverde",
+          "fecha": "12/10/2026 · 12:30",
+          "marcador": "0–3"
+        },
+        {
+          "evento": "Encinas Volley C.D. – CV Manuel de Falla",
+          "fecha": "03/10/2026 · 13:00",
+          "marcador": "3–2"
+        }
+      ]
     }
   ]
 }
@@ -3264,6 +4009,28 @@ h2 {
     </div>
   </section>
 
+  <section class="section section-paper equipos-section" id="equipos" aria-labelledby="equipos-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="kicker">Competición 2026/2027</p>
+          <h2 id="equipos-title">Nuestros equipos</h2>
+        </div>
+        <p>Categorías, clasificación, próximos partidos y resultados, tomados de la Federación Andaluza de Voleibol. <span id="equipos-updated"></span></p>
+      </div>
+
+      <div class="equipos-app" id="equipos-app" hidden>
+        <div class="equipos-cats" id="equipos-cats"></div>
+        <div class="equipos-body">
+          <div class="equipos-sub" id="equipos-sub"></div>
+          <div class="equipos-gender" id="equipos-gender"></div>
+          <div class="equipos-content" id="equipos-content"></div>
+        </div>
+      </div>
+      <p class="equipos-empty" id="equipos-empty" hidden>Todavía no hay equipos publicados en la FAV.</p>
+    </div>
+  </section>
+
   <section class="section live-section" id="directo" aria-labelledby="directo-title">
     <div class="wrap">
       <div class="section-head reveal">
@@ -3614,6 +4381,13 @@ h2 {
       scoreEl.textContent = score;
       link.appendChild(scoreEl);
     }
+    var points = liveText(event.puntos);
+    if (points && state === 'live') {
+      var pointsEl = document.createElement('span');
+      pointsEl.className = 'live-ticker-points';
+      pointsEl.textContent = points;
+      link.appendChild(pointsEl);
+    }
 
     if (event.ejemplo === true) {
       var tag = document.createElement('span');
@@ -3742,16 +4516,22 @@ h2 {
     var category = liveText(event.categoria);
     var label = liveButtonLabel(state, id) + (category ? ' · ' + category : '');
     var score = liveText(event.marcador);
+    var points = liveText(event.puntos);
     var link = state === 'final' ? url : (state === 'live' && id) ? url : liveChannel;
 
     var hero = document.getElementById('hero-live');
     var heroEvent = document.getElementById('hero-live-event');
     var heroState = document.getElementById('hero-live-state');
+    var heroPoints = document.getElementById('hero-live-points');
     if (hero && heroEvent && heroState) {
       hero.href = link;
       heroEvent.textContent = name;
       heroState.textContent = state === 'live' && score ? label + ' · ' + score : label;
       heroState.hidden = false;
+    }
+    if (heroPoints) {
+      heroPoints.textContent = state === 'live' && points ? 'Puntos: ' + points : '';
+      heroPoints.hidden = !(state === 'live' && points);
     }
 
     var card = document.getElementById('live-card-yt');
@@ -3765,6 +4545,7 @@ h2 {
       if (meta) details.push(meta);
       if (liveVenue(event, state)) details.push(liveVenue(event, state));
       if (liveText(event.marcador)) details.push('Marcador ' + liveText(event.marcador));
+      if (state === 'live' && points) details.push('Puntos ' + points);
       if (event.ejemplo === true) details.push('Ejemplo de prueba');
       cardDesc.textContent = details.join(' · ') || 'Los partidos que emitimos se ven en nuestro canal, en directo y en abierto.';
       cardCta.textContent = label;
@@ -3860,6 +4641,198 @@ h2 {
     tickerResize = window.requestAnimationFrame(sizeTicker);
   });
   window.addEventListener('load', sizeTicker);
+
+  /* Equipos: categorías, submenú, clasificación y partidos ------------------ */
+  var TEAM_SECTIONS = [
+    ['jugadores', 'Jugadores'],
+    ['clasificacion', 'Clasificación'],
+    ['proximo', 'Próximo partido'],
+    ['resultados', 'Resultados']
+  ];
+
+  function readBlock(id) {
+    var el = document.getElementById(id);
+    if (!el) return null;
+    try {
+      return JSON.parse(el.textContent || '{}');
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function makeEl(tag, className, text) {
+    var node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined && text !== null) node.textContent = text;
+    return node;
+  }
+
+  function makeButton(label, pressed, onClick) {
+    var button = makeEl('button', '', label);
+    button.type = 'button';
+    button.setAttribute('aria-pressed', String(pressed));
+    button.addEventListener('click', onClick);
+    return button;
+  }
+
+  function renderPlayers(content) {
+    content.appendChild(makeEl('p', 'equipos-note', 'Nombres y fotos próximamente.'));
+    var list = makeEl('ul', 'equipos-players');
+    for (var i = 0; i < 6; i += 1) {
+      var card = makeEl('li', 'equipos-player');
+      card.appendChild(makeEl('span', 'equipos-photo'));
+      card.appendChild(makeEl('span', '', 'Jugador/a por confirmar'));
+      list.appendChild(card);
+    }
+    content.appendChild(list);
+  }
+
+  function renderStandings(content, team) {
+    if (!team.clasificacion || !team.clasificacion.length) {
+      content.appendChild(makeEl('p', 'equipos-note', 'La clasificación todavía no está publicada.'));
+      return;
+    }
+    var wrap = makeEl('div', 'equipos-table-wrap');
+    var table = makeEl('table', 'equipos-table');
+    table.appendChild(makeEl('caption', '', 'Clasificación · ' + team.competicion));
+    var head = makeEl('tr');
+    ['Pos.', 'Equipo', 'Pts', 'PJ', 'PG', 'PP', 'SF', 'SC'].forEach(function (label) {
+      var th = makeEl('th', '', label);
+      th.setAttribute('scope', 'col');
+      head.appendChild(th);
+    });
+    var thead = makeEl('thead');
+    thead.appendChild(head);
+    table.appendChild(thead);
+
+    var tbody = makeEl('tbody');
+    team.clasificacion.forEach(function (row) {
+      var tr = makeEl('tr', row.club ? 'is-club' : '');
+      [row.pos, row.equipo, row.pts, row.pj, row.pg, row.pp, row.sf, row.sc].forEach(function (value) {
+        tr.appendChild(makeEl('td', '', value));
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    wrap.appendChild(table);
+    content.appendChild(wrap);
+  }
+
+  function renderNextMatch(content, team) {
+    var match = team.proximo;
+    if (!match) {
+      content.appendChild(makeEl('p', 'equipos-note', 'No hay próximo partido publicado.'));
+      return;
+    }
+    var live = match.estado === 'live';
+    content.appendChild(makeEl('p', 'equipos-kicker', live ? 'En juego' : 'Próximo partido'));
+    content.appendChild(makeEl('h3', '', match.evento));
+    var meta = [match.competicion, match.fecha].filter(Boolean).join(' · ');
+    content.appendChild(makeEl('p', 'equipos-meta', meta));
+    var venue = liveVenue(match, match.estado);
+    if (venue) content.appendChild(makeEl('p', 'equipos-meta', venue.indexOf('Sede') === 0 ? venue : 'Sede: ' + venue));
+    if (live && match.marcador) {
+      var score = makeEl('p', 'equipos-score', match.marcador);
+      if (match.puntos) score.appendChild(makeEl('small', '', 'Puntos: ' + match.puntos));
+      content.appendChild(score);
+    }
+  }
+
+  function renderResults(content, team) {
+    if (!team.resultados || !team.resultados.length) {
+      content.appendChild(makeEl('p', 'equipos-note', 'Todavía no hay resultados publicados.'));
+      return;
+    }
+    var list = makeEl('ul', 'equipos-list');
+    team.resultados.forEach(function (match) {
+      var item = makeEl('li');
+      item.appendChild(makeEl('time', '', match.fecha));
+      item.appendChild(makeEl('strong', '', match.evento));
+      item.appendChild(makeEl('b', '', match.marcador));
+      list.appendChild(item);
+    });
+    content.appendChild(list);
+  }
+
+  function renderTeams() {
+    var data = readBlock('equipos-data');
+    var app = document.getElementById('equipos-app');
+    var empty = document.getElementById('equipos-empty');
+    var teams = data && Array.isArray(data.equipos) ? data.equipos : [];
+    if (!app || !teams.length) {
+      if (empty) empty.hidden = false;
+      return;
+    }
+
+    var updated = document.getElementById('equipos-updated');
+    if (updated && data.actualizado) updated.textContent = 'Datos de la FAV a ' + data.actualizado + '.';
+
+    var categories = [];
+    teams.forEach(function (team) {
+      if (categories.indexOf(team.categoria) === -1) categories.push(team.categoria);
+    });
+
+    var state = { category: categories[0], gender: null, section: 'proximo' };
+
+    function teamsInCategory() {
+      return teams.filter(function (team) { return team.categoria === state.category; });
+    }
+
+    function currentTeam() {
+      var inCategory = teamsInCategory();
+      var match = inCategory.filter(function (team) { return team.genero === state.gender; })[0];
+      return match || inCategory[0];
+    }
+
+    function render() {
+      var cats = document.getElementById('equipos-cats');
+      var sub = document.getElementById('equipos-sub');
+      var gender = document.getElementById('equipos-gender');
+      var content = document.getElementById('equipos-content');
+      cats.textContent = '';
+      sub.textContent = '';
+      gender.textContent = '';
+      content.textContent = '';
+
+      categories.forEach(function (category) {
+        cats.appendChild(makeButton(category, category === state.category, function () {
+          state.category = category;
+          state.gender = null;
+          render();
+        }));
+      });
+
+      var team = currentTeam();
+      var inCategory = teamsInCategory();
+      if (inCategory.length > 1) {
+        inCategory.forEach(function (option) {
+          gender.appendChild(makeButton(option.genero, option === team, function () {
+            state.gender = option.genero;
+            render();
+          }));
+        });
+      } else {
+        gender.appendChild(makeEl('p', 'equipos-note', team.genero));
+      }
+
+      TEAM_SECTIONS.forEach(function (section) {
+        sub.appendChild(makeButton(section[1], section[0] === state.section, function () {
+          state.section = section[0];
+          render();
+        }));
+      });
+
+      if (state.section === 'jugadores') renderPlayers(content);
+      if (state.section === 'clasificacion') renderStandings(content, team);
+      if (state.section === 'proximo') renderNextMatch(content, team);
+      if (state.section === 'resultados') renderResults(content, team);
+    }
+
+    render();
+    app.hidden = false;
+  }
+
+  renderTeams();
 
   /* Aparición suave de bloques ---------------------------------------------- */
   var revealItems = document.querySelectorAll('.reveal');

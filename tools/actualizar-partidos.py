@@ -192,26 +192,109 @@ def fetch_detail(match_id):
 
 def enrich(match):
     try:
-        partido = fetch_detail(match["_id"])["datos"]["partido"]
+        datos = fetch_detail(match["_id"])["datos"]
     except Exception:
         return
-    venue = " ".join((partido.get("instalacion") or "").title().split())
+    partido = datos["partido"]
+    venue = team_name(partido.get("instalacion") or "")
     if venue:
         if partido.get("espacio"):
             venue += f" · {partido['espacio']}"
         if partido.get("localidad") and fold(partido["localidad"]) not in fold(venue):
-            venue += f" ({partido['localidad'].title()})"
+            venue += f" ({team_name(partido['localidad'])})"
         match["sede"] = venue
     if match["estado"] == "live":
         local = partido.get("sets_local")
         visitante = partido.get("sets_visitante")
         if local is not None and visitante is not None:
             match["marcador"] = f"{local}–{visitante}"
+        parciales = datos.get("parciales") or []
+        if parciales:
+            match["puntos"] = " · ".join(f"{p['puntos_local']}–{p['puntos_visitante']}" for p in parciales)
     hora = partido.get("hora")
     fecha = partido.get("fecha")
     if fecha and hora and match["fecha"] == "Por confirmar":
         year, month, day = fecha.split("-")
         match["fecha"] = f"{day}/{month}/{year} · {hora}"
+
+
+def fetch_standings(competition_id, group, phase):
+    page = fetch(f"seccion=competicion&id={competition_id}&vista=clasificacion&grupo={group}&fase={phase}")
+    body = re.search(r"<tbody>(.*?)</tbody>", page, re.S)
+    rows = []
+    if not body:
+        return rows
+    for row in re.findall(r"<tr>(.*?)</tr>", body.group(1), re.S):
+        cells = [clean(c) for c in re.findall(r"<td[^>]*>(.*?)</td>", row, re.S)]
+        if len(cells) < 12:
+            continue
+        rows.append({
+            "pos": cells[0],
+            "equipo": team_name(cells[1]),
+            "pts": cells[2],
+            "pj": cells[3],
+            "pg": cells[4],
+            "pp": cells[5],
+            "sf": cells[10],
+            "sc": cells[11],
+            "club": fold(CLUB) in fold(cells[1]),
+        })
+    return rows
+
+
+def public(match):
+    return {key: value for key, value in match.items() if not key.startswith("_")}
+
+
+def build_teams(matches):
+    groups = {}
+    for match in matches:
+        groups.setdefault(match["_equipo"], []).append(match)
+
+    teams = []
+    for items in groups.values():
+        first = items[0]
+        competition = first["competicion"].split(" · ")[0]
+        ids = dict(re.findall(r"(id|grupo|fase)=(\d+)", first["fav"]))
+        try:
+            standings = fetch_standings(ids["id"], ids["grupo"], ids["fase"])
+        except Exception:
+            standings = []
+
+        pending = sorted([m for m in items if m["estado"] in ("next", "live")], key=lambda m: m["_jornada"])
+        finals = sorted([m for m in items if m["estado"] == "final"],
+                        key=lambda m: sort_key_date(m["fecha"]) or datetime.min, reverse=True)
+
+        teams.append({
+            "categoria": first["categoria"],
+            "genero": "Femenino" if "FEMENINO" in fold(competition) else "Masculino",
+            "competicion": competition,
+            "clasificacion": standings,
+            "proximo": public(pending[0]) if pending else None,
+            "resultados": [
+                {"evento": m["evento"], "fecha": m["fecha"], "marcador": m["marcador"]}
+                for m in finals[:5]
+            ],
+        })
+
+    teams.sort(key=lambda t: (-category_rank(t["categoria"]), t["genero"] != "Masculino"))
+    return teams
+
+
+def category_rank(name):
+    order = ["Sénior", "Juvenil", "Cadete", "Infantil", "Alevín", "Benjamín", "Escuela"]
+    return len(order) - order.index(name) if name in order else 0
+
+
+def write_block(source, block_id, payload):
+    body = json.dumps(payload, ensure_ascii=False, indent=2)
+    pattern = re.compile(rf'(<script type="application/json" id="{block_id}">)(.*?)(</script>)', re.S)
+    found = pattern.search(source)
+    if found:
+        return source[:found.start()] + found.group(1) + "\n" + body + "\n  " + found.group(3) + source[found.end():]
+    anchor = re.search(r'<script type="application/json" id="live-data">.*?</script>', source, re.S)
+    snippet = f'\n\n  <script type="application/json" id="{block_id}">\n{body}\n  </script>'
+    return source[:anchor.end()] + snippet + source[anchor.end():]
 
 
 def main():
@@ -242,31 +325,34 @@ def main():
     with ThreadPoolExecutor(16) as pool:
         matches = [m for result in pool.map(collect, groups) for m in result]
 
-    events = select(matches)
-    for match in events:
-        enrich(match)
-        for key in ("_id", "_equipo", "_jornada"):
-            match.pop(key, None)
-    if not events:
+    selected = select(matches)
+    if not selected:
         print("No se han encontrado partidos del club. No se ha cambiado nada.")
         return 0
+    for match in selected:
+        enrich(match)
+
+    teams = build_teams(matches)
+    events = [public(match) for match in selected]
 
     source = INDEX.read_text(encoding="utf-8")
-    pattern = re.compile(r'(<script type="application/json" id="live-data">)(.*?)(</script>)', re.S)
-    found = pattern.search(source)
-    if not found:
+    live_found = re.search(r'<script type="application/json" id="live-data">(.*?)</script>', source, re.S)
+    if not live_found:
         print("No encuentro el bloque live-data en index.html.")
         return 1
 
-    data = json.loads(found.group(2))
-    data["eventos"] = events
-    block = found.group(1) + "\n" + json.dumps(data, ensure_ascii=False, indent=2) + "\n  " + found.group(3)
-    updated = source[:found.start()] + block + source[found.end():]
+    live = json.loads(live_found.group(1))
+    live["eventos"] = events
+    updated = write_block(source, "live-data", live)
+    updated = write_block(updated, "equipos-data", {
+        "actualizado": datetime.now().strftime("%d/%m/%Y %H:%M"),
+        "equipos": teams,
+    })
 
     if updated != source:
         INDEX.write_text(updated, encoding="utf-8")
         subprocess.run([sys.executable, str(ROOT / "tools" / "build-preview.py")], check=True)
-        print(f"Actualizado: {len(events)} partidos del club.")
+        print(f"Actualizado: {len(events)} partidos del club y {len(teams)} equipos.")
     else:
         print("Sin cambios.")
     return 0
