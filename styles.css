@@ -707,35 +707,7 @@ button { font: inherit; color: inherit; }
 .live-ticker-toggle[aria-pressed="true"] .icon-pause { display: none; }
 .live-ticker-toggle[aria-pressed="true"] .icon-play { display: block; }
 
-/* Banda de temporada */
 
-.season-band {
-  background: var(--yellow);
-  color: var(--blue-deep);
-}
-.season-band-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 22px;
-  padding-block: 20px;
-}
-.season-band p { display: grid; gap: 2px; }
-.season-band strong {
-  font-family: var(--display);
-  font-size: 25px;
-  font-weight: 700;
-  letter-spacing: .03em;
-  line-height: 1;
-  text-transform: uppercase;
-}
-.season-band span {
-  font-size: 12.5px;
-  font-weight: 600;
-  color: #5c4700;
-  letter-spacing: .04em;
-}
-.season-band .btn { flex: none; }
 
 /* --------------------------------------------------------------------------
    Secciones
@@ -2216,8 +2188,6 @@ h2 {
   .anniversary-num { font-size: 40px; }
   .anniversary-text { font-size: 8px; }
 
-  .season-band-inner { flex-direction: column; align-items: flex-start; gap: 14px; padding-block: 18px; }
-  .season-band .btn { width: 100%; }
 
   .section { padding: 64px 0; }
   h2 { font-size: clamp(34px, 9vw, 44px); }
@@ -2324,7 +2294,7 @@ h2 {
 }
 
 @media print {
-  .topbar, .site-header, .to-top, .season-band, .hero-actions, .contact-card, .live-ticker, .live-player { display: none !important; }
+  .topbar, .site-header, .to-top, .hero-actions, .contact-card, .live-ticker, .live-player { display: none !important; }
   body { background: #fff; color: #000; }
   .hero { background: #fff; color: #000; padding: 0; }
   .hero h1 em { color: #000; }
