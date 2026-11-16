@@ -517,6 +517,40 @@ button { font: inherit; color: inherit; }
 }
 .hero-live-arrow { font-size: 12px; color: var(--yellow); flex: none; }
 
+.hero-social {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-top: 20px;
+}
+.hero-social-label {
+  margin-right: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #9fb0cc;
+}
+.hero-social a {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .06);
+  color: #e7eefb;
+  transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+}
+.hero-social a:hover {
+  border-color: var(--yellow);
+  background: var(--yellow);
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+.hero-social svg { width: 17px; height: 17px; }
+
 .anniversary {
   position: absolute;
   top: 5%;
@@ -1590,6 +1624,18 @@ h2 {
   line-height: 1.65;
   color: #8ea2c1;
 }
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-top: 16px;
+}
+.footer-social a {
+  font-size: 12.5px;
+  color: #aab9d2;
+  transition: color .18s ease;
+}
+.footer-social a:hover { color: #fff; }
 .footer-col h2 {
   margin-bottom: 14px;
   font-family: var(--body);

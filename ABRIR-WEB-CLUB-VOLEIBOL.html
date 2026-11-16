@@ -556,6 +556,40 @@ button { font: inherit; color: inherit; }
 }
 .hero-live-arrow { font-size: 12px; color: var(--yellow); flex: none; }
 
+.hero-social {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+  margin-top: 20px;
+}
+.hero-social-label {
+  margin-right: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #9fb0cc;
+}
+.hero-social a {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .06);
+  color: #e7eefb;
+  transition: background .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+}
+.hero-social a:hover {
+  border-color: var(--yellow);
+  background: var(--yellow);
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+.hero-social svg { width: 17px; height: 17px; }
+
 .anniversary {
   position: absolute;
   top: 5%;
@@ -1629,6 +1663,18 @@ h2 {
   line-height: 1.65;
   color: #8ea2c1;
 }
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-top: 16px;
+}
+.footer-social a {
+  font-size: 12.5px;
+  color: #aab9d2;
+  transition: color .18s ease;
+}
+.footer-social a:hover { color: #fff; }
 .footer-col h2 {
   margin-bottom: 14px;
   font-family: var(--body);
@@ -3270,6 +3316,22 @@ h2 {
           </span>
           <span class="hero-live-arrow" aria-hidden="true">↗</span>
         </a>
+
+        <div class="hero-social">
+          <span class="hero-social-label">Síguenos</span>
+          <a href="https://www.instagram.com/cvmf_brenes/" target="_blank" rel="noopener" aria-label="Instagram del club">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></svg>
+          </a>
+          <a href="https://www.facebook.com/CVManueldeFallaBrenes" target="_blank" rel="noopener" aria-label="Facebook del club">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 8.5h2.5V5.2h-2.8C10.9 5.2 9.5 7 9.5 9.6v2.2H7v3.3h2.5V21h3.4v-5.9h2.6l.5-3.3h-3.1V9.7c0-.8.4-1.2 1.1-1.2Z" fill="currentColor"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@cvmf_brenes" target="_blank" rel="noopener" aria-label="YouTube del club">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m10 9 5 3-5 3V9Z" fill="currentColor"/></svg>
+          </a>
+          <a href="https://www.twitch.tv/cvmf_brenes" target="_blank" rel="noopener" aria-label="Twitch del club">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 4.5h15v9.2l-4 4h-3.2l-2.6 2.6v-2.6H4.5V4.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 8v4.5M16 8v4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </a>
+        </div>
 
         <ul class="hero-facts">
           <li><strong>1976</strong><span>Fundación</span></li>
@@ -5777,6 +5839,12 @@ h2 {
           </span>
         </a>
         <p>Escuela deportiva, cantera y equipos sénior. Viviendo el voleibol en Brenes desde 1976.</p>
+        <nav class="footer-social" aria-label="Redes sociales del club">
+          <a href="https://www.instagram.com/cvmf_brenes/" target="_blank" rel="noopener">Instagram ↗</a>
+          <a href="https://www.facebook.com/CVManueldeFallaBrenes" target="_blank" rel="noopener">Facebook ↗</a>
+          <a href="https://www.youtube.com/@cvmf_brenes" target="_blank" rel="noopener">YouTube ↗</a>
+          <a href="https://www.twitch.tv/cvmf_brenes" target="_blank" rel="noopener">Twitch ↗</a>
+        </nav>
       </div>
 
       <nav class="footer-col" aria-label="Navegación del pie">
