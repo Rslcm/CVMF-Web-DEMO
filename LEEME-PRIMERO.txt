@@ -1,0 +1,32 @@
+CLUB VOLEIBOL MANUEL DE FALLA — CÓMO VER LA WEB
+================================================
+
+1. Haz doble clic en:
+
+   ABRIR-WEB-CLUB-VOLEIBOL.html
+
+   Se abrirá en tu navegador con el diseño completo.
+
+   Los horarios y las cuotas ya no son carteles: se ven como tabla y
+   tarjetas, también en el móvil. Todo usa la paleta azul, amarilla y
+   blanca del escudo.
+
+   La portada abre con el escudo como protagonista y la temporada
+   2026/2027 en una franja compacta. Justo encima de esa franja hay
+   una tira en movimiento con los resultados y el directo; en
+   «Directo» tienes el botón de YouTube con el nombre del partido,
+   el reproductor de prueba y los resultados oficiales de la FAV.
+
+   Los datos de la tira se cambian en el bloque #live-data de
+   index.html (lo explica README.md). Ahora muestra los próximos
+   partidos del club (fecha por confirmar en la FAV) y sus últimos
+   resultados. Cuando haya un directo, va primero.
+
+2. No abras el archivo "index.html" que está en la carpeta
+   "Proyecto predeterminado": ese es el panel PlexDesk, otro proyecto.
+
+3. Para publicarla, lee README.md. La opción más rápida es
+   arrastrar esta carpeta a https://app.netlify.com/drop
+
+Esta carpeta es independiente: no modifica ni mezcla nada del
+panel PlexDesk ni de MardelShop.

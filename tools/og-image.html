@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>OG image — Club Voleibol Manuel de Falla</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    font-family: Inter, system-ui, sans-serif;
+    background:
+      radial-gradient(circle at 18% 42%, rgba(47, 111, 228, .45), transparent 46%),
+      radial-gradient(circle at 92% 88%, rgba(245, 196, 0, .22), transparent 40%),
+      linear-gradient(150deg, #123c8c 0%, #0a2a66 46%, #061a3d 100%);
+    color: #fff;
+  }
+  .court {
+    position: absolute;
+    right: -150px;
+    top: -60px;
+    width: 760px;
+    height: 760px;
+    color: #fff;
+    opacity: .07;
+  }
+  .frame {
+    position: absolute;
+    inset: 26px;
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: 22px;
+  }
+  .stage {
+    position: relative;
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    align-items: center;
+    gap: 34px;
+    height: 100%;
+    padding: 0 78px 0 66px;
+  }
+  .crest-wrap {
+    position: relative;
+    display: grid;
+    place-items: center;
+  }
+  .crest-wrap::before {
+    content: "";
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245, 196, 0, .26), transparent 66%);
+  }
+  .crest { position: relative; height: 344px; width: auto; filter: drop-shadow(0 26px 44px rgba(0, 0, 0, .45)); }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: #f5c400;
+  }
+  .eyebrow::before { content: ""; width: 34px; height: 2px; background: #f5c400; }
+  h1 {
+    margin: 18px 0 0;
+    font-family: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+    font-size: 84px;
+    line-height: .92;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .005em;
+  }
+  h1 em { font-style: normal; color: #f5c400; }
+  .name {
+    margin: 22px 0 0;
+    font-family: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #dfe8fb;
+  }
+  .tags { display: flex; gap: 10px; margin-top: 26px; }
+  .tags span {
+    padding: 8px 15px;
+    border: 1px solid rgba(255, 255, 255, .3);
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: #eaf0fd;
+  }
+  .tags span.gold { background: #f5c400; border-color: #f5c400; color: #061a3d; }
+</style>
+</head>
+<body>
+<svg class="court" viewBox="0 0 900 900" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+  <rect x="90" y="90" width="720" height="720"/>
+  <path d="M450 90v720M240 90v720M660 90v720M90 450h720"/>
+  <circle cx="450" cy="450" r="110"/>
+</svg>
+<div class="frame"></div>
+
+<div class="stage">
+  <div class="crest-wrap">
+    <svg class="crest" viewBox="0 0 200 232" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="cg" x1="0" y1="0" x2=".22" y2="1">
+          <stop offset="0" stop-color="#f7d98f"/>
+          <stop offset=".38" stop-color="#e3b154"/>
+          <stop offset=".72" stop-color="#cf9a38"/>
+          <stop offset="1" stop-color="#b9812a"/>
+        </linearGradient>
+        <linearGradient id="cb" x1="0" y1="0" x2=".18" y2="1">
+          <stop offset="0" stop-color="#2a44ff"/>
+          <stop offset=".55" stop-color="#001ff3"/>
+          <stop offset="1" stop-color="#0013bd"/>
+        </linearGradient>
+        <linearGradient id="cr" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#1030ff"/>
+          <stop offset="1" stop-color="#0016cc"/>
+        </linearGradient>
+        <path id="sh" d="M 177.00 2.00 C 177.67 2.67 179.50 4.00 181.00 6.00 C 182.50 8.00 184.33 11.33 186.00 14.00 C 187.67 16.67 189.33 19.33 191.00 22.00 C 192.67 24.67 194.57 27.67 196.00 30.00 C 197.43 32.33 198.93 34.33 199.60 36.00 C 200.27 37.67 200.02 38.00 200.00 40.00 C 199.98 42.00 199.67 45.00 199.50 48.00 C 199.33 51.00 199.18 54.67 199.00 58.00 C 198.82 61.33 198.63 64.33 198.40 68.00 C 198.17 71.67 197.93 76.00 197.60 80.00 C 197.27 84.00 196.88 88.00 196.40 92.00 C 195.92 96.00 195.40 100.00 194.70 104.00 C 194.00 108.00 193.15 112.00 192.20 116.00 C 191.25 120.00 190.27 124.00 189.00 128.00 C 187.73 132.00 186.33 136.00 184.60 140.00 C 182.87 144.00 180.87 148.00 178.60 152.00 C 176.33 156.00 173.88 160.00 171.00 164.00 C 168.12 168.00 164.87 172.00 161.30 176.00 C 157.73 180.00 153.77 184.00 149.60 188.00 C 145.43 192.00 141.07 196.00 136.30 200.00 C 131.53 204.00 125.72 208.33 121.00 212.00 C 116.28 215.67 111.50 218.92 108.00 222.00 C 104.50 225.08 102.67 230.50 100.00 230.50 C 97.33 230.50 95.50 225.08 92.00 222.00 C 88.50 218.92 83.72 215.67 79.00 212.00 C 74.28 208.33 68.47 204.00 63.70 200.00 C 58.93 196.00 54.57 192.00 50.40 188.00 C 46.23 184.00 42.27 180.00 38.70 176.00 C 35.13 172.00 31.88 168.00 29.00 164.00 C 26.12 160.00 23.67 156.00 21.40 152.00 C 19.13 148.00 17.13 144.00 15.40 140.00 C 13.67 136.00 12.27 132.00 11.00 128.00 C 9.73 124.00 8.75 120.00 7.80 116.00 C 6.85 112.00 6.00 108.00 5.30 104.00 C 4.60 100.00 4.08 96.00 3.60 92.00 C 3.12 88.00 2.73 84.00 2.40 80.00 C 2.07 76.00 1.83 71.67 1.60 68.00 C 1.37 64.33 1.18 61.33 1.00 58.00 C 0.82 54.67 0.67 51.00 0.50 48.00 C 0.33 45.00 0.02 42.00 0.00 40.00 C -0.02 38.00 -0.27 37.67 0.40 36.00 C 1.07 34.33 2.57 32.33 4.00 30.00 C 5.43 27.67 7.33 24.67 9.00 22.00 C 10.67 19.33 12.33 16.67 14.00 14.00 C 15.67 11.33 17.50 8.00 19.00 6.00 C 20.50 4.00 22.33 2.67 23.00 2.00 Z"/>
+        <clipPath id="field"><use href="#sh" transform="translate(100 116) scale(.931) translate(-100 -116)"/></clipPath>
+        <clipPath id="armClip"><path d="M 14.5 89 C 14.75 90.67 15.38 95.67 16.00 99.00 C 16.62 102.33 17.40 105.67 18.20 109.00 C 19.00 112.33 19.73 115.67 20.80 119.00 C 21.87 122.33 23.27 125.67 24.60 129.00 C 25.93 132.33 27.33 135.67 28.80 139.00 C 30.27 142.33 31.77 145.67 33.40 149.00 C 35.03 152.33 36.90 156.17 38.60 159.00 C 40.30 161.83 42.77 164.83 43.60 166.00 L 80 166 C 80.67 164.50 82.87 159.83 84.00 157.00 C 85.13 154.17 86.20 151.00 86.80 149.00 C 87.40 147.00 87.47 145.67 87.60 145.00 Z"/></clipPath>
+        <clipPath id="ballClip"><circle cx="53.6" cy="44.5" r="26.6"/></clipPath>
+      </defs>
+
+      <use href="#sh" fill="#0d0000"/>
+      <use href="#sh" fill="url(#cg)" transform="translate(100 116) scale(.993) translate(-100 -116)"/>
+      <use href="#sh" fill="#0d0000" transform="translate(100 116) scale(.938) translate(-100 -116)"/>
+      <use href="#sh" fill="#fbfbf9" transform="translate(100 116) scale(.931) translate(-100 -116)"/>
+
+      <g clip-path="url(#field)">
+        <g stroke="#0d0000" stroke-width="4.4" stroke-linecap="butt">
+          <path d="M 15 80.6 L 90 80.6"/><path d="M 185 80.6 L 110 80.6"/>
+        </g>
+        <g stroke="url(#cg)" stroke-width="3" stroke-linecap="butt">
+          <path d="M 15 80.6 L 90 80.6"/><path d="M 185 80.6 L 110 80.6"/>
+        </g>
+
+        <g stroke="#0d0000" stroke-width="10" stroke-linejoin="round" fill="none">
+          <path d="M 32.4 15 Q 22.9 15 22.9 29 L 22.9 78 L 84 78 L 84 71 Q 84 69.6 84.7 67.4 L 92.6 47.4 Q 93.3 45.6 93.3 44 L 93.3 15 Z"/><path d="M 167.6 15 Q 177.1 15 177.1 29 L 177.1 78 L 116 78 L 116 71 Q 116 69.6 115.3 67.4 L 107.4 47.4 Q 106.7 45.6 106.7 44 L 106.7 15 Z"/>
+        </g>
+        <g stroke="url(#cg)" stroke-width="8" stroke-linejoin="round" fill="none">
+          <path d="M 32.4 15 Q 22.9 15 22.9 29 L 22.9 78 L 84 78 L 84 71 Q 84 69.6 84.7 67.4 L 92.6 47.4 Q 93.3 45.6 93.3 44 L 93.3 15 Z"/><path d="M 167.6 15 Q 177.1 15 177.1 29 L 177.1 78 L 116 78 L 116 71 Q 116 69.6 115.3 67.4 L 107.4 47.4 Q 106.7 45.6 106.7 44 L 106.7 15 Z"/>
+        </g>
+        <path d="M 32.4 15 Q 22.9 15 22.9 29 L 22.9 78 L 84 78 L 84 71 Q 84 69.6 84.7 67.4 L 92.6 47.4 Q 93.3 45.6 93.3 44 L 93.3 15 Z" fill="url(#cb)"/>
+        <path d="M 167.6 15 Q 177.1 15 177.1 29 L 177.1 78 L 116 78 L 116 71 Q 116 69.6 115.3 67.4 L 107.4 47.4 Q 106.7 45.6 106.7 44 L 106.7 15 Z" fill="url(#cb)"/>
+
+        <g>
+          <circle cx="53.6" cy="44.5" r="26.6" fill="#fff" stroke="#0d0000" stroke-width="1.8"/>
+          <g clip-path="url(#ballClip)" fill="none" stroke="#0d0000" stroke-width="2.1" stroke-linecap="round">
+            <path d="M 41.4 20.2 C 34.2 27.4 30.9 35.4 30.9 44 C 30.9 52.6 34.2 60.6 41.4 67.8"/>
+            <path d="M 65.8 20.2 C 73 27.4 76.3 35.4 76.3 44 C 76.3 52.6 73 60.6 65.8 67.8"/>
+            <path d="M 29.4 36 C 38.6 41.4 47 44 53.6 44 C 60.2 44 68.6 41.4 77.8 36"/>
+            <path d="M 40.4 66.6 C 44 59.4 46.4 51.6 46.4 44 C 46.4 36.4 44 28.6 40.4 21.4"/>
+          </g>
+        </g>
+
+        <g font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900"
+           font-size="30.5" letter-spacing=".2" text-anchor="middle" fill="#fff"
+           stroke="#0d0000" stroke-width="2.2" paint-order="stroke" stroke-linejoin="round">
+          <text x="144.2" y="44.4">CV</text>
+          <text x="144.2" y="73.4">MF</text>
+        </g>
+
+        <path id="armL" d="M 14.5 89 C 14.75 90.67 15.38 95.67 16.00 99.00 C 16.62 102.33 17.40 105.67 18.20 109.00 C 19.00 112.33 19.73 115.67 20.80 119.00 C 21.87 122.33 23.27 125.67 24.60 129.00 C 25.93 132.33 27.33 135.67 28.80 139.00 C 30.27 142.33 31.77 145.67 33.40 149.00 C 35.03 152.33 36.90 156.17 38.60 159.00 C 40.30 161.83 42.77 164.83 43.60 166.00 L 80 166 C 80.67 164.50 82.87 159.83 84.00 157.00 C 85.13 154.17 86.20 151.00 86.80 149.00 C 87.40 147.00 87.47 145.67 87.60 145.00 Z" fill="url(#cb)" stroke="#0d0000" stroke-width="2.2" stroke-linejoin="round"/>
+        <use href="#armL" transform="translate(200 0) scale(-1 1)"/>
+        <g clip-path="url(#armClip)" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round">
+            <path d="M -22.8 86 L 68.8 170"/>
+            <path d="M -4.8 86 L 86.8 170"/>
+            <path d="M 13.2 86 L 104.8 170"/>
+            <path d="M 31.2 86 L 122.8 170"/>
+        </g>
+        <g clip-path="url(#armClip)" transform="translate(200 0) scale(-1 1)" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round">
+            <path d="M -22.8 86 L 68.8 170"/>
+            <path d="M -4.8 86 L 86.8 170"/>
+            <path d="M 13.2 86 L 104.8 170"/>
+            <path d="M 31.2 86 L 122.8 170"/>
+        </g>
+
+        <path d="M 40 166 L 100 187 L 160 166 L 160 192 Q 160 195.5 156.6 196.6 L 103 207.4 Q 100 208.4 97 207.4 L 43.4 196.6 Q 40 195.5 40 192 Z" fill="url(#cr)" stroke="#0d0000" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M 40 166 L 100 187 L 160 166" fill="none" stroke="#0d0000" stroke-width="7" stroke-linecap="butt" stroke-linejoin="miter"/>
+        <path d="M 40 166 L 100 187 L 160 166" fill="none" stroke="url(#cg)" stroke-width="3.6" stroke-linecap="butt" stroke-linejoin="miter"/>
+        <text x="100" y="201.4" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif"
+              font-weight="900" font-size="15.4" letter-spacing=".5" fill="#fff">BRENES</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="copy">
+    <p class="eyebrow">Brenes · Sevilla · Desde 1976</p>
+    <h1>50 años<br>viviendo<br><em>el vóley</em></h1>
+    <p class="name">Club Voleibol Manuel de Falla</p>
+    <div class="tags">
+      <span class="gold">Temporada 2026/27</span>
+      <span>Escuela</span>
+      <span>Cantera</span>
+      <span>Sénior</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>
