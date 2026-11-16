@@ -402,6 +402,14 @@
     applyFeatured(items[0].event, items[0].state);
   }
 
+  function setLiveData(data) {
+    if (!data || !Array.isArray(data.eventos)) return;
+    liveEvents = data.eventos.filter(function (item) { return item && typeof item === 'object'; });
+    liveChannel = /^https:\/\//i.test(data.canal || '') ? data.canal : LIVE_CHANNEL;
+    renderedSignature = '';
+    if (liveEvents.length) refreshLive();
+  }
+
   if (liveEvents.length) {
     refreshLive();
     window.setInterval(refreshLive, 30000);
@@ -536,8 +544,9 @@
     content.appendChild(list);
   }
 
-  function renderTeams() {
-    var data = readBlock('equipos-data');
+  var teamsState = { category: null, variant: null, section: 'proximo' };
+
+  function renderTeamsData(data) {
     var app = document.getElementById('equipos-app');
     var empty = document.getElementById('equipos-empty');
     var teams = data && Array.isArray(data.equipos) ? data.equipos : [];
@@ -558,16 +567,18 @@
     teams.forEach(function (team) {
       if (categories.indexOf(team.categoria) === -1) categories.push(team.categoria);
     });
-
-    var state = { category: categories[0], variant: null, section: 'proximo' };
+    if (categories.indexOf(teamsState.category) === -1) {
+      teamsState.category = categories[0];
+      teamsState.variant = null;
+    }
 
     function teamsInCategory() {
-      return teams.filter(function (team) { return team.categoria === state.category; });
+      return teams.filter(function (team) { return team.categoria === teamsState.category; });
     }
 
     function currentTeam() {
       var inCategory = teamsInCategory();
-      var match = inCategory.filter(function (team) { return team.variante === state.variant; })[0];
+      var match = inCategory.filter(function (team) { return team.variante === teamsState.variant; })[0];
       return match || inCategory[0];
     }
 
@@ -582,9 +593,9 @@
       content.textContent = '';
 
       categories.forEach(function (category) {
-        cats.appendChild(makeButton(category, category === state.category, function () {
-          state.category = category;
-          state.variant = null;
+        cats.appendChild(makeButton(category, category === teamsState.category, function () {
+          teamsState.category = category;
+          teamsState.variant = null;
           render();
         }));
       });
@@ -594,7 +605,7 @@
       if (inCategory.length > 1) {
         inCategory.forEach(function (option) {
           gender.appendChild(makeButton(option.variante, option === team, function () {
-            state.variant = option.variante;
+            teamsState.variant = option.variante;
             render();
           }));
         });
@@ -603,25 +614,80 @@
       }
 
       TEAM_SECTIONS.forEach(function (section) {
-        sub.appendChild(makeButton(section[1], section[0] === state.section, function () {
-          state.section = section[0];
+        sub.appendChild(makeButton(section[1], section[0] === teamsState.section, function () {
+          teamsState.section = section[0];
           render();
         }));
       });
 
       if (team.nombre) content.appendChild(makeEl('p', 'equipos-kicker', team.nombre + (team.competicion ? ' · ' + team.competicion : '')));
-      if (state.section === 'jugadores') renderPlayers(content);
+      if (teamsState.section === 'jugadores') renderPlayers(content);
       else if (team.sinCompeticion) content.appendChild(makeEl('p', 'equipos-note', team.sinCompeticion));
-      else if (state.section === 'clasificacion') renderStandings(content, team);
-      else if (state.section === 'proximo') renderNextMatch(content, team);
-      else if (state.section === 'resultados') renderResults(content, team);
+      else if (teamsState.section === 'clasificacion') renderStandings(content, team);
+      else if (teamsState.section === 'proximo') renderNextMatch(content, team);
+      else if (teamsState.section === 'resultados') renderResults(content, team);
     }
 
     render();
     app.hidden = false;
   }
 
+  function renderTeams() {
+    renderTeamsData(readBlock('equipos-data'));
+  }
+
   renderTeams();
+
+  /* Datos frescos desde datos.json ------------------------------------------ */
+  var dataSync = { version: '', busy: false, timer: 0 };
+
+  function applyPayload(payload) {
+    if (!payload || typeof payload !== 'object') return false;
+    var version = liveText(payload.version);
+    if (!version || version === dataSync.version) return false;
+    dataSync.version = version;
+    if (payload.live) setLiveData(payload.live);
+    if (payload.equipos) renderTeamsData(payload.equipos);
+    return true;
+  }
+
+  function dataCheckDelay() {
+    var now = Date.now();
+    var live = liveEvents.some(function (event) { return effectiveState(event, now) === 'live'; });
+    return live ? 60000 : 300000;
+  }
+
+  function scheduleDataCheck(delay) {
+    window.clearTimeout(dataSync.timer);
+    dataSync.timer = window.setTimeout(checkData, delay);
+  }
+
+  function checkData() {
+    window.clearTimeout(dataSync.timer);
+    if (document.hidden) {
+      scheduleDataCheck(60000);
+      return;
+    }
+    dataSync.busy = true;
+    window.fetch('datos.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (response) { return response.ok ? response.json() : null; })
+      .then(applyPayload)
+      .catch(function () { return false; })
+      .then(function () {
+        dataSync.busy = false;
+        scheduleDataCheck(dataCheckDelay());
+      });
+  }
+
+  window.__cvmfCheckData = checkData;
+  window.__cvmfApply = applyPayload;
+
+  if (window.fetch && location.protocol !== 'file:') {
+    checkData();
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) checkData();
+    });
+  }
 
   /* Aparición suave de bloques ---------------------------------------------- */
   var revealItems = document.querySelectorAll('.reveal');

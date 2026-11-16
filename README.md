@@ -96,13 +96,15 @@ Paleta de la web (azul, amarillo y blanco, en armonía con el escudo):
 
 Para ejecutarlo a mano: `python3 tools/actualizar-partidos.py`.
 
-Para que se ejecute sola, `.github/workflows/actualizar-partidos.yml` hace lo siguiente en GitHub (cada 10 minutos):
+Para que se ejecute sola, `.github/workflows/actualizar-partidos.yml` hace lo siguiente en GitHub (cada 5 minutos):
 
 1. Sube la carpeta a un repositorio de GitHub (una sola vez).
 2. Activa **Settings → Pages** desde la rama principal, carpeta raíz.
 3. Activa **Settings → Actions → General → Workflow permissions → Read and write permissions**.
 
-Desde ese momento, la web se actualiza sola cada 10 minutos. El cambio a «Directo» al empezar un partido también es automático.
+Desde ese momento, la web se actualiza sola cada 5 minutos. El cambio a «Directo» al empezar un partido también es automático.
+
+Además, la página no necesita recargarse: pide `datos.json` cada minuto si hay un partido en juego y cada 5 minutos si no, y repinta la tira, la portada y la sección de equipos cuando cambia la versión de los datos. En local (archivo abierto con doble clic) no hace ninguna petición: usa los datos incrustados en el HTML.
 
 Cada ejecución también escribe el bloque `#equipos-data`, que alimenta la sección **Nuestros equipos**:
 
@@ -112,6 +114,10 @@ Cada ejecución también escribe el bloque `#equipos-data`, que alimenta la secc
 - **Equipos sin competición en la FAV:** la escuela deportiva y los grupos que solo aparecen en el horario se muestran con un aviso, sin clasificación ni resultados.
 - **Detección de equipos:** el script reconoce al club por «Manuel de Falla» o «CVMF» en el nombre del equipo (la FAV añade patrocinadores: *Grimaret CVMF Brenes*, *MGS Seguros CVMF Brenes*, *CVMF Brenes Azul*…), y toma la categoría y el sexo de la ficha de la competición, no del título.
 - **Color del equipo:** se toma de las palabras *Azul*, *Blanco*, *Oro*, *Plata*, *Negro*, *Rojo*, *Verde* o *Amarillo* del nombre. Si la FAV inscribe al equipo solo con el patrocinador, se usa la tabla `ALIASES` de `tools/actualizar-partidos.py` (por ejemplo, *Renault Hinojosa Márquez CVMF* es el Alevín femenino oro).
+
+**App Android:** al final de la página hay un botón «Descargar para Android» desactivado con la etiqueta «Próximamente». Cuando esté la app, se sustituye por el enlace de descarga del APK.
+
+**Metadatos y buscadores:** `canonical`, `og:url` y las imágenes sociales apuntan a la dirección publicada. `robots.txt` y `sitemap.xml` están en la raíz. Al pasar a un dominio propio hay que cambiar esas cuatro URL.
 
 **Etiqueta de prueba:** la barra superior muestra «Web en pruebas · no oficial» (en móvil, «En pruebas»). Cuando la web sea definitiva, borra el `<p class="beta-badge">` de `index.html`.
 

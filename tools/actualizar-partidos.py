@@ -14,6 +14,7 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from pathlib import Path
 import html
+import hashlib
 import json
 import re
 import subprocess
@@ -24,6 +25,7 @@ import urllib.request
 
 ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / "index.html"
+DATOS = ROOT / "datos.json"
 FAV = "https://www.favoley.net/publico/seccion.php?"
 CLUB_NAMES = ["MANUEL DE FALLA", "CVMF"]
 CATEGORIES = ["Sénior", "Juvenil", "Cadete", "Infantil", "Alevín", "Benjamín", "Escuela"]
@@ -459,19 +461,38 @@ def main():
 
     live = json.loads(live_found.group(1))
     live["eventos"] = events
-    updated = write_block(source, "live-data", live)
 
-    teams_found = re.search(r'<script type="application/json" id="equipos-data">(.*?)</script>', source, re.S)
-    previous = json.loads(teams_found.group(1)) if teams_found else {}
-    stamp = previous.get("actualizado")
-    if not stamp or previous.get("equipos") != teams:
+    version = hashlib.sha1(
+        json.dumps({"live": live, "equipos": teams}, sort_keys=True, ensure_ascii=False).encode("utf-8")
+    ).hexdigest()[:12]
+    previous = {}
+    if DATOS.exists():
+        try:
+            previous = json.loads(DATOS.read_text(encoding="utf-8"))
+        except Exception:
+            previous = {}
+    if previous.get("version") == version and previous.get("actualizado"):
+        stamp = previous["actualizado"]
+    else:
         stamp = datetime.now().strftime("%d/%m/%Y %H:%M")
-    updated = write_block(updated, "equipos-data", {"actualizado": stamp, "equipos": teams})
 
+    teams_payload = {"actualizado": stamp, "equipos": teams}
+    updated = write_block(source, "live-data", live)
+    updated = write_block(updated, "equipos-data", teams_payload)
+    datos = {"version": version, "actualizado": stamp, "live": live, "equipos": teams_payload}
+    datos_body = json.dumps(datos, ensure_ascii=False, indent=2) + "\n"
+
+    changed = False
     if updated != source:
         INDEX.write_text(updated, encoding="utf-8")
+        changed = True
+    if not DATOS.exists() or DATOS.read_text(encoding="utf-8") != datos_body:
+        DATOS.write_text(datos_body, encoding="utf-8")
+        changed = True
+
+    if changed:
         subprocess.run([sys.executable, str(ROOT / "tools" / "build-preview.py")], check=True)
-        print(f"Actualizado: {len(events)} partidos del club y {len(teams)} equipos.")
+        print(f"Actualizado: {len(events)} partidos del club, {len(teams)} equipos y datos.json.")
     else:
         print("Sin cambios.")
     return 0

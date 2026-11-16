@@ -2689,3 +2689,42 @@ h2 {
 }
 .equipos-next-item h3 { font-size: 21px; line-height: 1.25; }
 .equipos-next-item .equipos-meta { margin-top: 6px; }
+
+/* Banda de descarga de la app */
+.app-band { padding-block: 56px; }
+.app-band-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+  padding: 30px 32px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #fff;
+}
+.app-band-copy h2 { margin-bottom: 8px; font-size: clamp(24px, 3vw, 34px); }
+.app-band-copy p { max-width: 58ch; color: var(--muted); }
+.app-download {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  flex: none;
+  padding: 14px 24px;
+  border: 1px dashed #b9c6dc;
+  border-radius: 12px;
+  background: #f4f7fc;
+  font: inherit;
+  font-weight: 700;
+  color: #6b7c96;
+  text-align: left;
+  cursor: not-allowed;
+}
+.app-download-note {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
