@@ -457,12 +457,22 @@
     return button;
   }
 
+  var PLAYER_SILHOUETTE =
+    '<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">' +
+      '<circle cx="32" cy="23" r="11.5"/>' +
+      '<path d="M32 37c-11.6 0-21 8.4-21 18.8V64h42v-8.2C53 45.4 43.6 37 32 37Z"/>' +
+    '</svg>';
+
   function renderPlayers(content) {
-    content.appendChild(makeEl('p', 'equipos-note', 'Nombres y fotos próximamente.'));
+    content.appendChild(makeEl('p', 'equipos-note', 'Fotos y nombres, próximamente.'));
     var list = makeEl('ul', 'equipos-players');
     for (var i = 0; i < 6; i += 1) {
       var card = makeEl('li', 'equipos-player');
-      card.appendChild(makeEl('span', 'equipos-photo'));
+      var photo = makeEl('span', 'equipos-photo');
+      photo.innerHTML = PLAYER_SILHOUETTE;
+      photo.setAttribute('role', 'img');
+      photo.setAttribute('aria-label', 'Foto del jugador o jugadora, pendiente');
+      card.appendChild(photo);
       card.appendChild(makeEl('span', '', 'Jugador/a por confirmar'));
       list.appendChild(card);
     }
