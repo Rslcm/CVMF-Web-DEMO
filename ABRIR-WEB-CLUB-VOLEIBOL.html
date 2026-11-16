@@ -2729,43 +2729,76 @@ h2 {
 .equipos-next-item h3 { font-size: 21px; line-height: 1.25; }
 .equipos-next-item .equipos-meta { margin-top: 6px; }
 
-/* Banda de descarga de la app */
-.app-band { padding-block: 56px; }
-.app-band-inner {
+/* Franja de descarga de la app (arriba, tras la portada) */
+.app-strip {
+  background: #eef4ff;
+  border-block: 1px solid var(--line);
+}
+.app-strip-inner {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 26px;
-  padding: 30px 32px;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background: #fff;
+  gap: 12px 24px;
+  padding-block: 13px;
 }
-.app-band-copy h2 { margin-bottom: 8px; font-size: clamp(24px, 3vw, 34px); }
-.app-band-copy p { max-width: 58ch; color: var(--muted); }
+.app-strip-copy {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.app-strip-badge {
+  flex: none;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.app-strip-copy p {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--muted);
+}
+.app-strip-copy strong { color: var(--ink); font-size: 15.5px; }
 .app-download {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 2px;
+  gap: 1px;
   flex: none;
-  padding: 14px 24px;
+  padding: 10px 18px;
   border: 1px dashed #b9c6dc;
-  border-radius: 12px;
-  background: #f4f7fc;
+  border-radius: 10px;
+  background: #fff;
   font: inherit;
+  font-size: 14.5px;
   font-weight: 700;
   color: #6b7c96;
   text-align: left;
   cursor: not-allowed;
 }
 .app-download-note {
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 800;
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--blue);
+}
+@media (max-width: 620px) {
+  .app-strip-inner { align-items: stretch; gap: 10px; padding-block: 12px; }
+  .app-strip-copy { flex-wrap: nowrap; gap: 10px; }
+  .app-strip-copy p { display: block; flex: 1 1 auto; min-width: 0; }
+  .app-strip-copy p span { display: none; }
+  .app-download { width: 100%; align-items: center; text-align: center; padding-block: 9px; }
 }
 
 </style>
@@ -2984,6 +3017,22 @@ h2 {
           <a class="hero-season-link" href="#preinscripcion">Inscripciones <span aria-hidden="true">→</span></a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="app-strip" aria-labelledby="app-title">
+    <div class="wrap app-strip-inner">
+      <div class="app-strip-copy">
+        <span class="app-strip-badge">App Android</span>
+        <p>
+          <strong id="app-title">El club, en tu móvil</strong>
+          <span>Calendario, resultados y avisos de directo. Se instalará desde esta web, sin Google Play.</span>
+        </p>
+      </div>
+      <button class="app-download" type="button" disabled aria-describedby="app-soon">
+        <span>Descargar para Android</span>
+        <span class="app-download-note" id="app-soon">Próximamente</span>
+      </button>
     </div>
   </section>
 
@@ -5424,23 +5473,6 @@ h2 {
       </div>
     </div>
   </section>
-
-  <section class="section app-band" aria-labelledby="app-title">
-    <div class="wrap">
-      <div class="app-band-inner reveal">
-        <div class="app-band-copy">
-          <p class="kicker">App Android</p>
-          <h2 id="app-title">El club, en tu móvil</h2>
-          <p>Calendario, resultados y avisos de directo con un solo toque. Estamos preparando la aplicación: se instalará desde esta misma web, sin pasar por Google Play.</p>
-        </div>
-        <button class="app-download" type="button" disabled aria-describedby="app-soon">
-          <span class="app-download-label">Descargar para Android</span>
-          <span class="app-download-note" id="app-soon">Próximamente</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
 </main>
 
 <footer class="footer">
