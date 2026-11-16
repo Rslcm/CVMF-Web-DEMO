@@ -109,7 +109,7 @@ Todo se alimenta de un único bloque de datos en `index.html` (`<script type="ap
   - **Con fecha:** por fecha (próximos de más cercano a más lejano; resultados del más reciente al más antiguo).
   - **Sin fecha («Por confirmar»):** por categoría, de mayor a menor (Sénior, Juvenil, Cadete, Infantil, Alevín, Benjamín, Escuela). Los partidos con fecha van antes que los que no la tienen.
 - **Cambio automático a directo:** no hace falta editar nada al empezar el partido. Si `estado` es `next` y `fecha` tiene formato `DD/MM/AAAA · HH:MM`, la web pasa sola a «Directo» a esa hora y lo mantiene 3 horas. Después cambia a resultado. La página se refresca cada 30 segundos. Usa la hora del dispositivo de quien visita la web, que en Brenes es la de España.
-- **Botón de YouTube:** `Próximo directo` antes del partido, `Directo` durante el partido y `Repetición` o `Resultado` después. Mientras no haya un ID de vídeo, el botón lleva al canal, donde aparece la emisión cuando está activa.
+- **Botón de YouTube:** `Próximo directo · Categoría` antes del partido, `Directo · Categoría` durante el partido (con el marcador por sets) y `Repetición` o `Resultado` después. La portada muestra el partido en juego si lo hay; si no, el próximo. Mientras no haya un ID de vídeo, el botón lleva al canal, donde aparece la emisión cuando está activa.
 - **Tira de resultados:** aparece en el inicio, justo encima de la franja amarilla. Se mueve en bucle, se pausa al pasar el ratón o al enfocar y tiene botón de pausa. Con `prefers-reduced-motion` se queda quieta y se puede desplazar a mano. Si `eventos` está vacío, la tira desaparece y los botones vuelven a su texto genérico.
 - **Botón de YouTube:** muestra el nombre del evento y `EN DIRECTO` cuando el primer evento tiene `estado: "live"`; con `next` muestra `PRÓXIMO`; con `final`, `REPETICIÓN` (o `RESULTADO` si no hay vídeo). El mismo dato actualiza la tarjeta de `#directo`.
 - **Nivel 1 (sin vídeo incrustado):** enlace a `https://www.youtube.com/@cvmf_brenes/live` y a la página de directos de la FAV. La página no carga vídeo ni cookies de terceros.
@@ -122,7 +122,8 @@ Edita solo el bloque `#live-data` de `index.html`. Cada evento admite estos camp
 | Campo | Obligatorio | Contenido |
 | --- | --- | --- |
 | `evento` | Sí | Nombre del partido, por ejemplo `CV Manuel de Falla – CV Linares`. Es el texto del botón de YouTube y de la tira. |
-| `categoria` | No | Categoría del equipo (`Sénior`, `Juvenil`, `Cadete`…). Sirve para ordenar los partidos sin fecha. |
+| `categoria` | No | Categoría del equipo (`Sénior`, `Juvenil`, `Cadete`…). Sale en el botón y sirve para ordenar los partidos sin fecha. |
+| `sede` | No | Pabellón del partido, tomado de la FAV. Si está vacío y el partido es próximo, se muestra «Sede por confirmar». |
 | `competicion` | No | Competición que aparece junto al evento. |
 | `fecha` | No | Fecha y hora en texto, por ejemplo `22/11/2026 · 12:30`. |
 | `marcador` | No | Marcador si ya existe (`3–1`). Déjalo vacío mientras no haya resultado. |

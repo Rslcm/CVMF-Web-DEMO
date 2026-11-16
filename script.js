@@ -140,7 +140,7 @@
     match.textContent = liveText(event.evento) || 'Partido por confirmar';
     link.appendChild(match);
 
-    var meta = [liveText(event.competicion), liveText(event.fecha)].filter(Boolean).join(' · ');
+    var meta = [liveText(event.competicion), liveText(event.fecha), liveVenue(event, state)].filter(Boolean).join(' · ');
     if (meta) {
       var metaEl = document.createElement('span');
       metaEl.className = 'live-ticker-meta';
@@ -263,6 +263,12 @@
     }
   }
 
+  function liveVenue(event, state) {
+    var venue = liveText(event.sede);
+    if (venue) return venue;
+    return state === 'next' ? 'Sede por confirmar' : '';
+  }
+
   function liveButtonLabel(state, id) {
     if (state === 'live') return 'Directo';
     if (state === 'next') return 'Próximo directo';
@@ -274,7 +280,9 @@
     var url = liveEventUrl(event);
     var name = liveText(event.evento) || 'Directos en YouTube';
     var meta = [liveText(event.competicion), liveText(event.fecha)].filter(Boolean).join(' · ');
-    var label = liveButtonLabel(state, id);
+    var category = liveText(event.categoria);
+    var label = liveButtonLabel(state, id) + (category ? ' · ' + category : '');
+    var score = liveText(event.marcador);
     var link = state === 'final' ? url : (state === 'live' && id) ? url : liveChannel;
 
     var hero = document.getElementById('hero-live');
@@ -283,7 +291,7 @@
     if (hero && heroEvent && heroState) {
       hero.href = link;
       heroEvent.textContent = name;
-      heroState.textContent = label;
+      heroState.textContent = state === 'live' && score ? label + ' · ' + score : label;
       heroState.hidden = false;
     }
 
@@ -296,6 +304,7 @@
       cardTitle.textContent = name;
       var details = [];
       if (meta) details.push(meta);
+      if (liveVenue(event, state)) details.push(liveVenue(event, state));
       if (liveText(event.marcador)) details.push('Marcador ' + liveText(event.marcador));
       if (event.ejemplo === true) details.push('Ejemplo de prueba');
       cardDesc.textContent = details.join(' · ') || 'Los partidos que emitimos se ven en nuestro canal, en directo y en abierto.';

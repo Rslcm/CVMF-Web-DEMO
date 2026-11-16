@@ -82,7 +82,7 @@ def parse_matches(page, competition_id, group, phase, title):
         state_key = state_match.group(1) if state_match else "proximo"
         if state_key == "finalizado":
             state = "final"
-        elif state_key in ("en-juego", "directo", "en-directo"):
+        elif state_key in ("en_juego", "en-juego"):
             state = "live"
         else:
             state = "next"
@@ -121,6 +121,7 @@ def parse_matches(page, competition_id, group, phase, title):
             "fav": f"{FAV}seccion=competicion&id={competition_id}&vista=calendario&grupo={group}&fase={phase}",
             "_equipo": f"{competition_id}-{group}",
             "_jornada": int(jornada_number.group(0)) if jornada_number else 0,
+            "_id": (re.search(r'data-id-partido="(\d+)"', block) or [None, ""])[1],
         })
     return matches
 
@@ -175,11 +176,42 @@ def select(matches):
         if team not in last_by_team or when > last_by_team[team][0]:
             last_by_team[team] = (when, match)
 
-    chosen = list(next_by_team.values()) + [item[1] for item in last_by_team.values()]
-    for match in chosen:
-        for key in ("_equipo", "_jornada"):
-            match.pop(key, None)
+    live = [m for m in unique if m["estado"] == "live"]
+    chosen = live + [m for m in next_by_team.values() if m["estado"] != "live"] + [item[1] for item in last_by_team.values()]
     return chosen
+
+
+def fetch_detail(match_id):
+    request = urllib.request.Request(
+        f"https://www.favoley.net/publico/competicion_partido_datos.php?id={match_id}",
+        headers={"User-Agent": "Mozilla/5.0", "X-Requested-With": "XMLHttpRequest"},
+    )
+    with urllib.request.urlopen(request, timeout=40) as response:
+        return json.loads(response.read().decode("utf-8", errors="replace"))
+
+
+def enrich(match):
+    try:
+        partido = fetch_detail(match["_id"])["datos"]["partido"]
+    except Exception:
+        return
+    venue = " ".join((partido.get("instalacion") or "").title().split())
+    if venue:
+        if partido.get("espacio"):
+            venue += f" · {partido['espacio']}"
+        if partido.get("localidad") and fold(partido["localidad"]) not in fold(venue):
+            venue += f" ({partido['localidad'].title()})"
+        match["sede"] = venue
+    if match["estado"] == "live":
+        local = partido.get("sets_local")
+        visitante = partido.get("sets_visitante")
+        if local is not None and visitante is not None:
+            match["marcador"] = f"{local}–{visitante}"
+    hora = partido.get("hora")
+    fecha = partido.get("fecha")
+    if fecha and hora and match["fecha"] == "Por confirmar":
+        year, month, day = fecha.split("-")
+        match["fecha"] = f"{day}/{month}/{year} · {hora}"
 
 
 def main():
@@ -211,6 +243,10 @@ def main():
         matches = [m for result in pool.map(collect, groups) for m in result]
 
     events = select(matches)
+    for match in events:
+        enrich(match)
+        for key in ("_id", "_equipo", "_jornada"):
+            match.pop(key, None)
     if not events:
         print("No se han encontrado partidos del club. No se ha cambiado nada.")
         return 0
