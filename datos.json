@@ -1,6 +1,6 @@
 {
-  "version": "892bdd0f54b5",
-  "actualizado": "16/11/2026 13:08",
+  "version": "cc3a0f20c8a7",
+  "actualizado": "16/11/2026 14:16",
   "live": {
     "canal": "https://www.youtube.com/@cvmf_brenes/live",
     "fav": "https://www.favoley.net/publico/seccion.php?seccion=directos",
@@ -26,6 +26,17 @@
         "youtube": "",
         "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1322&vista=calendario&grupo=90&fase=114",
         "sede": "Pabellon Placido Fernandez Viagas · P1 (Alcalá de Guadaíra)"
+      },
+      {
+        "evento": "CV Manuel de Falla – Kairós",
+        "categoria": "Juvenil",
+        "competicion": "Juvenil femenino Sevilla Liga Provincial · Jornada 4",
+        "fecha": "21/11/2026 · 12:00",
+        "marcador": "",
+        "estado": "next",
+        "youtube": "",
+        "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1329&vista=calendario&grupo=119&fase=165",
+        "sede": "Complejo Polideportivo Raúl Fernández Pavón (Brenes)"
       },
       {
         "evento": "Las Flores Sevilla Amarillo – CVMF Brenes Azul",
@@ -69,16 +80,6 @@
         "estado": "next",
         "youtube": "",
         "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1306&vista=calendario&grupo=51&fase=59"
-      },
-      {
-        "evento": "CV Manuel de Falla – Kairós",
-        "categoria": "Juvenil",
-        "competicion": "Juvenil femenino Sevilla Liga Provincial · Jornada 4",
-        "fecha": "Por confirmar",
-        "marcador": "",
-        "estado": "next",
-        "youtube": "",
-        "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1329&vista=calendario&grupo=119&fase=165"
       },
       {
         "evento": "CV Utrera – Mgs Seguros CVMF Brenes",
@@ -223,7 +224,7 @@
     ]
   },
   "equipos": {
-    "actualizado": "16/11/2026 13:08",
+    "actualizado": "16/11/2026 14:16",
     "equipos": [
       {
         "categoria": "Sénior",
@@ -696,22 +697,24 @@
           "evento": "CV Manuel de Falla – Kairós",
           "categoria": "Juvenil",
           "competicion": "Juvenil femenino Sevilla Liga Provincial · Jornada 4",
-          "fecha": "Por confirmar",
+          "fecha": "21/11/2026 · 12:00",
           "marcador": "",
           "estado": "next",
           "youtube": "",
-          "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1329&vista=calendario&grupo=119&fase=165"
+          "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1329&vista=calendario&grupo=119&fase=165",
+          "sede": "Complejo Polideportivo Raúl Fernández Pavón (Brenes)"
         },
         "proximos": [
           {
             "evento": "CV Manuel de Falla – Kairós",
             "categoria": "Juvenil",
             "competicion": "Juvenil femenino Sevilla Liga Provincial · Jornada 4",
-            "fecha": "Por confirmar",
+            "fecha": "21/11/2026 · 12:00",
             "marcador": "",
             "estado": "next",
             "youtube": "",
-            "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1329&vista=calendario&grupo=119&fase=165"
+            "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1329&vista=calendario&grupo=119&fase=165",
+            "sede": "Complejo Polideportivo Raúl Fernández Pavón (Brenes)"
           },
           {
             "evento": "CD Dxt10 – CV Manuel de Falla",
