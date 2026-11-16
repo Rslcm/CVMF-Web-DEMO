@@ -77,7 +77,7 @@ def groups_from(page):
     found = set()
     for group, phase in re.findall(r"grupo=(\d+)&amp;fase=(\d+)", page):
         found.add((group, phase))
-    return found
+    return sorted(found)
 
 
 def max_jornada(page):
@@ -275,6 +275,12 @@ def public(match):
     return {key: value for key, value in match.items() if not key.startswith("_")}
 
 
+def event_order(event):
+    state = {"live": 0, "next": 1, "final": 2}.get(event.get("estado"), 3)
+    when = sort_key_date(event.get("fecha", "")) or datetime.max
+    return (state, when, event.get("evento", ""), event.get("competicion", ""))
+
+
 def build_teams(matches):
     groups = {}
     for match in matches:
@@ -414,6 +420,7 @@ def main():
 
     teams = build_teams(matches)
     events = [public(match) for match in selected]
+    events.sort(key=event_order)
 
     source = INDEX.read_text(encoding="utf-8")
     live_found = re.search(r'<script type="application/json" id="live-data">(.*?)</script>', source, re.S)
