@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-gFJc63H6Aczv5c6IZQ82BaixzglvMPnIibj0LG5RmUk=' 'sha256-Xw80Cy0GEmGplLptxYo3K6PXN+FUgVaP6+fIh1I81Lo='; style-src 'self' https://fonts.googleapis.com 'sha256-Tpw+cPQHK7hP+po0+2wqTGMEnYtJVuNL8OaxvwE1CUo='; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-gFJc63H6Aczv5c6IZQ82BaixzglvMPnIibj0LG5RmUk=' 'sha256-HkerzdIrB1M4jqLuuHmhbNgI7ptX906bz5M96Wpzf7A='; style-src 'self' https://fonts.googleapis.com 'sha256-3B3RnebAeZcqofEDbW/ghqp6Tobc6pNrFDnPduxOJNc='; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Club Voleibol Manuel de Falla | Voleibol en Brenes desde 1976</title>
 <meta name="description" content="Web oficial del Club Voleibol Manuel de Falla (Brenes, Sevilla). Escuela deportiva, cantera y equipos sénior desde 1976. Preinscripciones, horarios, cuotas y toda la historia del club.">
@@ -741,7 +741,7 @@ button { font: inherit; color: inherit; }
   animation: live-pulse 1.6s ease-in-out infinite;
 }
 .strip-dot-done { background: #ef4444; }
-.strip-dot-soon { border: 1.5px solid rgba(255, 255, 255, .55); }
+.strip-dot-soon { background: #f59e0b; }
 @keyframes live-pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: .3; }
@@ -3310,6 +3310,19 @@ h2 {
 
 <main id="contenido">
 
+  <div class="live-ticker" id="strip-entrenos" role="region" aria-label="Entrenamientos de cada categoría" hidden>
+    <div class="wrap live-ticker-inner">
+      <p class="live-ticker-badge">Entrenamientos</p>
+      <div class="live-ticker-viewport">
+        <div class="live-ticker-track"></div>
+      </div>
+      <button class="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira">
+        <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
+        <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
+      </button>
+    </div>
+  </div>
+
   <section class="hero" id="inicio">
     <div class="hero-glow" aria-hidden="true"></div>
     <svg class="hero-court" viewBox="0 0 1440 900" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
@@ -5191,13 +5204,26 @@ h2 {
 }
   </script>
 
-  <div class="live-ticker" id="live-ticker" role="region" aria-label="Resultados y emisiones en directo" hidden>
+  <div class="live-ticker" id="live-ticker" role="region" aria-label="Próximos partidos y directos" hidden>
     <div class="wrap live-ticker-inner">
       <p class="live-ticker-badge"><span class="live-dot" id="live-ticker-dot" aria-hidden="true"></span> <span id="live-ticker-label">En directo</span></p>
       <div class="live-ticker-viewport">
         <div class="live-ticker-track" id="live-ticker-track"></div>
       </div>
       <button class="live-ticker-toggle" id="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira de resultados">
+        <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
+        <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="live-ticker" id="strip-resultados" role="region" aria-label="Últimos resultados" hidden>
+    <div class="wrap live-ticker-inner">
+      <p class="live-ticker-badge">Últimos resultados</p>
+      <div class="live-ticker-viewport">
+        <div class="live-ticker-track"></div>
+      </div>
+      <button class="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira">
         <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
         <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
       </button>
@@ -5220,44 +5246,8 @@ h2 {
     </div>
   </section>
 
-  <div class="live-ticker" id="strip-entrenos" role="region" aria-label="Entrenamientos de cada categoría" hidden>
-    <div class="wrap live-ticker-inner">
-      <p class="live-ticker-badge">Entrenamientos</p>
-      <div class="live-ticker-viewport">
-        <div class="live-ticker-track"></div>
-      </div>
-      <button class="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira">
-        <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
-        <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
-      </button>
-    </div>
-  </div>
 
-  <div class="live-ticker" id="strip-resultados" role="region" aria-label="Últimos resultados" hidden>
-    <div class="wrap live-ticker-inner">
-      <p class="live-ticker-badge">Últimos resultados</p>
-      <div class="live-ticker-viewport">
-        <div class="live-ticker-track"></div>
-      </div>
-      <button class="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira">
-        <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
-        <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
-      </button>
-    </div>
-  </div>
 
-  <div class="live-ticker" id="strip-proximos" role="region" aria-label="Próximos partidos" hidden>
-    <div class="wrap live-ticker-inner">
-      <p class="live-ticker-badge">Próximos partidos</p>
-      <div class="live-ticker-viewport">
-        <div class="live-ticker-track"></div>
-      </div>
-      <button class="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira">
-        <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
-        <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
-      </button>
-    </div>
-  </div>
 
   <section class="section" aria-labelledby="accesos-title">
     <div class="wrap">
@@ -6182,7 +6172,11 @@ h2 {
   function renderTicker(items) {
     var ticker = document.getElementById('live-ticker');
     var track = document.getElementById('live-ticker-track');
-    if (!ticker || !track || !items.length) return;
+    if (!ticker || !track) return;
+    if (!items.length) {
+      ticker.hidden = true;
+      return;
+    }
 
     track.textContent = '';
     var group = document.createElement('div');
@@ -6336,10 +6330,11 @@ h2 {
   function refreshLive() {
     var items = orderEvents(liveEvents, Date.now());
     if (!items.length) return;
-    var signature = items.map(function (item) { return item.index + ':' + item.state; }).join('|');
+    var upcoming = items.filter(function (item) { return item.state !== 'final'; });
+    var signature = upcoming.map(function (item) { return item.index + ':' + item.state; }).join('|');
     if (signature !== renderedSignature) {
       renderedSignature = signature;
-      renderTicker(items);
+      renderTicker(upcoming);
     }
     applyFeatured(items[0].event, items[0].state);
   }
@@ -6405,23 +6400,23 @@ h2 {
 
   var trainings = readTrainings();
 
-  function trainingItems(now) {
+  function trainingState(session, now) {
     var today = now.getDay();
+    if (today === 0 || today === 6 || session.day < today) return 'done';
+    if (session.day > today) return 'soon';
     var minutes = now.getHours() * 60 + now.getMinutes();
-    var items = [];
-    for (var offset = 0; offset < 7; offset += 1) {
-      var weekday = (today + offset) % 7;
-      var sessions = trainings.filter(function (session) { return session.day === weekday; });
-      sessions.sort(function (a, b) { return a.start - b.start; });
-      sessions.forEach(function (session) {
-        var state = 'soon';
-        if (offset === 0 && minutes >= session.end) state = 'done';
-        else if (offset === 0 && minutes >= session.start) state = 'live';
-        var when = offset === 0 ? 'Hoy' : offset === 1 ? 'Mañana' : DAY_NAMES[weekday];
-        items.push({ session: session, state: state, when: when });
+    if (minutes >= session.end) return 'done';
+    if (minutes >= session.start) return 'live';
+    return 'soon';
+  }
+
+  function trainingItems(now) {
+    return trainings
+      .slice()
+      .sort(function (a, b) { return a.day - b.day || a.start - b.start; })
+      .map(function (session) {
+        return { session: session, state: trainingState(session, now) };
       });
-    }
-    return items;
   }
 
   function matchKey(match) {
@@ -6441,25 +6436,6 @@ h2 {
       });
     });
     list.sort(function (a, b) { return b.when - a.when; });
-    return list.slice(0, STRIP_LIMIT);
-  }
-
-  function nextItems(now) {
-    var seen = {};
-    var list = [];
-    stripTeams.forEach(function (team) {
-      var matches = team.proximos && team.proximos.length ? team.proximos : (team.proximo ? [team.proximo] : []);
-      matches.forEach(function (match) {
-        var key = matchKey(match);
-        var when = parseStart(match.fecha);
-        if (seen[key] || when === null) return;
-        var state = effectiveState(match, now);
-        if (state === 'final') return;
-        seen[key] = true;
-        list.push({ match: match, when: when, state: state });
-      });
-    });
-    list.sort(function (a, b) { return a.when - b.when; });
     return list.slice(0, STRIP_LIMIT);
   }
 
@@ -6483,9 +6459,9 @@ h2 {
 
   function trainingNode(item) {
     var session = item.session;
-    var label = item.state === 'live' ? 'En curso' : item.state === 'done' ? 'Terminado' : item.when;
+    var label = item.state === 'live' ? 'En curso' : item.state === 'done' ? 'Terminado' : 'Por empezar';
     var dot = item.state === 'live' ? 'strip-dot-live' : item.state === 'done' ? 'strip-dot-done' : 'strip-dot-soon';
-    var meta = [session.time, session.meta].filter(Boolean).join(' · ');
+    var meta = [DAY_NAMES[session.day], session.time, session.meta].filter(Boolean).join(' · ');
     return stripNode(stripBadge(label, dot), session.name, meta);
   }
 
@@ -6498,14 +6474,6 @@ h2 {
     );
   }
 
-  function nextNode(item) {
-    var match = item.match;
-    var live = item.state === 'live';
-    var badge = live ? stripBadge('En directo', 'strip-dot-live') : stripBadge('Próximo', 'strip-dot-soon');
-    var meta = [liveText(match.fecha), liveText(match.sede)].filter(Boolean).join(' · ');
-    return stripNode(badge, liveText(match.evento), meta, live ? liveText(match.marcador) : '');
-  }
-
   function sizeStrip(strip) {
     var group = strip.querySelector('.live-ticker-group');
     var track = strip.querySelector('.live-ticker-track');
@@ -6515,7 +6483,7 @@ h2 {
   }
 
   function sizeStrips() {
-    ['strip-entrenos', 'strip-resultados', 'strip-proximos'].forEach(function (id) {
+    ['strip-entrenos', 'strip-resultados'].forEach(function (id) {
       var strip = document.getElementById(id);
       if (strip && !strip.hidden) sizeStrip(strip);
     });
@@ -6550,7 +6518,6 @@ h2 {
     var inSeason = now.getTime() >= SEASON_START && now.getTime() < SEASON_END;
     renderStrip('strip-entrenos', inSeason ? trainingItems(now).map(trainingNode) : []);
     renderStrip('strip-resultados', resultItems().map(resultNode));
-    renderStrip('strip-proximos', nextItems(now.getTime()).map(nextNode));
   }
 
   refreshStrips();

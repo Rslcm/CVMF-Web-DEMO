@@ -174,6 +174,19 @@ window.setTimeout(function () {
 
 <main id="contenido">
 
+  <div class="live-ticker" id="strip-entrenos" role="region" aria-label="Entrenamientos de cada categoría" hidden>
+    <div class="wrap live-ticker-inner">
+      <p class="live-ticker-badge">Entrenamientos</p>
+      <div class="live-ticker-viewport">
+        <div class="live-ticker-track"></div>
+      </div>
+      <button class="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira">
+        <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
+        <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
+      </button>
+    </div>
+  </div>
+
   <section class="hero" id="inicio">
     <div class="hero-glow" aria-hidden="true"></div>
     <svg class="hero-court" viewBox="0 0 1440 900" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
@@ -2055,13 +2068,26 @@ window.setTimeout(function () {
 }
   </script>
 
-  <div class="live-ticker" id="live-ticker" role="region" aria-label="Resultados y emisiones en directo" hidden>
+  <div class="live-ticker" id="live-ticker" role="region" aria-label="Próximos partidos y directos" hidden>
     <div class="wrap live-ticker-inner">
       <p class="live-ticker-badge"><span class="live-dot" id="live-ticker-dot" aria-hidden="true"></span> <span id="live-ticker-label">En directo</span></p>
       <div class="live-ticker-viewport">
         <div class="live-ticker-track" id="live-ticker-track"></div>
       </div>
       <button class="live-ticker-toggle" id="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira de resultados">
+        <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
+        <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="live-ticker" id="strip-resultados" role="region" aria-label="Últimos resultados" hidden>
+    <div class="wrap live-ticker-inner">
+      <p class="live-ticker-badge">Últimos resultados</p>
+      <div class="live-ticker-viewport">
+        <div class="live-ticker-track"></div>
+      </div>
+      <button class="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira">
         <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
         <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
       </button>
@@ -2084,44 +2110,8 @@ window.setTimeout(function () {
     </div>
   </section>
 
-  <div class="live-ticker" id="strip-entrenos" role="region" aria-label="Entrenamientos de cada categoría" hidden>
-    <div class="wrap live-ticker-inner">
-      <p class="live-ticker-badge">Entrenamientos</p>
-      <div class="live-ticker-viewport">
-        <div class="live-ticker-track"></div>
-      </div>
-      <button class="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira">
-        <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
-        <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
-      </button>
-    </div>
-  </div>
 
-  <div class="live-ticker" id="strip-resultados" role="region" aria-label="Últimos resultados" hidden>
-    <div class="wrap live-ticker-inner">
-      <p class="live-ticker-badge">Últimos resultados</p>
-      <div class="live-ticker-viewport">
-        <div class="live-ticker-track"></div>
-      </div>
-      <button class="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira">
-        <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
-        <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
-      </button>
-    </div>
-  </div>
 
-  <div class="live-ticker" id="strip-proximos" role="region" aria-label="Próximos partidos" hidden>
-    <div class="wrap live-ticker-inner">
-      <p class="live-ticker-badge">Próximos partidos</p>
-      <div class="live-ticker-viewport">
-        <div class="live-ticker-track"></div>
-      </div>
-      <button class="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira">
-        <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
-        <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
-      </button>
-    </div>
-  </div>
 
   <section class="section" aria-labelledby="accesos-title">
     <div class="wrap">

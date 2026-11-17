@@ -700,7 +700,7 @@ button { font: inherit; color: inherit; }
   animation: live-pulse 1.6s ease-in-out infinite;
 }
 .strip-dot-done { background: #ef4444; }
-.strip-dot-soon { border: 1.5px solid rgba(255, 255, 255, .55); }
+.strip-dot-soon { background: #f59e0b; }
 @keyframes live-pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: .3; }

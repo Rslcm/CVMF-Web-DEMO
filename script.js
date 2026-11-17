@@ -241,7 +241,11 @@
   function renderTicker(items) {
     var ticker = document.getElementById('live-ticker');
     var track = document.getElementById('live-ticker-track');
-    if (!ticker || !track || !items.length) return;
+    if (!ticker || !track) return;
+    if (!items.length) {
+      ticker.hidden = true;
+      return;
+    }
 
     track.textContent = '';
     var group = document.createElement('div');
@@ -395,10 +399,11 @@
   function refreshLive() {
     var items = orderEvents(liveEvents, Date.now());
     if (!items.length) return;
-    var signature = items.map(function (item) { return item.index + ':' + item.state; }).join('|');
+    var upcoming = items.filter(function (item) { return item.state !== 'final'; });
+    var signature = upcoming.map(function (item) { return item.index + ':' + item.state; }).join('|');
     if (signature !== renderedSignature) {
       renderedSignature = signature;
-      renderTicker(items);
+      renderTicker(upcoming);
     }
     applyFeatured(items[0].event, items[0].state);
   }
@@ -464,23 +469,23 @@
 
   var trainings = readTrainings();
 
-  function trainingItems(now) {
+  function trainingState(session, now) {
     var today = now.getDay();
+    if (today === 0 || today === 6 || session.day < today) return 'done';
+    if (session.day > today) return 'soon';
     var minutes = now.getHours() * 60 + now.getMinutes();
-    var items = [];
-    for (var offset = 0; offset < 7; offset += 1) {
-      var weekday = (today + offset) % 7;
-      var sessions = trainings.filter(function (session) { return session.day === weekday; });
-      sessions.sort(function (a, b) { return a.start - b.start; });
-      sessions.forEach(function (session) {
-        var state = 'soon';
-        if (offset === 0 && minutes >= session.end) state = 'done';
-        else if (offset === 0 && minutes >= session.start) state = 'live';
-        var when = offset === 0 ? 'Hoy' : offset === 1 ? 'Mañana' : DAY_NAMES[weekday];
-        items.push({ session: session, state: state, when: when });
+    if (minutes >= session.end) return 'done';
+    if (minutes >= session.start) return 'live';
+    return 'soon';
+  }
+
+  function trainingItems(now) {
+    return trainings
+      .slice()
+      .sort(function (a, b) { return a.day - b.day || a.start - b.start; })
+      .map(function (session) {
+        return { session: session, state: trainingState(session, now) };
       });
-    }
-    return items;
   }
 
   function matchKey(match) {
@@ -500,25 +505,6 @@
       });
     });
     list.sort(function (a, b) { return b.when - a.when; });
-    return list.slice(0, STRIP_LIMIT);
-  }
-
-  function nextItems(now) {
-    var seen = {};
-    var list = [];
-    stripTeams.forEach(function (team) {
-      var matches = team.proximos && team.proximos.length ? team.proximos : (team.proximo ? [team.proximo] : []);
-      matches.forEach(function (match) {
-        var key = matchKey(match);
-        var when = parseStart(match.fecha);
-        if (seen[key] || when === null) return;
-        var state = effectiveState(match, now);
-        if (state === 'final') return;
-        seen[key] = true;
-        list.push({ match: match, when: when, state: state });
-      });
-    });
-    list.sort(function (a, b) { return a.when - b.when; });
     return list.slice(0, STRIP_LIMIT);
   }
 
@@ -542,9 +528,9 @@
 
   function trainingNode(item) {
     var session = item.session;
-    var label = item.state === 'live' ? 'En curso' : item.state === 'done' ? 'Terminado' : item.when;
+    var label = item.state === 'live' ? 'En curso' : item.state === 'done' ? 'Terminado' : 'Por empezar';
     var dot = item.state === 'live' ? 'strip-dot-live' : item.state === 'done' ? 'strip-dot-done' : 'strip-dot-soon';
-    var meta = [session.time, session.meta].filter(Boolean).join(' · ');
+    var meta = [DAY_NAMES[session.day], session.time, session.meta].filter(Boolean).join(' · ');
     return stripNode(stripBadge(label, dot), session.name, meta);
   }
 
@@ -557,14 +543,6 @@
     );
   }
 
-  function nextNode(item) {
-    var match = item.match;
-    var live = item.state === 'live';
-    var badge = live ? stripBadge('En directo', 'strip-dot-live') : stripBadge('Próximo', 'strip-dot-soon');
-    var meta = [liveText(match.fecha), liveText(match.sede)].filter(Boolean).join(' · ');
-    return stripNode(badge, liveText(match.evento), meta, live ? liveText(match.marcador) : '');
-  }
-
   function sizeStrip(strip) {
     var group = strip.querySelector('.live-ticker-group');
     var track = strip.querySelector('.live-ticker-track');
@@ -574,7 +552,7 @@
   }
 
   function sizeStrips() {
-    ['strip-entrenos', 'strip-resultados', 'strip-proximos'].forEach(function (id) {
+    ['strip-entrenos', 'strip-resultados'].forEach(function (id) {
       var strip = document.getElementById(id);
       if (strip && !strip.hidden) sizeStrip(strip);
     });
@@ -609,7 +587,6 @@
     var inSeason = now.getTime() >= SEASON_START && now.getTime() < SEASON_END;
     renderStrip('strip-entrenos', inSeason ? trainingItems(now).map(trainingNode) : []);
     renderStrip('strip-resultados', resultItems().map(resultNode));
-    renderStrip('strip-proximos', nextItems(now.getTime()).map(nextNode));
   }
 
   refreshStrips();
