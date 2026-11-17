@@ -3,12 +3,14 @@
  *
  * 1. Cron cada 5 minutos: pide a GitHub que ejecute el flujo de actualización.
  * 2. /partido?id=1234: puente con la FAV para leer el marcador en vivo (CORS).
- * 3. /run: lanza una actualización a mano.
+ * 3. /run: lanza una actualización a mano. Requiere la cabecera
+ *    «Authorization: Bearer <RUN_KEY>»; sin RUN_KEY configurada queda cerrado.
  *
  * Variables necesarias en el Worker:
  *   GH_TOKEN     (secreto)  token de GitHub con permiso Actions: read and write
  *   GH_REPO      (texto)    iAWebDemos/CVMF-Web-DEMO
  *   GH_WORKFLOW  (texto)    actualizar-partidos.yml
+ *   RUN_KEY      (secreto)  clave larga y aleatoria para /run (opcional)
  */
 
 const FAV = 'https://www.favoley.net/publico/competicion_partido_datos.php?id=';
@@ -32,6 +34,9 @@ export default {
     }
 
     if (url.pathname === '/partido') {
+      if (request.method !== 'GET') {
+        return json({ ok: false, error: 'método no permitido' }, 405);
+      }
       const id = url.searchParams.get('id') || '';
       if (!/^\d{1,9}$/.test(id)) {
         return json({ ok: false, error: 'id no válido' }, 400);
@@ -46,23 +51,43 @@ export default {
           ...CORS,
           'content-type': 'application/json; charset=utf-8',
           'cache-control': 'public, max-age=15',
+          'x-content-type-options': 'nosniff',
+          'referrer-policy': 'no-referrer',
+          'content-security-policy': "default-src 'none'; sandbox",
         },
       });
     }
 
     if (url.pathname === '/run') {
+      if (request.method !== 'POST') {
+        return json({ ok: false, error: 'método no permitido' }, 405);
+      }
+      if (!(await authorized(request, env))) {
+        return json({ ok: false, error: 'no autorizado' }, 401);
+      }
       return json(await dispatch(env));
     }
 
     return new Response(
       'CVMF · worker activo\n\n' +
         'Cron: cada 5 minutos\n' +
-        'Marcador en vivo: /partido?id=1234\n' +
-        'Forzar actualización: /run\n',
+        'Marcador en vivo: /partido?id=1234\n',
       { headers: { 'content-type': 'text/plain; charset=utf-8' } }
     );
   },
 };
+
+async function authorized(request, env) {
+  if (!env.RUN_KEY) return false;
+  const expected = 'Bearer ' + env.RUN_KEY;
+  const given = request.headers.get('authorization') || '';
+  if (given.length !== expected.length) return false;
+  let diff = 0;
+  for (let i = 0; i < expected.length; i += 1) {
+    diff |= given.charCodeAt(i) ^ expected.charCodeAt(i);
+  }
+  return diff === 0;
+}
 
 async function dispatch(env) {
   if (!env.GH_TOKEN || !env.GH_REPO || !env.GH_WORKFLOW) {

@@ -405,6 +405,12 @@ def category_rank(name):
 
 def write_block(source, block_id, payload):
     body = json.dumps(payload, ensure_ascii=False, indent=2)
+    # Los datos vienen de la FAV. Aunque el texto se limpia, hay que impedir que
+    # un valor con «</script>» (o entidades que se conviertan en él) rompa el
+    # bloque JSON y permita inyectar HTML o JavaScript en la página.
+    body = (body.replace("<", "\\u003c")
+                .replace("\u2028", "\\u2028")
+                .replace("\u2029", "\\u2029"))
     pattern = re.compile(rf'(<script type="application/json" id="{block_id}">)(.*?)(</script>)', re.S)
     found = pattern.search(source)
     if found:

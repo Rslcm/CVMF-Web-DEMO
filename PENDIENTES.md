@@ -35,8 +35,15 @@ Es un buscar y reemplazar en los 7 archivos HTML y en `sitemap.xml`; se hace en 
 
 ## 4. Seguridad
 
-- **Token de Cloudflare:** comprobado el 16/11/2026, el token que se usó para desplegar el Worker **ya no es válido** (la API responde «Invalid API Token»), así que no hay nada que revocar de ese lado. El Worker y sus secretos siguen funcionando con normalidad. Si en su momento se creó **otro token con caducidad de un año**, conviene revisarlo en Cloudflare → Mi perfil → Tokens de API y revocarlo cuando ya no se use.
-- **`GH_TOKEN`:** revisar el token de GitHub guardado como secreto del Worker y rotarlo si deja de ser necesario.
+Revisión completa el 16/11/2026. El detalle está en **`SEGURIDAD.md`**.
+
+- **Urgente — Worker en producción:** la versión publicada todavía permite lanzar `/run` sin autenticación. El código nuevo (con `RUN_KEY`) está en `cloudflare/worker.js`, pero **hay que volver a pegarlo en el panel de Cloudflare y añadir el secreto `RUN_KEY`**. Mientras tanto, cualquiera puede pedir actualizaciones a GitHub.
+- **Hecho:** CSP y `Referrer-Policy` en las 7 páginas y en el archivo único, escape de `</script>` en los datos de la FAV, `/partido` con cabeceras seguras en el código, concurrencia del flujo, `.well-known/security.txt` y `.nojekyll`.
+- **Token de Cloudflare:** el que se usó para desplegar el Worker **ya no es válido** («Invalid API Token»). Si existe otro token con caducidad de un año, revísalo en Cloudflare → Mi perfil → Tokens de API.
+- **`GH_TOKEN`:** token de GitHub guardado como secreto del Worker. Rótalo cuando toque y mantenlo limitado al repositorio y a Actions.
+- **Cuentas:** activar 2FA en GitHub y Cloudflare; revisar quién tiene acceso al repositorio y al Worker.
+- **Rama `main`:** valorar protegerla. El flujo automático necesita poder hacer push; si se activa protección, hay que permitir ese bypass.
+- **Cabeceras que GitHub Pages no deja poner** (`frame-ancestors`, `X-Content-Type-Options`, `Permissions-Policy`): se resuelven poniendo Cloudflare delante del dominio definitivo.
 
 ## 5. Aplazado a propósito
 

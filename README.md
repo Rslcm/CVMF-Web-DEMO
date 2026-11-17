@@ -36,6 +36,7 @@ Vista rápida sin arrancar nada:
 - `iii-certamen-relato-corto.html` — bases de la tercera edición del certamen literario del club.
 - `aviso-legal.html`, `privacidad.html` y `mapa-del-sitio.html` — páginas legales y de navegación, con la misma cabecera, pie y estilos que la portada.
 - `PENDIENTES.md` — datos del club que faltan y tareas abiertas. **Empezar por aquí al retomar el proyecto.**
+- `SEGURIDAD.md` — revisión de seguridad del 16/11/2026: qué se corrigió, qué queda pendiente y cómo desplegar el Worker actualizado.
 - `ABRIR-WEB-CLUB-VOLEIBOL.html` — la misma página en un solo archivo, para verla con doble clic.
 - `styles.css` — diseño responsive, paleta azul/amarillo/blanco, tipografía, animaciones y estilos de impresión.
 - `script.js` — menú móvil, scrollspy, animaciones de aparición, botón «volver arriba» y la tira de resultados/directo.

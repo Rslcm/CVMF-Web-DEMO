@@ -11,9 +11,14 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: actualizar-partidos
+  cancel-in-progress: false
+
 jobs:
   actualizar:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
