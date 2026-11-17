@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-gFJc63H6Aczv5c6IZQ82BaixzglvMPnIibj0LG5RmUk=' 'sha256-N7QAkIupwP/fZFWvjxCjvkWqWAfCTwABJ8Ffq4am5BA='; style-src 'self' https://fonts.googleapis.com 'sha256-ffS92ahOOQlfB9Qm5oBDHzpW++UGjam5Z7RzjyC3qRI='; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-gFJc63H6Aczv5c6IZQ82BaixzglvMPnIibj0LG5RmUk=' 'sha256-Xw80Cy0GEmGplLptxYo3K6PXN+FUgVaP6+fIh1I81Lo='; style-src 'self' https://fonts.googleapis.com 'sha256-Tpw+cPQHK7hP+po0+2wqTGMEnYtJVuNL8OaxvwE1CUo='; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; frame-src https://www.youtube-nocookie.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Club Voleibol Manuel de Falla | Voleibol en Brenes desde 1976</title>
 <meta name="description" content="Web oficial del Club Voleibol Manuel de Falla (Brenes, Sevilla). Escuela deportiva, cantera y equipos sénior desde 1976. Preinscripciones, horarios, cuotas y toda la historia del club.">
@@ -729,6 +729,19 @@ button { font: inherit; color: inherit; }
   color: var(--yellow);
 }
 .live-ticker-state-final { color: #c9d9f4; }
+.strip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+.strip-dot-live {
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, .28);
+  animation: live-pulse 1.6s ease-in-out infinite;
+}
+.strip-dot-done { background: #ef4444; }
+.strip-dot-soon { border: 1.5px solid rgba(255, 255, 255, .55); }
 @keyframes live-pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: .3; }
@@ -5207,6 +5220,45 @@ h2 {
     </div>
   </section>
 
+  <div class="live-ticker" id="strip-entrenos" role="region" aria-label="Entrenamientos de cada categoría" hidden>
+    <div class="wrap live-ticker-inner">
+      <p class="live-ticker-badge">Entrenamientos</p>
+      <div class="live-ticker-viewport">
+        <div class="live-ticker-track"></div>
+      </div>
+      <button class="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira">
+        <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
+        <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="live-ticker" id="strip-resultados" role="region" aria-label="Últimos resultados" hidden>
+    <div class="wrap live-ticker-inner">
+      <p class="live-ticker-badge">Últimos resultados</p>
+      <div class="live-ticker-viewport">
+        <div class="live-ticker-track"></div>
+      </div>
+      <button class="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira">
+        <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
+        <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="live-ticker" id="strip-proximos" role="region" aria-label="Próximos partidos" hidden>
+    <div class="wrap live-ticker-inner">
+      <p class="live-ticker-badge">Próximos partidos</p>
+      <div class="live-ticker-viewport">
+        <div class="live-ticker-track"></div>
+      </div>
+      <button class="live-ticker-toggle" type="button" aria-pressed="false" aria-label="Pausar la tira">
+        <svg class="icon-pause" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1.5" width="2.6" height="9" rx=".6"/><rect x="7.4" y="1.5" width="2.6" height="9" rx=".6"/></svg>
+        <svg class="icon-play" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.8v8.4L10 6 3 1.8Z"/></svg>
+      </button>
+    </div>
+  </div>
+
   <section class="section" aria-labelledby="accesos-title">
     <div class="wrap">
       <div class="section-head reveal">
@@ -6268,13 +6320,14 @@ h2 {
   }
 
   function setupTickerToggle() {
-    var ticker = document.getElementById('live-ticker');
-    var toggle = document.getElementById('live-ticker-toggle');
-    if (!ticker || !toggle) return;
-    toggle.addEventListener('click', function () {
-      var paused = ticker.classList.toggle('is-paused');
-      toggle.setAttribute('aria-pressed', String(paused));
-      toggle.setAttribute('aria-label', paused ? 'Reanudar la tira de resultados' : 'Pausar la tira de resultados');
+    Array.prototype.forEach.call(document.querySelectorAll('.live-ticker'), function (ticker) {
+      var toggle = ticker.querySelector('.live-ticker-toggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', function () {
+        var paused = ticker.classList.toggle('is-paused');
+        toggle.setAttribute('aria-pressed', String(paused));
+        toggle.setAttribute('aria-label', paused ? 'Reanudar la tira' : 'Pausar la tira');
+      });
     });
   }
 
@@ -6312,6 +6365,198 @@ h2 {
     tickerResize = window.requestAnimationFrame(sizeTicker);
   });
   window.addEventListener('load', sizeTicker);
+
+  /* Tiras en movimiento: entrenamientos, últimos resultados y próximos partidos */
+  var DAY_NAMES = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  var SEASON_START = new Date(2026, 8, 1).getTime();
+  var SEASON_END = new Date(2027, 4, 1).getTime();
+  var STRIP_LIMIT = 12;
+  var stripTeams = [];
+  var stripKeys = {};
+
+  function clockMinutes(text) {
+    var parts = text.split(':');
+    return Number(parts[0]) * 60 + Number(parts[1]);
+  }
+
+  function readTrainings() {
+    var sessions = [];
+    Array.prototype.forEach.call(document.querySelectorAll('.schedule tbody tr'), function (row) {
+      var name = row.querySelector('.sched-name');
+      var meta = row.querySelector('.sched-meta');
+      if (!name) return;
+      Array.prototype.forEach.call(row.querySelectorAll('td[data-label]'), function (cell) {
+        var day = DAY_NAMES.indexOf(cell.getAttribute('data-label'));
+        var time = cell.querySelector('.sched-time');
+        var range = time ? /^(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})$/.exec(liveText(time.textContent)) : null;
+        if (day < 0 || !range) return;
+        sessions.push({
+          day: day,
+          start: clockMinutes(range[1]),
+          end: clockMinutes(range[2]),
+          time: range[1] + '–' + range[2],
+          name: liveText(name.textContent),
+          meta: meta ? liveText(meta.textContent) : ''
+        });
+      });
+    });
+    return sessions;
+  }
+
+  var trainings = readTrainings();
+
+  function trainingItems(now) {
+    var today = now.getDay();
+    var minutes = now.getHours() * 60 + now.getMinutes();
+    var items = [];
+    for (var offset = 0; offset < 7; offset += 1) {
+      var weekday = (today + offset) % 7;
+      var sessions = trainings.filter(function (session) { return session.day === weekday; });
+      sessions.sort(function (a, b) { return a.start - b.start; });
+      sessions.forEach(function (session) {
+        var state = 'soon';
+        if (offset === 0 && minutes >= session.end) state = 'done';
+        else if (offset === 0 && minutes >= session.start) state = 'live';
+        var when = offset === 0 ? 'Hoy' : offset === 1 ? 'Mañana' : DAY_NAMES[weekday];
+        items.push({ session: session, state: state, when: when });
+      });
+    }
+    return items;
+  }
+
+  function matchKey(match) {
+    return liveText(match.evento) + '|' + liveText(match.fecha);
+  }
+
+  function resultItems() {
+    var seen = {};
+    var list = [];
+    stripTeams.forEach(function (team) {
+      (team.resultados || []).forEach(function (match) {
+        var key = matchKey(match);
+        var when = parseStart(match.fecha);
+        if (seen[key] || when === null) return;
+        seen[key] = true;
+        list.push({ match: match, when: when });
+      });
+    });
+    list.sort(function (a, b) { return b.when - a.when; });
+    return list.slice(0, STRIP_LIMIT);
+  }
+
+  function nextItems(now) {
+    var seen = {};
+    var list = [];
+    stripTeams.forEach(function (team) {
+      var matches = team.proximos && team.proximos.length ? team.proximos : (team.proximo ? [team.proximo] : []);
+      matches.forEach(function (match) {
+        var key = matchKey(match);
+        var when = parseStart(match.fecha);
+        if (seen[key] || when === null) return;
+        var state = effectiveState(match, now);
+        if (state === 'final') return;
+        seen[key] = true;
+        list.push({ match: match, when: when, state: state });
+      });
+    });
+    list.sort(function (a, b) { return a.when - b.when; });
+    return list.slice(0, STRIP_LIMIT);
+  }
+
+  function stripBadge(text, dotClass) {
+    var badge = makeEl('span', 'live-ticker-state');
+    var dot = makeEl('span', 'strip-dot ' + dotClass);
+    dot.setAttribute('aria-hidden', 'true');
+    badge.appendChild(dot);
+    badge.appendChild(document.createTextNode(text));
+    return badge;
+  }
+
+  function stripNode(badge, title, meta, score) {
+    var item = makeEl('span', 'live-ticker-item');
+    item.appendChild(badge);
+    item.appendChild(makeEl('strong', 'live-ticker-match', title));
+    if (meta) item.appendChild(makeEl('span', 'live-ticker-meta', meta));
+    if (score) item.appendChild(makeEl('span', 'live-ticker-score', score));
+    return item;
+  }
+
+  function trainingNode(item) {
+    var session = item.session;
+    var label = item.state === 'live' ? 'En curso' : item.state === 'done' ? 'Terminado' : item.when;
+    var dot = item.state === 'live' ? 'strip-dot-live' : item.state === 'done' ? 'strip-dot-done' : 'strip-dot-soon';
+    var meta = [session.time, session.meta].filter(Boolean).join(' · ');
+    return stripNode(stripBadge(label, dot), session.name, meta);
+  }
+
+  function resultNode(item) {
+    return stripNode(
+      stripBadge('Final', 'strip-dot-done'),
+      liveText(item.match.evento),
+      liveText(item.match.fecha),
+      liveText(item.match.marcador)
+    );
+  }
+
+  function nextNode(item) {
+    var match = item.match;
+    var live = item.state === 'live';
+    var badge = live ? stripBadge('En directo', 'strip-dot-live') : stripBadge('Próximo', 'strip-dot-soon');
+    var meta = [liveText(match.fecha), liveText(match.sede)].filter(Boolean).join(' · ');
+    return stripNode(badge, liveText(match.evento), meta, live ? liveText(match.marcador) : '');
+  }
+
+  function sizeStrip(strip) {
+    var group = strip.querySelector('.live-ticker-group');
+    var track = strip.querySelector('.live-ticker-track');
+    var width = group ? group.getBoundingClientRect().width : 0;
+    if (!width || !track) return;
+    track.style.setProperty('--ticker-duration', Math.max(20, Math.round(width / 40)) + 's');
+  }
+
+  function sizeStrips() {
+    ['strip-entrenos', 'strip-resultados', 'strip-proximos'].forEach(function (id) {
+      var strip = document.getElementById(id);
+      if (strip && !strip.hidden) sizeStrip(strip);
+    });
+  }
+
+  function renderStrip(id, nodes) {
+    var strip = document.getElementById(id);
+    if (!strip) return;
+    if (!nodes.length) {
+      strip.hidden = true;
+      stripKeys[id] = '';
+      return;
+    }
+    var group = makeEl('div', 'live-ticker-group');
+    nodes.forEach(function (node) { group.appendChild(node); });
+    if (!strip.hidden && group.textContent === stripKeys[id]) return;
+    stripKeys[id] = group.textContent;
+
+    var track = strip.querySelector('.live-ticker-track');
+    track.textContent = '';
+    track.appendChild(group);
+    var clone = group.cloneNode(true);
+    clone.setAttribute('data-clone', '');
+    clone.setAttribute('aria-hidden', 'true');
+    track.appendChild(clone);
+    strip.hidden = false;
+    sizeStrip(strip);
+  }
+
+  function refreshStrips() {
+    var now = new Date();
+    var inSeason = now.getTime() >= SEASON_START && now.getTime() < SEASON_END;
+    renderStrip('strip-entrenos', inSeason ? trainingItems(now).map(trainingNode) : []);
+    renderStrip('strip-resultados', resultItems().map(resultNode));
+    renderStrip('strip-proximos', nextItems(now.getTime()).map(nextNode));
+  }
+
+  refreshStrips();
+  window.setInterval(refreshStrips, 30000);
+  window.addEventListener('resize', sizeStrips);
+  window.addEventListener('load', sizeStrips);
 
   /* Equipos: categorías, submenú, clasificación y partidos ------------------ */
   var TEAM_SECTIONS = [
@@ -6453,6 +6698,8 @@ h2 {
       if (empty) empty.hidden = false;
       return;
     }
+    stripTeams = teams;
+    refreshStrips();
 
     var updated = document.getElementById('equipos-updated');
     if (updated && data.actualizado) updated.textContent = 'Datos de la FAV a ' + data.actualizado + '.';

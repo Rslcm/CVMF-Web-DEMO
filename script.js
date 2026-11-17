@@ -379,13 +379,14 @@
   }
 
   function setupTickerToggle() {
-    var ticker = document.getElementById('live-ticker');
-    var toggle = document.getElementById('live-ticker-toggle');
-    if (!ticker || !toggle) return;
-    toggle.addEventListener('click', function () {
-      var paused = ticker.classList.toggle('is-paused');
-      toggle.setAttribute('aria-pressed', String(paused));
-      toggle.setAttribute('aria-label', paused ? 'Reanudar la tira de resultados' : 'Pausar la tira de resultados');
+    Array.prototype.forEach.call(document.querySelectorAll('.live-ticker'), function (ticker) {
+      var toggle = ticker.querySelector('.live-ticker-toggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', function () {
+        var paused = ticker.classList.toggle('is-paused');
+        toggle.setAttribute('aria-pressed', String(paused));
+        toggle.setAttribute('aria-label', paused ? 'Reanudar la tira' : 'Pausar la tira');
+      });
     });
   }
 
@@ -423,6 +424,198 @@
     tickerResize = window.requestAnimationFrame(sizeTicker);
   });
   window.addEventListener('load', sizeTicker);
+
+  /* Tiras en movimiento: entrenamientos, últimos resultados y próximos partidos */
+  var DAY_NAMES = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  var SEASON_START = new Date(2026, 8, 1).getTime();
+  var SEASON_END = new Date(2027, 4, 1).getTime();
+  var STRIP_LIMIT = 12;
+  var stripTeams = [];
+  var stripKeys = {};
+
+  function clockMinutes(text) {
+    var parts = text.split(':');
+    return Number(parts[0]) * 60 + Number(parts[1]);
+  }
+
+  function readTrainings() {
+    var sessions = [];
+    Array.prototype.forEach.call(document.querySelectorAll('.schedule tbody tr'), function (row) {
+      var name = row.querySelector('.sched-name');
+      var meta = row.querySelector('.sched-meta');
+      if (!name) return;
+      Array.prototype.forEach.call(row.querySelectorAll('td[data-label]'), function (cell) {
+        var day = DAY_NAMES.indexOf(cell.getAttribute('data-label'));
+        var time = cell.querySelector('.sched-time');
+        var range = time ? /^(\d{1,2}:\d{2})\s*[–-]\s*(\d{1,2}:\d{2})$/.exec(liveText(time.textContent)) : null;
+        if (day < 0 || !range) return;
+        sessions.push({
+          day: day,
+          start: clockMinutes(range[1]),
+          end: clockMinutes(range[2]),
+          time: range[1] + '–' + range[2],
+          name: liveText(name.textContent),
+          meta: meta ? liveText(meta.textContent) : ''
+        });
+      });
+    });
+    return sessions;
+  }
+
+  var trainings = readTrainings();
+
+  function trainingItems(now) {
+    var today = now.getDay();
+    var minutes = now.getHours() * 60 + now.getMinutes();
+    var items = [];
+    for (var offset = 0; offset < 7; offset += 1) {
+      var weekday = (today + offset) % 7;
+      var sessions = trainings.filter(function (session) { return session.day === weekday; });
+      sessions.sort(function (a, b) { return a.start - b.start; });
+      sessions.forEach(function (session) {
+        var state = 'soon';
+        if (offset === 0 && minutes >= session.end) state = 'done';
+        else if (offset === 0 && minutes >= session.start) state = 'live';
+        var when = offset === 0 ? 'Hoy' : offset === 1 ? 'Mañana' : DAY_NAMES[weekday];
+        items.push({ session: session, state: state, when: when });
+      });
+    }
+    return items;
+  }
+
+  function matchKey(match) {
+    return liveText(match.evento) + '|' + liveText(match.fecha);
+  }
+
+  function resultItems() {
+    var seen = {};
+    var list = [];
+    stripTeams.forEach(function (team) {
+      (team.resultados || []).forEach(function (match) {
+        var key = matchKey(match);
+        var when = parseStart(match.fecha);
+        if (seen[key] || when === null) return;
+        seen[key] = true;
+        list.push({ match: match, when: when });
+      });
+    });
+    list.sort(function (a, b) { return b.when - a.when; });
+    return list.slice(0, STRIP_LIMIT);
+  }
+
+  function nextItems(now) {
+    var seen = {};
+    var list = [];
+    stripTeams.forEach(function (team) {
+      var matches = team.proximos && team.proximos.length ? team.proximos : (team.proximo ? [team.proximo] : []);
+      matches.forEach(function (match) {
+        var key = matchKey(match);
+        var when = parseStart(match.fecha);
+        if (seen[key] || when === null) return;
+        var state = effectiveState(match, now);
+        if (state === 'final') return;
+        seen[key] = true;
+        list.push({ match: match, when: when, state: state });
+      });
+    });
+    list.sort(function (a, b) { return a.when - b.when; });
+    return list.slice(0, STRIP_LIMIT);
+  }
+
+  function stripBadge(text, dotClass) {
+    var badge = makeEl('span', 'live-ticker-state');
+    var dot = makeEl('span', 'strip-dot ' + dotClass);
+    dot.setAttribute('aria-hidden', 'true');
+    badge.appendChild(dot);
+    badge.appendChild(document.createTextNode(text));
+    return badge;
+  }
+
+  function stripNode(badge, title, meta, score) {
+    var item = makeEl('span', 'live-ticker-item');
+    item.appendChild(badge);
+    item.appendChild(makeEl('strong', 'live-ticker-match', title));
+    if (meta) item.appendChild(makeEl('span', 'live-ticker-meta', meta));
+    if (score) item.appendChild(makeEl('span', 'live-ticker-score', score));
+    return item;
+  }
+
+  function trainingNode(item) {
+    var session = item.session;
+    var label = item.state === 'live' ? 'En curso' : item.state === 'done' ? 'Terminado' : item.when;
+    var dot = item.state === 'live' ? 'strip-dot-live' : item.state === 'done' ? 'strip-dot-done' : 'strip-dot-soon';
+    var meta = [session.time, session.meta].filter(Boolean).join(' · ');
+    return stripNode(stripBadge(label, dot), session.name, meta);
+  }
+
+  function resultNode(item) {
+    return stripNode(
+      stripBadge('Final', 'strip-dot-done'),
+      liveText(item.match.evento),
+      liveText(item.match.fecha),
+      liveText(item.match.marcador)
+    );
+  }
+
+  function nextNode(item) {
+    var match = item.match;
+    var live = item.state === 'live';
+    var badge = live ? stripBadge('En directo', 'strip-dot-live') : stripBadge('Próximo', 'strip-dot-soon');
+    var meta = [liveText(match.fecha), liveText(match.sede)].filter(Boolean).join(' · ');
+    return stripNode(badge, liveText(match.evento), meta, live ? liveText(match.marcador) : '');
+  }
+
+  function sizeStrip(strip) {
+    var group = strip.querySelector('.live-ticker-group');
+    var track = strip.querySelector('.live-ticker-track');
+    var width = group ? group.getBoundingClientRect().width : 0;
+    if (!width || !track) return;
+    track.style.setProperty('--ticker-duration', Math.max(20, Math.round(width / 40)) + 's');
+  }
+
+  function sizeStrips() {
+    ['strip-entrenos', 'strip-resultados', 'strip-proximos'].forEach(function (id) {
+      var strip = document.getElementById(id);
+      if (strip && !strip.hidden) sizeStrip(strip);
+    });
+  }
+
+  function renderStrip(id, nodes) {
+    var strip = document.getElementById(id);
+    if (!strip) return;
+    if (!nodes.length) {
+      strip.hidden = true;
+      stripKeys[id] = '';
+      return;
+    }
+    var group = makeEl('div', 'live-ticker-group');
+    nodes.forEach(function (node) { group.appendChild(node); });
+    if (!strip.hidden && group.textContent === stripKeys[id]) return;
+    stripKeys[id] = group.textContent;
+
+    var track = strip.querySelector('.live-ticker-track');
+    track.textContent = '';
+    track.appendChild(group);
+    var clone = group.cloneNode(true);
+    clone.setAttribute('data-clone', '');
+    clone.setAttribute('aria-hidden', 'true');
+    track.appendChild(clone);
+    strip.hidden = false;
+    sizeStrip(strip);
+  }
+
+  function refreshStrips() {
+    var now = new Date();
+    var inSeason = now.getTime() >= SEASON_START && now.getTime() < SEASON_END;
+    renderStrip('strip-entrenos', inSeason ? trainingItems(now).map(trainingNode) : []);
+    renderStrip('strip-resultados', resultItems().map(resultNode));
+    renderStrip('strip-proximos', nextItems(now.getTime()).map(nextNode));
+  }
+
+  refreshStrips();
+  window.setInterval(refreshStrips, 30000);
+  window.addEventListener('resize', sizeStrips);
+  window.addEventListener('load', sizeStrips);
 
   /* Equipos: categorías, submenú, clasificación y partidos ------------------ */
   var TEAM_SECTIONS = [
@@ -564,6 +757,8 @@
       if (empty) empty.hidden = false;
       return;
     }
+    stripTeams = teams;
+    refreshStrips();
 
     var updated = document.getElementById('equipos-updated');
     if (updated && data.actualizado) updated.textContent = 'Datos de la FAV a ' + data.actualizado + '.';
