@@ -1,21 +1,10 @@
 {
-  "version": "11d0638c9f62",
-  "actualizado": "20/11/2026 17:52",
+  "version": "f0182898cf16",
+  "actualizado": "20/11/2026 17:57",
   "live": {
     "canal": "https://www.youtube.com/@cvmf_brenes/live",
     "fav": "https://www.favoley.net/publico/seccion.php?seccion=directos",
     "eventos": [
-      {
-        "evento": "CV Alcores – CV Manuel de Falla",
-        "categoria": "Cadete",
-        "competicion": "Cadete masculino Sevilla Liga Provincial · Jornada 7",
-        "fecha": "20/11/2026 · 17:45",
-        "marcador": "",
-        "estado": "next",
-        "youtube": "",
-        "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1314&vista=calendario&grupo=91&fase=115",
-        "sede": "Pabellon Placido Fernandez Viagas · P1 (Alcalá de Guadaíra)"
-      },
       {
         "evento": "CV Alcores – CV Manuel de Falla",
         "categoria": "Juvenil",
@@ -83,6 +72,16 @@
         "sede": "Pabellon Municipal de Villaverde del Rio · P1"
       },
       {
+        "evento": "CV Manuel de Falla – Mairena Voley Club-Mairena Alj",
+        "categoria": "Cadete",
+        "competicion": "Cadete masculino Sevilla Liga Provincial · Jornada 8",
+        "fecha": "Por confirmar",
+        "marcador": "",
+        "estado": "next",
+        "youtube": "",
+        "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1314&vista=calendario&grupo=91&fase=115"
+      },
+      {
         "evento": "CV Utrera – Mgs Seguros CVMF Brenes",
         "categoria": "Alevín",
         "competicion": "Alevin masculino Sevilla Liga Provincial · Jornada 4",
@@ -111,17 +110,6 @@
         "estado": "next",
         "youtube": "",
         "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1260&vista=calendario&grupo=153&fase=227"
-      },
-      {
-        "evento": "CV Manuel de Falla – Kairós",
-        "categoria": "Cadete",
-        "competicion": "Cadete masculino Sevilla Liga Provincial · Jornada 5",
-        "fecha": "07/11/2026 · 09:30",
-        "marcador": "0–3",
-        "estado": "final",
-        "youtube": "",
-        "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1314&vista=calendario&grupo=91&fase=115",
-        "sede": "Complejo Polideportivo Raúl Fernández Pavón (Brenes)"
       },
       {
         "evento": "CVMF Brenes Azul – Golden Team",
@@ -221,11 +209,22 @@
         "youtube": "",
         "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1260&vista=calendario&grupo=153&fase=227",
         "sede": "Pabellon La Estacion · P3 (Fuentes de Andalucía)"
+      },
+      {
+        "evento": "CV Alcores – CV Manuel de Falla",
+        "categoria": "Cadete",
+        "competicion": "Cadete masculino Sevilla Liga Provincial · Jornada 7",
+        "fecha": "20/11/2026 · 17:45",
+        "marcador": "3–0",
+        "estado": "final",
+        "youtube": "",
+        "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1314&vista=calendario&grupo=91&fase=115",
+        "sede": "Pabellon Placido Fernandez Viagas · P1 (Alcalá de Guadaíra)"
       }
     ]
   },
   "equipos": {
-    "actualizado": "20/11/2026 17:52",
+    "actualizado": "20/11/2026 17:57",
     "equipos": [
       {
         "categoria": "Sénior",
@@ -854,28 +853,16 @@
           }
         ],
         "proximo": {
-          "evento": "CV Alcores – CV Manuel de Falla",
+          "evento": "CV Manuel de Falla – Mairena Voley Club-Mairena Alj",
           "categoria": "Cadete",
-          "competicion": "Cadete masculino Sevilla Liga Provincial · Jornada 7",
-          "fecha": "20/11/2026 · 17:45",
+          "competicion": "Cadete masculino Sevilla Liga Provincial · Jornada 8",
+          "fecha": "Por confirmar",
           "marcador": "",
           "estado": "next",
           "youtube": "",
-          "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1314&vista=calendario&grupo=91&fase=115",
-          "sede": "Pabellon Placido Fernandez Viagas · P1 (Alcalá de Guadaíra)"
+          "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1314&vista=calendario&grupo=91&fase=115"
         },
         "proximos": [
-          {
-            "evento": "CV Alcores – CV Manuel de Falla",
-            "categoria": "Cadete",
-            "competicion": "Cadete masculino Sevilla Liga Provincial · Jornada 7",
-            "fecha": "20/11/2026 · 17:45",
-            "marcador": "",
-            "estado": "next",
-            "youtube": "",
-            "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1314&vista=calendario&grupo=91&fase=115",
-            "sede": "Pabellon Placido Fernandez Viagas · P1 (Alcalá de Guadaíra)"
-          },
           {
             "evento": "CV Manuel de Falla – Mairena Voley Club-Mairena Alj",
             "categoria": "Cadete",
@@ -885,9 +872,24 @@
             "estado": "next",
             "youtube": "",
             "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1314&vista=calendario&grupo=91&fase=115"
+          },
+          {
+            "evento": "C.D. Adriano – CV Manuel de Falla",
+            "categoria": "Cadete",
+            "competicion": "Cadete masculino Sevilla Liga Provincial · Jornada 9",
+            "fecha": "Por confirmar",
+            "marcador": "",
+            "estado": "next",
+            "youtube": "",
+            "fav": "https://www.favoley.net/publico/seccion.php?seccion=competicion&id=1314&vista=calendario&grupo=91&fase=115"
           }
         ],
         "resultados": [
+          {
+            "evento": "CV Alcores – CV Manuel de Falla",
+            "fecha": "20/11/2026 · 17:45",
+            "marcador": "3–0"
+          },
           {
             "evento": "CV Manuel de Falla – Kairós",
             "fecha": "07/11/2026 · 09:30",
@@ -907,11 +909,6 @@
             "evento": "CV Manuel de Falla – Sitting Volley Sevilla",
             "fecha": "18/10/2026 · 18:00",
             "marcador": "3–0"
-          },
-          {
-            "evento": "CV Manuel de Falla – Palestra C.V.",
-            "fecha": "18/10/2026 · 11:00",
-            "marcador": "0–3"
           }
         ]
       },
