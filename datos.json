@@ -1,6 +1,6 @@
 {
-  "version": "f0182898cf16",
-  "actualizado": "20/11/2026 17:57",
+  "version": "9e476a6cdccf",
+  "actualizado": "20/11/2026 19:57",
   "live": {
     "canal": "https://www.youtube.com/@cvmf_brenes/live",
     "fav": "https://www.favoley.net/publico/seccion.php?seccion=directos",
@@ -224,7 +224,7 @@
     ]
   },
   "equipos": {
-    "actualizado": "20/11/2026 17:57",
+    "actualizado": "20/11/2026 19:57",
     "equipos": [
       {
         "categoria": "Sénior",
@@ -628,6 +628,17 @@
         "clasificacion": [
           {
             "pos": "1",
+            "equipo": "Las Leonas",
+            "pts": "9",
+            "pj": "4",
+            "pg": "3",
+            "pp": "1",
+            "sf": "10",
+            "sc": "5",
+            "club": false
+          },
+          {
+            "pos": "2",
             "equipo": "CV Manuel de Falla",
             "pts": "7",
             "pj": "3",
@@ -638,7 +649,7 @@
             "club": true
           },
           {
-            "pos": "2",
+            "pos": "3",
             "equipo": "Kairós",
             "pts": "6",
             "pj": "3",
@@ -646,17 +657,6 @@
             "pp": "1",
             "sf": "7",
             "sc": "4",
-            "club": false
-          },
-          {
-            "pos": "3",
-            "equipo": "Las Leonas",
-            "pts": "6",
-            "pj": "3",
-            "pg": "2",
-            "pp": "1",
-            "sf": "7",
-            "sc": "5",
             "club": false
           },
           {
@@ -685,11 +685,11 @@
             "pos": "6",
             "equipo": "F. Cajasol Andalucía Azul",
             "pts": "0",
-            "pj": "3",
+            "pj": "4",
             "pg": "0",
-            "pp": "3",
+            "pp": "4",
             "sf": "0",
-            "sc": "9",
+            "sc": "12",
             "club": false
           }
         ],
