@@ -1,6 +1,6 @@
 {
-  "version": "e27db99353a4",
-  "actualizado": "20/11/2026 20:57",
+  "version": "e0d708b11dcf",
+  "actualizado": "20/11/2026 21:12",
   "live": {
     "canal": "https://www.youtube.com/@cvmf_brenes/live",
     "fav": "https://www.favoley.net/publico/seccion.php?seccion=directos",
@@ -224,7 +224,7 @@
     ]
   },
   "equipos": {
-    "actualizado": "20/11/2026 20:57",
+    "actualizado": "20/11/2026 21:12",
     "equipos": [
       {
         "categoria": "Sénior",
@@ -809,6 +809,17 @@
           },
           {
             "pos": "6",
+            "equipo": "CV Utrera",
+            "pts": "8",
+            "pj": "7",
+            "pg": "3",
+            "pp": "4",
+            "sf": "10",
+            "sc": "15",
+            "club": false
+          },
+          {
+            "pos": "7",
             "equipo": "Palestra C.V.",
             "pts": "7",
             "pj": "6",
@@ -819,25 +830,14 @@
             "club": false
           },
           {
-            "pos": "7",
-            "equipo": "CV Utrera",
+            "pos": "8",
+            "equipo": "Sitting Volley Sevilla",
             "pts": "6",
             "pj": "6",
             "pg": "2",
             "pp": "4",
-            "sf": "7",
-            "sc": "13",
-            "club": false
-          },
-          {
-            "pos": "8",
-            "equipo": "Sitting Volley Sevilla",
-            "pts": "5",
-            "pj": "5",
-            "pg": "2",
-            "pp": "3",
-            "sf": "7",
-            "sc": "11",
+            "sf": "9",
+            "sc": "14",
             "club": false
           },
           {
