@@ -1,6 +1,6 @@
 {
-  "version": "e0d708b11dcf",
-  "actualizado": "20/11/2026 21:12",
+  "version": "b78c16a4134e",
+  "actualizado": "21/11/2026 10:42",
   "live": {
     "canal": "https://www.youtube.com/@cvmf_brenes/live",
     "fav": "https://www.favoley.net/publico/seccion.php?seccion=directos",
@@ -224,7 +224,7 @@
     ]
   },
   "equipos": {
-    "actualizado": "20/11/2026 21:12",
+    "actualizado": "21/11/2026 10:42",
     "equipos": [
       {
         "categoria": "Sénior",
@@ -503,6 +503,17 @@
           },
           {
             "pos": "4",
+            "equipo": "CV Utrera",
+            "pts": "10",
+            "pj": "6",
+            "pg": "3",
+            "pp": "3",
+            "sf": "12",
+            "sc": "10",
+            "club": false
+          },
+          {
+            "pos": "5",
             "equipo": "C.D. Adriano",
             "pts": "7",
             "pj": "5",
@@ -513,25 +524,14 @@
             "club": false
           },
           {
-            "pos": "5",
-            "equipo": "CV Utrera",
-            "pts": "7",
-            "pj": "5",
-            "pg": "2",
-            "pp": "3",
-            "sf": "9",
-            "sc": "10",
-            "club": false
-          },
-          {
             "pos": "6",
             "equipo": "Kairós Turquesa",
             "pts": "6",
-            "pj": "5",
+            "pj": "6",
             "pg": "2",
-            "pp": "3",
+            "pp": "4",
             "sf": "8",
-            "sc": "11",
+            "sc": "14",
             "club": false
           },
           {
@@ -1080,11 +1080,11 @@
           {
             "pos": "1",
             "equipo": "Edm Voleibol Tomares",
-            "pts": "15",
-            "pj": "5",
-            "pg": "5",
+            "pts": "18",
+            "pj": "6",
+            "pg": "6",
             "pp": "0",
-            "sf": "15",
+            "sf": "18",
             "sc": "1",
             "club": false
           },
@@ -1092,11 +1092,11 @@
             "pos": "2",
             "equipo": "La Paraita",
             "pts": "15",
-            "pj": "5",
+            "pj": "6",
             "pg": "5",
-            "pp": "0",
+            "pp": "1",
             "sf": "15",
-            "sc": "1",
+            "sc": "4",
             "club": false
           },
           {
